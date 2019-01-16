@@ -29,6 +29,7 @@ import lhc.com.otherRessources.MySingletonRequestQueue;
 
 import static lhc.com.otherRessources.ApplicationConstants.IS_USER_LOGGED_IN;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
+import static lhc.com.otherRessources.ApplicationConstants.PASSWORD;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
 import static lhc.com.otherRessources.ApplicationConstants.URL_SIGN_UP;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
@@ -58,15 +59,23 @@ public class SignUpActivity extends AppCompatActivity {
         };
     }
 
-    private void saveStatus_UserIslogged() {
+    private void saveIsLoggedStatusUser() {
         sharedpreferences = getSharedPreferences(MyPREFERENCES_CREDENTIALS, Context.MODE_PRIVATE);
         sharedpreferences.edit().putBoolean(IS_USER_LOGGED_IN, true).apply();
     }
 
+    private void saveCredentials() {
+        EditText username = findViewById(R.id.text_input_username_signUp);
+        EditText password = findViewById(R.id.text_input_password_signUp);
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(USERNAME, username.getText().toString());
+        editor.putString(PASSWORD, password.getText().toString());
+        editor.apply();
+    }
+
     private void goToMainActivity() {
         Intent signupSuccessHome = new Intent(this, ListCompetitions.class);
-        EditText username = findViewById(R.id.text_input_username_signUp);
-        signupSuccessHome.putExtra(USERNAME, username.getText().toString());
         startActivity(signupSuccessHome);
         finish();
     }
@@ -83,12 +92,8 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("onResponse", "Sign Up API called : " + response.toString());
-                        AlertDialog alertDialog = new AlertDialog.Builder(SignUpActivity.this).create();
-                        alertDialog.setTitle("Registration");
-                        alertDialog.setMessage("The registration is a success");
-                        alertDialog.show();
-
-                        saveStatus_UserIslogged();
+                        saveIsLoggedStatusUser();
+                        saveCredentials();
                         goToMainActivity();
                     }
                 },

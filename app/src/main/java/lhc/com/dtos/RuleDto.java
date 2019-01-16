@@ -20,4 +20,15 @@ public class RuleDto {
 
     public RuleDto() {
     }
+
+    public RuleDto(String description, String label, Integer points, Integer indication) {
+        this.description = description;
+        this.label = label;
+        this.points = points;
+        this.indication = indication;
+    }
+
+    public RuleDto(String label, Integer points, Integer indication) {
+        this(null, label, points, indication);
+    }
 }

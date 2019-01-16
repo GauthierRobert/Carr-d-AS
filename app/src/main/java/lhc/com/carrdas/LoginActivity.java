@@ -1,5 +1,6 @@
 package lhc.com.carrdas;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -40,6 +41,7 @@ import java.util.Map;
 
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
+import static lhc.com.otherRessources.ApplicationConstants.IS_REMEMBER_ME;
 import static lhc.com.otherRessources.ApplicationConstants.IS_USER_LOGGED_IN;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.PASSWORD;
@@ -52,20 +54,31 @@ import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-
-
     SharedPreferences sharedpreferences;
-
+    EditText username;
+    EditText password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setBackgroundDrawableResource(R.drawable.background_ice_hockey);
         setContentView(R.layout.activity_login);
         sharedpreferences = getSharedPreferences(MyPREFERENCES_CREDENTIALS, Context.MODE_PRIVATE);
+
+        username = findViewById(R.id.text_input_username_login);
+        password = findViewById(R.id.text_input_password_login);
+
         boolean isUserLoggedIn = sharedpreferences.getBoolean(IS_USER_LOGGED_IN, false);
+        boolean isRememberMe = sharedpreferences.getBoolean(IS_REMEMBER_ME, false);
 
         if (isUserLoggedIn){
             goToMainActivity();
+        }
+
+        if(isRememberMe){
+            String username_pref = sharedpreferences.getString(USERNAME, null);
+
+            username.setText(username_pref);
+            String password_pref = sharedpreferences.getString(USERNAME, null);
+            password.setText(password_pref);
         }
 
         Button signUpButton = findViewById(R.id.signUpButton);
@@ -84,9 +97,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View v) {
                 JsonPostLoginRequest();
-                rememberMeCheckBox();
-                saveCredentials();
-                goToMainActivity();
             }
         };
     }
@@ -95,31 +105,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         CheckBox rememberMeCheckBox = findViewById(R.id.remember_me_login);
         boolean rememberMe = rememberMeCheckBox.isChecked();
 
-
         if (rememberMe){
-            saveStatusUserIslogged();
-
+            saveIsRememberMe(true);
+            saveIsLoggedStatusUser();
+        } else {
+            saveIsRememberMe(false);
         }
     }
 
     private void saveCredentials() {
-        EditText username = findViewById(R.id.text_input_username_login);
-        EditText password = findViewById(R.id.text_input_password_login);
 
         Editor editor = sharedpreferences.edit();
-        editor.putString(PASSWORD, username.getText().toString());
-        editor.putString(USERNAME, password.getText().toString());
+        editor.putString(USERNAME, username.getText().toString());
+        editor.putString(PASSWORD, password.getText().toString());
         editor.apply();
     }
 
-    private void saveStatusUserIslogged() {
+    private void saveIsLoggedStatusUser() {
         sharedpreferences.edit().putBoolean(IS_USER_LOGGED_IN, true).apply();
+    }
+
+    private void saveIsRememberMe(boolean value) {
+        sharedpreferences.edit().putBoolean(IS_REMEMBER_ME, value).apply();
     }
 
     private void goToMainActivity() {
         Intent signupSuccessHome = new Intent(this, ListCompetitions.class);
-
-        signupSuccessHome.putExtra(USERNAME, sharedpreferences.getString(USERNAME,((EditText) findViewById(R.id.text_input_username_login)).getText().toString()));
         startActivity(signupSuccessHome);
         finish();
     }
@@ -127,14 +138,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void JsonPostLoginRequest() {
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
         final String mRequestBody = new JSONObject(getParamsMap()).toString();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+        StringRequest jsonObjectRequest = new StringRequest(
                  Request.Method.POST,
                 URL_BASE + URL_LOGIN,
-                null,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("onResponse", "Login API called : " + response.toString());
+                    public void onResponse(String response) {
+                        if (Boolean.parseBoolean(response)){
+                            rememberMeCheckBox();
+                            saveCredentials();
+                            goToMainActivity();
+                        } else {
+                            EditText password = findViewById(R.id.text_input_password_login);
+                            password.setError("The username or password is incorrect. Try again.");
+                        }
                     }
                 },
                 new Response.ErrorListener() {

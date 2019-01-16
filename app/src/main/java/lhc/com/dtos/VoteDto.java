@@ -27,4 +27,18 @@ public class VoteDto {
 
     public VoteDto() {
     }
+
+    public VoteDto(String reference, String ballot_ref, String match_ref, String competition_ref, Integer indication, String name, Integer points) {
+        this.reference = reference;
+        this.ballot_ref = ballot_ref;
+        this.match_ref = match_ref;
+        this.competition_ref = competition_ref;
+        this.indication = indication;
+        this.name = name;
+        this.points = points;
+    }
+
+    public static VoteDto voteDto(String ballot_ref, String match_ref, String competition_ref, Integer indication, String name, Integer points){
+        return new VoteDto(null, ballot_ref, match_ref, competition_ref, indication, name, points);
+    }
 }
