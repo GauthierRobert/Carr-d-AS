@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserIsVoting"
+    tools:context=".voteFragment.UserIsVoting"
     android:id="@+id/fragment_user_is_voting">
 
     <!-- TODO: Update blank fragment layout -->
