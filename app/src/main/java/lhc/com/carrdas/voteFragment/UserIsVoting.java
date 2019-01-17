@@ -11,14 +11,6 @@ import android.view.ViewGroup;
 import lhc.com.carrdas.R;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link UserIsVoting#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class UserIsVoting extends Fragment {
 
 
