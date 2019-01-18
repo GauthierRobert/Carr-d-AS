@@ -35,18 +35,13 @@ public class VoteAdapter_newCompetition extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-        //we need to get the view of the xml for our list item
-        //And for this we need a layoutinflater
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-
-        //getting the view
-        View view = layoutInflater.inflate(R.layout.vote_cell, null, false);
-
+        View view = convertView;
+        if (convertView == null) {
+            LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+            view = layoutInflater.inflate(R.layout.vote_cell, null, false);
+        }
         //getting the view elements of the list from the view
         EditText pointEditText = view.findViewById(R.id.point_vote_cell);
-
-        //getting the hero of the specified position
 
         String numberVote = numberVoteList.get(position);
 

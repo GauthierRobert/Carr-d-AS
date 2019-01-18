@@ -74,8 +74,9 @@
     <color name="app_text_color">#db4437</color>
     <color name="app_background_color">#db4437</color>
 
-    <color name="lhc_red">#f31f27</color>
+    <color name="lhc_red">#e0232b</color>
     <color name="lhc_red_dark">#881115</color>
+    <color name="lhc_text_color">@color/google_assistant_background</color>
     <color name="hint_color">#000000</color>
 
 </resources>
