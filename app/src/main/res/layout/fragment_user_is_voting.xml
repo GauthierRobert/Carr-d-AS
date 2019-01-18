@@ -5,11 +5,49 @@
     android:layout_height="match_parent"
     tools:context=".voteFragment.UserIsVoting"
     android:id="@+id/fragment_user_is_voting">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:focusableInTouchMode="true"
 
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello user is voting" />
+        android:layout_height="wrap_content"
+        android:text="TOP" />
 
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FLOP"
+            />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:ems="10"
+            android:text="Comments"
+            android:inputType="textMultiLine"
+            android:lines="12"
+            android:gravity="top|left"
+            android:scrollbars="vertical"
+            />
+
+
+    </LinearLayout>
 </FrameLayout>
