@@ -11,8 +11,9 @@ import android.view.MenuItem;
 import lhc.com.carrdas.voteFragment.Ranking;
 import lhc.com.carrdas.voteFragment.UserIsVoting;
 import lhc.com.carrdas.voteFragment.VoteDetails;
+import lhc.com.otherRessources.BaseActivity;
 
-public class VoteActivity extends AppCompatActivity implements
+public class VoteActivity extends BaseActivity implements
         UserIsVoting.OnFragmentInteractionListener,
         Ranking.OnFragmentInteractionListener,
         VoteDetails.OnFragmentInteractionListener {

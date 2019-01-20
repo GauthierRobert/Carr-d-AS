@@ -1,4 +1,3 @@
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,7 +19,6 @@
         android:id="@+id/division_competition_cell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/name_match_cell"
         android:layout_alignBottom="@+id/point_vote_cell"
         android:layout_marginStart="0dp"
         android:layout_marginBottom="1dp"
@@ -39,6 +37,7 @@
         android:text="Season"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black" />
+
     <ImageView
         android:id="@+id/point_vote_cell"
         android:layout_width="50dp"
@@ -49,7 +48,6 @@
         android:layout_marginEnd="7dp"
         android:layout_marginRight="7dp"
         android:src="@drawable/arrow" />
-
 
 
 </RelativeLayout>

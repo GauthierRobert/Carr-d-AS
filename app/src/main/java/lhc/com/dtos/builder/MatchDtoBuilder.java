@@ -1,19 +1,12 @@
 package lhc.com.dtos.builder;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lhc.com.dtos.CompetitionDto;
 import lhc.com.dtos.MatchDto;
-import lhc.com.dtos.RuleDto;
-import lhc.com.otherRessources.LabelType;
-
-import static lhc.com.dtos.CompetitionDto.competitionDto;
 
 public class MatchDtoBuilder {
 
 
     private String competition_ref;
+    private String creatorUsername;
     private String homeTeam;
     private String awayTeam;
     private Integer scoreHome;
@@ -33,6 +26,11 @@ public class MatchDtoBuilder {
         return this;
     }
 
+
+    public MatchDtoBuilder createBy(String creatorUsername){
+        this.creatorUsername = creatorUsername;
+        return this;
+    }
 
     public MatchDtoBuilder inCompetiton(String competition_ref){
         this.competition_ref = competition_ref;
@@ -56,7 +54,7 @@ public class MatchDtoBuilder {
             MatchDtoBuilder.this.awayTeam = awayTeam;
         }
 
-        public AgainstTeam withScore(Integer awayScore){
+        public AgainstTeam withScore(Integer scoreAway){
             MatchDtoBuilder.this.scoreAway = scoreAway;
             return this;
         }
@@ -74,7 +72,7 @@ public class MatchDtoBuilder {
         }
 
         public MatchDto build(){
-            return MatchDto.matchDto(competition_ref, homeTeam,scoreHome, scoreAway, awayTeam);
+            return MatchDto.matchDto(competition_ref, homeTeam,scoreHome, scoreAway, awayTeam, creatorUsername);
         }
     }
 

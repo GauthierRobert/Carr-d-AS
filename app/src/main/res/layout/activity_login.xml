@@ -6,145 +6,151 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
     android:orientation="vertical"
-    android:background="@drawable/new_login_gradients"
-    >
-
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="0dp"
-        android:text="@string/carr_d_as"
-        android:textColor="@color/lhc_text_color"
-        android:textSize="40dp" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="120dp"
-        android:layout_gravity="center_horizontal"
-        android:padding="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="40dp"
-        android:src="@drawable/lhc_logo"/>
-
+    android:background="@drawable/new_login_gradients">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="match_parent">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="0dp"
+                android:text="@string/carr_d_as"
+                android:textColor="@color/lhc_text_color"
+                android:textSize="40dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/lhc_logo" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="18dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/signup_input_layout_name"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColorHint="@color/lhc_text_color">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/text_input_username_login"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/signup_input_layout_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="00dp"
-                        android:background="@android:color/transparent"
-                        android:drawableStart="@drawable/ic_person_white_24dp"
-                        android:drawablePadding="12dp"
-                        android:ems="10"
-                        android:hint="@string/username"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:textColorHint="@color/lhc_text_color" />
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_marginTop="10dp"
+                        android:textColorHint="@color/lhc_text_color">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lhc_text_color" />
+                        <EditText
+                            android:id="@+id/text_input_username_login"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="00dp"
+                            android:background="@android:color/transparent"
+                            android:drawableStart="@drawable/ic_person_white_24dp"
+                            android:drawablePadding="12dp"
+                            android:ems="10"
+                            android:hint="@string/username"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:padding="8dp"
+                            android:textColorHint="@color/lhc_text_color"
+                            android:textColor="@color/lhc_text_color"/>
+                    </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/signup_input_laazeaze"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColorHint="@color/lhc_text_color">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/lhc_text_color" />
 
-                    <EditText
-                        android:id="@+id/text_input_password_login"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/signup_input_laazeaze"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:background="@android:color/transparent"
-                        android:drawableStart="@drawable/ic_lock_white_24dp"
-                        android:drawablePadding="12dp"
-                        android:ems="10"
-                        android:hint="@string/password"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
+                        android:layout_marginTop="10dp"
+                        android:textColorHint="@color/lhc_text_color">
+
+                        <EditText
+                            android:id="@+id/text_input_password_login"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@android:color/transparent"
+                            android:drawableStart="@drawable/ic_lock_white_24dp"
+                            android:drawablePadding="12dp"
+                            android:ems="10"
+                            android:hint="@string/password"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:padding="8dp"
+                            android:textColorHint="@color/lhc_text_color"
+                            android:textColor="@color/lhc_text_color"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/lhc_text_color" />
+
+                    <CheckBox
+                        android:id="@+id/remember_me_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:buttonTint="@color/lhc_text_color"
+                        android:checked="false"
                         android:padding="8dp"
-                        android:textColorHint="@color/lhc_text_color" />
-                </android.support.design.widget.TextInputLayout>
+                        android:text="@string/remember_me"
+                        android:textColor="@color/lhc_text_color" />
 
-                <View
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/loginButton"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lhc_text_color" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:padding="16dp"
+                    android:text="@string/log_in" />
 
-                <CheckBox
-                    android:id="@+id/remember_me_login"
+                <Button
+                    android:id="@+id/signUpButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@string/sign_up" />
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Body2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
-                    android:buttonTint="@color/lhc_text_color"
-                    android:checked="false"
-                    android:padding="8dp"
-                    android:text="@string/remember_me"
+                    android:layout_marginBottom="16dp"
+                    android:padding="5dp"
+                    android:text="@string/forget_your_password"
                     android:textColor="@color/lhc_text_color" />
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/loginButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:padding="16dp"
-                android:text="@string/log_in" />
-
-            <Button
-                android:id="@+id/signUpButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/sign_up" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Body2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:padding="5dp"
-                android:text="@string/forget_your_password"
-                android:textColor="@color/lhc_text_color" />
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

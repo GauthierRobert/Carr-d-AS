@@ -21,6 +21,6 @@
         android:padding="16dp"
         android:animationCache="false"
         android:scrollingCache="false"
-        android:smoothScrollbar="true"/>
+        android:smoothScrollbar="true" />
 
 </FrameLayout>

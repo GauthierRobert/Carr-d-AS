@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -37,29 +36,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lhc.com.adapter.CompetitionAdapter_ListCompetitions;
 import lhc.com.adapter.MatchAdapter_ListMatches;
-import lhc.com.dtos.CompetitionDto;
 import lhc.com.dtos.MatchDto;
 import lhc.com.otherRessources.ApplicationConstants;
+import lhc.com.otherRessources.BaseActivity;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
-import static lhc.com.dtos.builder.CompetitionDtoBuilder.aCompetitionDto;
 import static lhc.com.dtos.builder.MatchDtoBuilder.aMatchDto;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
+import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
-import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_GET;
-import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_POST;
 import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET;
 import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_POST;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
-public class ListMatchesOfCompetition extends AppCompatActivity {
+public class ListMatchesOfCompetition extends BaseActivity {
 
-    SharedPreferences sharedpreferencesCompetition;
+
+    SharedPreferences sharedPreferencesCompetition;
+    SharedPreferences sharedPreferencesCredentials;
     Button newMatchButton;
     ListView listView;
     List<MatchDto> listMatches;
@@ -67,7 +65,8 @@ public class ListMatchesOfCompetition extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_match_of_competition);
-        sharedpreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
+        sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
+        sharedPreferencesCredentials = getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
         listView = findViewById(R.id.listViewMatch);
         GetMatchesListLinkedToCompetition();
         listView.setOnItemClickListener(matchClickListener());
@@ -81,6 +80,9 @@ public class ListMatchesOfCompetition extends AppCompatActivity {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SharedPreferences.Editor editor = sharedPreferencesCompetition.edit();
+                MatchDto matchDto = (MatchDto) listView.getAdapter().getItem(position);
+                editor.putString(MATCH_REF, matchDto.getReference());
                 goToVoteActivity();
             }
         };
@@ -143,7 +145,13 @@ public class ListMatchesOfCompetition extends AppCompatActivity {
 
     private String getCompetition_ref() {
 
-        return sharedpreferencesCompetition.getString(COMPETITION_REF, null);
+        return sharedPreferencesCompetition.getString(COMPETITION_REF, null);
+
+    }
+
+    private String getCurrentUser() {
+
+        return sharedPreferencesCredentials.getString(USERNAME, null);
 
     }
 
@@ -206,6 +214,7 @@ public class ListMatchesOfCompetition extends AppCompatActivity {
 
                         MatchDto matchDto = aMatchDto()
                                 .inCompetiton(getCompetition_ref())
+                                .createBy(getCurrentUser())
                                 .withHomeTeam(homeTeam)
                                 .withScore(scoreHome)
                                 .againstTeam(awayTeam)

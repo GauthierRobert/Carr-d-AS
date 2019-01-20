@@ -35,13 +35,15 @@
             android:label="List of your competitions" />
         <activity
             android:name=".AddCompetition"
-            android:label="Add new competition" />
+            android:label="Add new competition"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".ListMatchesOfCompetition"
             android:label="List of matches" />
         <activity
             android:name=".VoteActivity"
-            android:label="Votes and results" />
+            android:label="Votes and results"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
     </application>
 
 </manifest>

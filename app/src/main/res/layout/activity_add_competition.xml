@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="5dp"
-    android:background="@drawable/new_login_gradients"
-    >
-
+    android:focusableInTouchMode="true">
 
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@color/google_assistant_background"
+        android:gravity="top"
         android:orientation="vertical"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:background="@color/google_assistant_background">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <android.support.design.widget.TextInputLayout
 
             android:id="@+id/name_layout_competition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="10dp"
             android:textColorHint="@color/hint_color">
 
             <EditText
@@ -41,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
@@ -119,15 +117,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal"
+            android:baselineAligned="false"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_weight="0.5">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/numberOfTopVoteAllowed_layout_competition"
                     android:layout_width="match_parent"
@@ -145,18 +146,20 @@
                         android:inputType="number"
                         android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
+
                 <ListView
                     android:id="@+id/list_item_top_vote_competition"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"/>
+                    android:layout_height="200dp"  />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_weight="0.5">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/numberOfFlopVoteAllowed_layout_competition"
                     android:layout_width="match_parent"
@@ -175,10 +178,11 @@
                         android:inputType="number"
                         android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
+
                 <ListView
                     android:id="@+id/list_item_flop_vote_competition"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp" />
+                    android:layout_height="200dp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -192,5 +196,4 @@
             android:text="Submit"
             android:textColor="@android:color/white" />
     </LinearLayout>
-
 </LinearLayout>

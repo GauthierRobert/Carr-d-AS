@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +39,7 @@ import lhc.com.adapter.CompetitionAdapter_ListCompetitions;
 import lhc.com.dtos.CompetitionDto;
 import lhc.com.dtos.RuleDto;
 import lhc.com.otherRessources.ApplicationConstants.Parameter;
+import lhc.com.otherRessources.BaseActivity;
 import lhc.com.otherRessources.LabelType;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
@@ -46,11 +48,12 @@ import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETI
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
+import static lhc.com.otherRessources.ApplicationConstants.RULES;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_GET;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
-public class ListCompetitions extends AppCompatActivity {
+public class ListCompetitions extends BaseActivity {
 
     SharedPreferences sharedpreferencesCompetition;
     private ListView listView;
@@ -58,8 +61,9 @@ public class ListCompetitions extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
         setContentView(R.layout.activity_list_competitions);
-
         Button newCompetitionButton = findViewById(R.id.newCompetitionButton);
         newCompetitionButton.setOnClickListener(newCompetitionOnClickListener());
 
@@ -153,14 +157,9 @@ public class ListCompetitions extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedpreferencesCompetition.edit();
                 editor.clear();
 
+                Gson gson = new Gson();
                 editor.putString(COMPETITION_REF, competitionDto.getReference());
-                for (RuleDto ruleDto:ruleDtos) {
-                    if (ruleDto.getIndication()!=0){
-                        editor.putInt(ruleDto.getLabel(),ruleDto.getPoints());
-                    } else {
-                        editor.putInt(ruleDto.getLabel()+ruleDto.getIndication(),ruleDto.getPoints());
-                    }
-                }
+                editor.putString(RULES,gson.toJson(ruleDtos));
                 editor.apply();
 
                 Intent intent = new Intent();
@@ -182,8 +181,8 @@ public class ListCompetitions extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         List<CompetitionDto> listCompetitions = new ArrayList<>();
+                        JSONObject json_competition = null;
                         for (int i = 0; i < response.length(); i++) {
-                            JSONObject json_competition = null;
                             try {
 
                                 json_competition = response.getJSONObject(i);
@@ -230,15 +229,7 @@ public class ListCompetitions extends AppCompatActivity {
         return  sharedpreferences.getString(USERNAME, null);
     }
 
-    private RuleDto getRule(List<RuleDto> ruleDtos, int indication, String label){
 
-        for (RuleDto ruleDto: ruleDtos) {
-            if (ruleDto.getIndication().equals(indication) && ruleDto.getLabel().equals(label)){
-                return  ruleDto;
-            }
-        };
-        return null;
-    }
 
 
 

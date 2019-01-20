@@ -35,6 +35,7 @@ import java.util.Objects;
 
 import lhc.com.adapter.VoteAdapter_newCompetition;
 import lhc.com.dtos.CompetitionDto;
+import lhc.com.otherRessources.BaseActivity;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
 import static lhc.com.dtos.builder.CompetitionDtoBuilder.aCompetitionDto;
@@ -43,13 +44,16 @@ import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_POST;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 
-public class AddCompetition extends AppCompatActivity {
+public class AddCompetition extends BaseActivity {
 
     Button submitButton;
 
     List<String> pointTopList;
     List<String> pointFlopList;
     SharedPreferences sharedpreferences;
+
+    ListView flopVote;
+    ListView topVote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +66,16 @@ public class AddCompetition extends AppCompatActivity {
 
 
         pointTopList = new ArrayList<>();
-        final ListView topVote = findViewById(R.id.list_item_top_vote_competition);
+
+        topVote = findViewById(R.id.list_item_top_vote_competition);
         final TextInputLayout numberTop = findViewById(R.id.numberOfTopVoteAllowed_layout_competition);
         final VoteAdapter_newCompetition adapter_top = new VoteAdapter_newCompetition(AddCompetition.this,
                 pointTopList);
         topVote.setAdapter(adapter_top);
 
         pointFlopList = new ArrayList<>();
-        final ListView flopVote = findViewById(R.id.list_item_flop_vote_competition);
+
+        flopVote = findViewById(R.id.list_item_flop_vote_competition);
         final TextInputLayout numberFlop = findViewById(R.id.numberOfFlopVoteAllowed_layout_competition);
         final VoteAdapter_newCompetition adapter_flop = new VoteAdapter_newCompetition(AddCompetition.this,
                 pointFlopList);
@@ -227,6 +233,8 @@ public class AddCompetition extends AppCompatActivity {
                 .withPassword(password)
                 .withConfirmedPassword(confirmedPassword)
                 .withRuleDtos(numberTopVotes,numberFlopVotes)
+                .withTopRuleDtos(getIntArray(topVote))
+                .withFlopRuleDtos(getIntArray(flopVote))
                 .build();
 
         Gson gson = new Gson();
@@ -242,6 +250,17 @@ public class AddCompetition extends AppCompatActivity {
 
     }
 
+    public Integer[] getIntArray(ListView listView) {
+        Integer[] listInt = new Integer[listView.getAdapter().getCount()];
+
+        for (int i = 0; i < listInt.length; i++) {
+            View view =listView.getChildAt(i);
+            EditText point_vote_cell = view.findViewById(R.id.point_vote_cell);
+            String value = point_vote_cell.getText().toString();
+            listInt[i] = Integer.valueOf(value);
+        }
+        return listInt;
+    }
 
 
 }

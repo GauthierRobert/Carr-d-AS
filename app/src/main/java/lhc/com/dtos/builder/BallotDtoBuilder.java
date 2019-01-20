@@ -24,7 +24,7 @@ public class BallotDtoBuilder {
         return new BallotDtoBuilder();
     }
 
-    public BallotDtoBuilder aBallotDtoWithRules(List<RuleDto> ruleDtos){
+    public static BallotDtoBuilder aBallotDtoWithRules(List<RuleDto> ruleDtos){
         return aBallotDto().withRuleDtos(ruleDtos);
     }
 
@@ -61,7 +61,7 @@ public class BallotDtoBuilder {
 
         }
 
-        public VoteDtoBuilder addTopVote(String ... names){
+        public VoteDtoBuilder addTopVote(String[] names){
             int i = 0;
             for (String name : names) {
                 i++;
@@ -73,7 +73,7 @@ public class BallotDtoBuilder {
             return this;
         }
 
-        public VoteDtoBuilder withFlopVote(String ... names){
+        public VoteDtoBuilder addFlopVote(String[] names){
             int i = 0;
             for (String name : names) {
                 i++;
@@ -97,7 +97,7 @@ public class BallotDtoBuilder {
         }
 
         public BallotDto build(){
-            return ballotDto(match_ref, competition_ref, voteDtos, ruleDtos);
+            return ballotDto(match_ref, competition_ref, voteDtos);
         }
     }
 

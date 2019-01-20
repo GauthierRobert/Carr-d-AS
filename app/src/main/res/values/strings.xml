@@ -22,10 +22,7 @@
     <string name="username_signUp">Username</string>
     <string name="forget_your_password">Forget your Password?</string>
     <string name="log_out">Log out</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+
     <string name="comments">Comments</string>
     <string name="title_activity_vote">VoteActivity</string>
     <string name="log_in">Log in</string>
@@ -33,4 +30,9 @@
     <string name="remember_me">Remember me</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
+    <string name="my_vote">My vote</string>
+    <string name="ranking">Ranking</string>
+    <string name="details">Details</string>
+    <string name="flop">FLOP</string>
+    <string name="top">TOP</string>
 </resources>

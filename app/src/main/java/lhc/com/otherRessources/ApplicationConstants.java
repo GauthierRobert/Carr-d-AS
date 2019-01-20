@@ -12,9 +12,10 @@ public class ApplicationConstants {
     public static final String IS_REMEMBER_ME = "isRememberMe";
 
     public static final String COMPETITION_REF = "competition_ref";
+    public static final String MATCH_REF = "match_ref";
     public static final String NUMBER_VOTE_TOP = LabelType.NUMBER_VOTE_TOP.toString();
     public static final String NUMBER_VOTE_FLOP = LabelType.NUMBER_VOTE_FLOP.toString();
-    public static final String POINT_VOTE =  LabelType.POINT_VOTE.toString();
+    public static final String RULES =  "rules";
 
 
 
@@ -25,8 +26,14 @@ public class ApplicationConstants {
     public final static String URL_COMPETITION_POST = "competition/save";
     public final static String URL_COMPETITION_ADD_USER = "competition/addUser";
 
+
     public final static String URL_MATCH_GET = "match/get";
     public final static String URL_MATCH_POST = "match/save";
+
+    public final static String URL_BALLOT_POST = "ballot/save";
+
+    public final static String OPEN = "OPEN";
+    public final static String CLOSED = "CLOSED";
 
     public static String createURL(String URL_SPEC, Parameter... parameters){
         String url = URL_BASE + URL_SPEC + "?";

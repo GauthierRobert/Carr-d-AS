@@ -67,7 +67,7 @@ public class CompetitionDtoBuilder {
             CompetitionDtoBuilder.this.ruleDtos.add(RuleDtoFlop);
         }
 
-        public RuleDtoDtoBuilder withTopRuleDtos(Integer ... points){
+        public RuleDtoDtoBuilder withTopRuleDtos(Integer[] points){
             int i = 0;
             for (Integer point:points) {
                 i++;
@@ -77,7 +77,7 @@ public class CompetitionDtoBuilder {
             return this;
         }
 
-        public RuleDtoDtoBuilder withFlopRuleDtos(Integer ... points){
+        public RuleDtoDtoBuilder withFlopRuleDtos(Integer[] points){
             int i = 0;
             for (Integer point:points) {
                 i++;

@@ -8,134 +8,146 @@
     android:orientation="vertical"
     android:background="@drawable/new_login_gradients">
 
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="0dp"
-        android:text="@string/carr_d_as"
-        android:textColor="@color/lhc_text_color"
-        android:textSize="40dp" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="120dp"
-        android:layout_gravity="center_horizontal"
-        android:padding="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="40dp"
-        android:src="@drawable/lhc_logo"/>
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="true">
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="0dp"
+                android:text="@string/carr_d_as"
+                android:textColor="@color/lhc_text_color"
+                android:textSize="40dp" />
 
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp">
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="40dp"
+                android:src="@drawable/lhc_logo" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-                <!--android:src="@drawable/hockey_wallpaper" -->
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/text_input_username_signUp_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:textColorHint="#fff">
-                    <EditText
-                        android:id="@+id/text_input_username_signUp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:background="@android:color/transparent"
-                        android:drawableLeft="@drawable/ic_person_white_24dp"
-                        android:drawablePadding="12dp"
-                        android:ems="10"
-                        android:hint="@string/username_signUp"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:textColor="@color/google_assistant_background"
-                        android:textColorHint="#fff" />
-                </android.support.design.widget.TextInputLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#f9d7db" />
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/text_input_password_signUp_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:textColorHint="#fff">
-                    <EditText
-                        android:id="@+id/text_input_password_signUp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:background="@android:color/transparent"
-                        android:drawablePadding="12dp"
-                        android:ems="10"
-                        android:hint="@string/password_signUp"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:textColor="@color/google_assistant_background"
-                        android:textColorHint="#fff" />
-                </android.support.design.widget.TextInputLayout>
+                android:orientation="vertical"
+                android:focusableInTouchMode="true"
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/text_input_confirmedPassword_signUp_layout"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp">
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:textColorHint="#fff">
-                    <EditText
-                        android:id="@+id/text_input_confirmedPassword_signUp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <!--android:src="@drawable/hockey_wallpaper" -->
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/text_input_username_signUp_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:background="@android:color/transparent"
-                        android:drawablePadding="12dp"
-                        android:ems="10"
-                        android:hint="@string/confirmed_password_signUp"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:textColor="@color/google_assistant_background"
-                        android:textColorHint="#fff" />
-                </android.support.design.widget.TextInputLayout>
-                <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColorHint="#fff">
+
+                        <EditText
+                            android:id="@+id/text_input_username_signUp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:background="@android:color/transparent"
+                            android:drawableLeft="@drawable/ic_person_white_24dp"
+                            android:drawablePadding="12dp"
+                            android:ems="10"
+                            android:hint="@string/username_signUp"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:padding="8dp"
+                            android:textColor="@color/google_assistant_background"
+                            android:textColorHint="#fff" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#f9d7db" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/text_input_password_signUp_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColorHint="#fff">
+
+                        <EditText
+                            android:id="@+id/text_input_password_signUp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@android:color/transparent"
+                            android:drawablePadding="12dp"
+                            android:ems="10"
+                            android:hint="@string/password_signUp"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:padding="8dp"
+                            android:textColor="@color/google_assistant_background"
+                            android:textColorHint="#fff" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/text_input_confirmedPassword_signUp_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:textColorHint="#fff">
+
+                        <EditText
+                            android:id="@+id/text_input_confirmedPassword_signUp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@android:color/transparent"
+                            android:drawablePadding="12dp"
+                            android:ems="10"
+                            android:hint="@string/confirmed_password_signUp"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:padding="8dp"
+                            android:textColor="@color/google_assistant_background"
+                            android:textColorHint="#fff" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#f9d7db" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/SubmitSignUpButton"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#f9d7db" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/submit"
+                    android:padding="16dp"
+                    android:clickable="true"
+                    android:layout_marginTop="24dp"
+                    android:textSize="18sp" />
+
             </LinearLayout>
-            <Button
-                android:id="@+id/SubmitSignUpButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/submit"
-                android:padding="16dp"
-                android:clickable="true"
-                android:layout_marginTop="24dp"
-                android:textSize="18sp"/>
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
