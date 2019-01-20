@@ -13,6 +13,8 @@ public class ApplicationConstants {
 
     public static final String COMPETITION_REF = "competition_ref";
     public static final String MATCH_REF = "match_ref";
+    public static final String MATCH_STATUS = "match_status";
+    public static final String MATCH_CREATOR = "match_creator";
     public static final String NUMBER_VOTE_TOP = LabelType.NUMBER_VOTE_TOP.toString();
     public static final String NUMBER_VOTE_FLOP = LabelType.NUMBER_VOTE_FLOP.toString();
     public static final String RULES =  "rules";
@@ -31,6 +33,8 @@ public class ApplicationConstants {
     public final static String URL_MATCH_POST = "match/save";
 
     public final static String URL_BALLOT_POST = "ballot/save";
+    public final static String URL_BALLOT_GET = "ballot/get";
+
 
     public final static String OPEN = "OPEN";
     public final static String CLOSED = "CLOSED";

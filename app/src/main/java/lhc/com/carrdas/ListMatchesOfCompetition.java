@@ -44,7 +44,9 @@ import lhc.com.otherRessources.MySingletonRequestQueue;
 
 import static lhc.com.dtos.builder.MatchDtoBuilder.aMatchDto;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
+import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
+import static lhc.com.otherRessources.ApplicationConstants.MATCH_STATUS;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
@@ -83,6 +85,9 @@ public class ListMatchesOfCompetition extends BaseActivity {
                 SharedPreferences.Editor editor = sharedPreferencesCompetition.edit();
                 MatchDto matchDto = (MatchDto) listView.getAdapter().getItem(position);
                 editor.putString(MATCH_REF, matchDto.getReference());
+                editor.putString(MATCH_STATUS, matchDto.getStatus());
+                editor.putString(MATCH_CREATOR, matchDto.getCreatorUsername());
+                editor.apply();
                 goToVoteActivity();
             }
         };
