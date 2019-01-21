@@ -18,6 +18,7 @@ public class ApplicationConstants {
     public static final String NUMBER_VOTE_TOP = LabelType.NUMBER_VOTE_TOP.toString();
     public static final String NUMBER_VOTE_FLOP = LabelType.NUMBER_VOTE_FLOP.toString();
     public static final String RULES =  "rules";
+    public static final String JSON_LIST_VOTES =  "json_list_votes";
 
 
 
@@ -31,6 +32,7 @@ public class ApplicationConstants {
 
     public final static String URL_MATCH_GET = "match/get";
     public final static String URL_MATCH_POST = "match/save";
+    public final static String URL_MATCH_CLOSE = "match/close";
 
     public final static String URL_BALLOT_POST = "ballot/save";
     public final static String URL_BALLOT_GET = "ballot/get";

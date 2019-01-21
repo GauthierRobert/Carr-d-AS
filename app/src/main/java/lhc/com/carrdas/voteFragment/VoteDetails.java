@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import lhc.com.carrdas.R;
 
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES;
 
 
 public class VoteDetails extends Fragment {
@@ -35,6 +36,7 @@ public class VoteDetails extends Fragment {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private String jsonListVotes;
 
     public VoteDetails() {
         // Required empty public constructor
@@ -55,6 +57,10 @@ public class VoteDetails extends Fragment {
         // Inflate the layout for this fragment
         // Inflate the layout for this fragment
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
+
+        if (getArguments() != null) {
+            jsonListVotes = getArguments().getString(JSON_LIST_VOTES);
+        }
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = view.findViewById(R.id.container_details);
@@ -130,7 +136,8 @@ public class VoteDetails extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.tabbed_fragment_detail_page, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            TextView textView = rootView.findViewById(R.id.section_label);
+            Bundle args = getArguments();
             textView.setText("Anything");
             return rootView;
         }

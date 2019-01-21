@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -15,32 +14,28 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import lhc.com.adapter.MatchAdapter_ListMatches;
+import lhc.com.carrdas.voteFragment.GenerateRanking;
 import lhc.com.carrdas.voteFragment.Ranking;
 import lhc.com.carrdas.voteFragment.UserIsVoting;
 import lhc.com.carrdas.voteFragment.VoteDetails;
-import lhc.com.dtos.MatchDto;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.BaseActivity;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES;
+import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_STATUS;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_GET;
-import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET;
+import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
 public class VoteActivity extends BaseActivity implements
@@ -50,7 +45,7 @@ public class VoteActivity extends BaseActivity implements
 
     private SharedPreferences sharedPreferencesCompetition;
     private String status;
-
+    private String usernameCreator;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -63,10 +58,10 @@ public class VoteActivity extends BaseActivity implements
                             loadFragment(new UserIsVoting());
                             return true;
                         case R.id.navigation_ranking:
-                            loadFragment(new Ranking());
+                            loadFragment(new GenerateRanking());
                             return true;
                         case R.id.navigation_vote_details:
-                            loadFragment(new VoteDetails());
+                            loadFragment(new GenerateRanking());
                             return true;
                     }
                 case "CLOSED" :
@@ -84,10 +79,9 @@ public class VoteActivity extends BaseActivity implements
             }
             return false;
         }
-
-
     };
 
+    final Bundle[] bundleArray = new Bundle[1];
 
     private UserIsVoting getFragmentUserIsVoting() {
         return new UserIsVoting();
@@ -100,6 +94,7 @@ public class VoteActivity extends BaseActivity implements
 
         sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
         status = sharedPreferencesCompetition.getString(MATCH_STATUS, "OPEN");
+        status = sharedPreferencesCompetition.getString(MATCH_CREATOR, "GOD");
 
         switch (status){
             case "OPEN" :
@@ -115,8 +110,11 @@ public class VoteActivity extends BaseActivity implements
 
 
     private boolean loadFragment(Fragment fragment) {
+        // set Fragmentclass Arguments
+        Bundle bundle = bundleArray[0];
         //switching fragment
         if (fragment != null) {
+            fragment.setArguments(bundle);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
@@ -136,6 +134,7 @@ public class VoteActivity extends BaseActivity implements
     private void GetMatchesListLinkedToCompetition() {
         ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(COMPETITION_REF, getMatch_ref());
         final String url = createURL(URL_BALLOT_GET, parameter);
+        final Bundle[] bundle = new Bundle[1];
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
                 Request.Method.GET, url,
@@ -143,7 +142,8 @@ public class VoteActivity extends BaseActivity implements
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
+                        bundleArray[0] = new Bundle();
+                        bundleArray[0].putString(JSON_LIST_VOTES, "From Activity");
                     }
                 }
                 ,

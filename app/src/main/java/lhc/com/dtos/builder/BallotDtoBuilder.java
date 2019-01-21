@@ -66,7 +66,7 @@ public class BallotDtoBuilder {
             for (String name : names) {
                 i++;
                 int point = rules.get(i);
-                VoteDto voteDto  = VoteDto.voteDto(reference, match_ref, competition_ref,i, name, point);
+                VoteDto voteDto  = VoteDto.voteDto(reference, i, name, point);
                 BallotDtoBuilder.this.voteDtos.add(voteDto);
 
             }
@@ -78,7 +78,7 @@ public class BallotDtoBuilder {
             for (String name : names) {
                 i++;
                 int point = rules.get(-i);
-                VoteDto voteDto  = VoteDto.voteDto(reference, match_ref, competition_ref,-i, name, point);
+                VoteDto voteDto  = VoteDto.voteDto(reference,-i, name, point);
                 BallotDtoBuilder.this.voteDtos.add(voteDto);
             }
             return this;
