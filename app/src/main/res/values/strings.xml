@@ -35,4 +35,5 @@
     <string name="details">Details</string>
     <string name="flop">FLOP</string>
     <string name="top">TOP</string>
+    <string name="general_information">General information</string>
 </resources>

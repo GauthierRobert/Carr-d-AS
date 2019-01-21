@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:gravity="center"
+    android:gravity="top"
     android:orientation="vertical"
     android:focusableInTouchMode="true">
 
@@ -10,19 +11,28 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:background="@color/google_assistant_background"
-        android:gravity="top"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/general_information"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:paddingTop="5dp"
+            android:textColor="@color/lhc_red_dark"
+            />
 
         <android.support.design.widget.TextInputLayout
 
             android:id="@+id/name_layout_competition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:textColorHint="@color/hint_color">
 
             <EditText
@@ -113,14 +123,27 @@
             android:layout_height="wrap_content"
             android:text="@string/comments" />
 
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rules"
+            android:layout_marginTop="15dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textColor="@color/lhc_red_dark"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:baselineAligned="false"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,21 +159,25 @@
                     android:layout_marginTop="2dp"
 
                     android:textColorHint="@color/hint_color">
-
                     <EditText
                         android:id="@+id/numberOfTopVoteAllowed_competition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="#Top Vote"
+                        android:gravity="center"
+                        android:hint="# of top votes"
                         android:inputType="number"
                         android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
 
-                <ListView
-                    android:id="@+id/list_item_top_vote_competition"
+                <Button
+                    android:id="@+id/button_edit_top_rules"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"  />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Edit Top Rules"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -169,20 +196,26 @@
 
                     android:textColorHint="@color/hint_color">
 
+
+
                     <EditText
                         android:id="@+id/numberOfFlopVoteAllowed_competition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="#Flop votes"
+                        android:gravity="center"
+                        android:hint="# of flop votes"
                         android:inputType="number"
                         android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
-
-                <ListView
-                    android:id="@+id/list_item_flop_vote_competition"
+                <Button
+                    android:id="@+id/button_edit_flop_rules"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Edit Flop Rules"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -190,7 +223,7 @@
             android:id="@+id/submit_button_competition"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
             android:background="@color/lhc_red"
             android:text="Submit"

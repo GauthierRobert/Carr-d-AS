@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/info_match_cell"
@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/point_vote_cell"
         android:layout_marginTop="0dp"
+        android:paddingLeft="5dp"
         android:text="Info match"
         android:textColor="@android:color/black"
         android:textSize="16dp"
@@ -22,8 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/info_match_cell"
         android:layout_alignBottom="@+id/arrow_image"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="0dp"
+        android:paddingLeft="5dp"
         android:text="Date"
         android:textColor="@android:color/black" />
 
@@ -31,13 +31,16 @@
         android:id="@+id/status_match_cell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/arrow_image"
+
         android:layout_alignBottom="@+id/arrow_image"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginBottom="14dp"
         android:layout_toStartOf="@+id/arrow_image"
         android:text="STATUS"
-        android:textSize="20dp"
         android:textColor="@android:color/black"
+        android:textSize="16dp"
         android:textStyle="bold" />
 
     <ImageView

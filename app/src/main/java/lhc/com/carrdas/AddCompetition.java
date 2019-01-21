@@ -1,6 +1,8 @@
 package lhc.com.carrdas;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,12 +10,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -47,13 +51,15 @@ import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 public class AddCompetition extends BaseActivity {
 
     Button submitButton;
+    Button topRulesButton;
+    Button flopRulesButton;
 
     List<String> pointTopList;
     List<String> pointFlopList;
     SharedPreferences sharedpreferences;
 
-    ListView flopVote;
-    ListView topVote;
+    Integer[] flopVoteInt;
+    Integer[] topVoteInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,96 +70,115 @@ public class AddCompetition extends BaseActivity {
         submitButton = findViewById(R.id.submit_button_competition);
         submitButton.setOnClickListener(submit());
 
+        topRulesButton = findViewById(R.id.button_edit_top_rules);
+        topRulesButton.setOnClickListener(editTopRules());
+
+        flopRulesButton = findViewById(R.id.button_edit_flop_rules);
+        flopRulesButton.setOnClickListener(editFlopRules());
 
         pointTopList = new ArrayList<>();
-
-        topVote = findViewById(R.id.list_item_top_vote_competition);
-        final TextInputLayout numberTop = findViewById(R.id.numberOfTopVoteAllowed_layout_competition);
-        final VoteAdapter_newCompetition adapter_top = new VoteAdapter_newCompetition(AddCompetition.this,
-                pointTopList);
-        topVote.setAdapter(adapter_top);
-
         pointFlopList = new ArrayList<>();
 
-        flopVote = findViewById(R.id.list_item_flop_vote_competition);
-        final TextInputLayout numberFlop = findViewById(R.id.numberOfFlopVoteAllowed_layout_competition);
-        final VoteAdapter_newCompetition adapter_flop = new VoteAdapter_newCompetition(AddCompetition.this,
-                pointFlopList);
-        flopVote.setAdapter(adapter_flop);
-
-        Objects.requireNonNull(numberTop.getEditText()).addTextChangedListener(getWatcherTop(adapter_top));
-        Objects.requireNonNull(numberFlop.getEditText()).addTextChangedListener(getWatcherFlop(adapter_flop));
-
     }
 
 
-
-
-
-    @NonNull
-    private TextWatcher getWatcherTop(final ArrayAdapter adapter_top) {
-        return new TextWatcher() {
+    private View.OnClickListener editTopRules() {
+        return new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onClick(View v) {
+                Context context = AddCompetition.this;
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Create your own rules");
 
-            }
+                LinearLayout layout = new LinearLayout(context);
+                layout.setOrientation(LinearLayout.VERTICAL);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                List<String> list = new ArrayList<>();
-                if(s.length() != 0) {
-                    int numberTop_value = Integer.parseInt(String.valueOf(s));
-                    list = getListVote(numberTop_value);
-                }
-                pointTopList.clear();
-                pointTopList.addAll(list);
-            }
+                final ListView topVote = new ListView(context);
+                final TextInputLayout numberTopTIL = findViewById(R.id.numberOfTopVoteAllowed_layout_competition);
+                int numberTop = Integer.parseInt(numberTopTIL.getEditText().getText().toString());
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.length() != 0) {
-                    adapter_top.notifyDataSetChanged();
-                }
+                List<String> pointTopList = createList(numberTop, topVoteInt);
+
+                final VoteAdapter_newCompetition adapter_top = new VoteAdapter_newCompetition(AddCompetition.this,
+                        pointTopList);
+                topVote.setAdapter(adapter_top);
+                layout.addView(topVote);
+
+                builder.setView(layout);
+                // Set up the buttons
+                builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        topVoteInt = getIntArray(topVote);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         };
     }
 
-    @NonNull
-    private TextWatcher getWatcherFlop(final ArrayAdapter adapter) {
-        return new TextWatcher() {
+    private View.OnClickListener editFlopRules() {
+        return new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onClick(View v) {
+                Context context = AddCompetition.this;
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddCompetition.this);
+                builder.setTitle("Create your own rules");
 
-            }
+                LinearLayout layout = new LinearLayout(context);
+                layout.setOrientation(LinearLayout.VERTICAL);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                List<String> list = new ArrayList<>();
-                if(s.length() != 0) {
-                    int numberFlop_value = Integer.parseInt(String.valueOf(s));
-                    list = getListVote(numberFlop_value);
-                }
-                pointFlopList.clear();
-                pointFlopList.addAll(list);
-            }
+                final ListView flopVote = new ListView(context);
+                final TextInputLayout numberFlopTIL = findViewById(R.id.numberOfFlopVoteAllowed_layout_competition);
+                int numberFlop = Integer.parseInt(numberFlopTIL.getEditText().getText().toString());
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.length() != 0) {
-                    adapter.notifyDataSetChanged();
-                }
+                List<String> pointFlopList = createList(numberFlop, flopVoteInt);
+
+                final VoteAdapter_newCompetition adapter_flop = new VoteAdapter_newCompetition(AddCompetition.this,
+                        pointFlopList);
+                flopVote.setAdapter(adapter_flop);
+                layout.addView(flopVote);
+
+                builder.setView(layout);
+                // Set up the buttons
+                builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        flopVoteInt = getIntArray(flopVote);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         };
     }
 
-    private List<String> getListVote(int max){
-        List<String> list = new ArrayList<>();
-        int i = 1;
-        while (i <= max) {
-            list.add("#" + i);
-            i++;
+    private List<String> createList(int max, Integer[] voteInt) {
+
+        List<String> stringList = new ArrayList<>();
+        for(int i =0; i<max; i++){
+            if(voteInt.length < i){
+                stringList.add(String.valueOf(voteInt[i]));
+            } else {
+                stringList.add("#" + i);
+            }
         }
-        return list;
+        return stringList;
     }
 
     private View.OnClickListener submit() {
@@ -233,8 +258,8 @@ public class AddCompetition extends BaseActivity {
                 .withPassword(password)
                 .withConfirmedPassword(confirmedPassword)
                 .withRuleDtos(numberTopVotes,numberFlopVotes)
-                .withTopRuleDtos(getIntArray(topVote))
-                .withFlopRuleDtos(getIntArray(flopVote))
+                .withTopRuleDtos(topVoteInt)
+                .withFlopRuleDtos(flopVoteInt)
                 .build();
 
         Gson gson = new Gson();
