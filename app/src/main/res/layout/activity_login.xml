@@ -10,14 +10,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+
+            >
 
             <TextView
                 android:id="@+id/title"
@@ -28,24 +29,24 @@
                 android:layout_marginBottom="0dp"
                 android:text="@string/carr_d_as"
                 android:textColor="@color/lhc_text_color"
-                android:textSize="40dp" />
+                android:textSize="35dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:padding="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="20dp"
+                android:padding="0dp"
                 android:src="@drawable/lhc_logo" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:layout_marginBottom="18dp"
-                android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="10dp"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
@@ -58,7 +59,7 @@
                         android:id="@+id/signup_input_layout_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:textColorHint="@color/lhc_text_color">
 
                         <EditText
@@ -74,8 +75,8 @@
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
                             android:padding="8dp"
-                            android:textColorHint="@color/lhc_text_color"
-                            android:textColor="@color/lhc_text_color"/>
+                            android:textColor="@color/lhc_text_color"
+                            android:textColorHint="@color/lhc_text_color" />
                     </android.support.design.widget.TextInputLayout>
 
                     <View
@@ -103,8 +104,8 @@
                             android:inputType="textPassword"
                             android:maxLines="1"
                             android:padding="8dp"
-                            android:textColorHint="@color/lhc_text_color"
-                            android:textColor="@color/lhc_text_color"/>
+                            android:textColor="@color/lhc_text_color"
+                            android:textColorHint="@color/lhc_text_color" />
                     </android.support.design.widget.TextInputLayout>
 
                     <View
@@ -129,15 +130,15 @@
                     android:id="@+id/loginButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:padding="16dp"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
                     android:text="@string/log_in" />
 
                 <Button
                     android:id="@+id/signUpButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:padding="8dp"
                     android:text="@string/sign_up" />
 
                 <TextView

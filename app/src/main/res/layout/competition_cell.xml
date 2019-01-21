@@ -11,8 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/point_vote_cell"
         android:layout_marginTop="0dp"
+        android:textStyle="bold"
         android:text="Competition name"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20dp"
         android:textColor="@android:color/black" />
 
     <TextView
@@ -23,7 +24,6 @@
         android:layout_marginStart="0dp"
         android:layout_marginBottom="1dp"
         android:text="Division"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black" />
 
     <TextView
@@ -35,7 +35,6 @@
         android:layout_marginBottom="1dp"
         android:layout_toEndOf="@+id/division_competition_cell"
         android:text="Season"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black" />
 
     <ImageView
