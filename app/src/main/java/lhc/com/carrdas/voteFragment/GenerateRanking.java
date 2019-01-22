@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,11 +30,16 @@ import lhc.com.carrdas.R;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
+import static android.content.Context.MODE_PRIVATE;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES;
+import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
+import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
+import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_GET;
 import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_CLOSE;
+import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
 
@@ -40,8 +47,10 @@ public class GenerateRanking extends Fragment {
 
     private Button buttonGenerateRanking;
     private OnFragmentInteractionListener mListener;
+    private SharedPreferences sharedPreferencesCredentials;
     private SharedPreferences sharedPreferencesCompetition;
-
+    private String usernameCreator;
+    private String usernameConnected;
     public GenerateRanking() {
         // Required empty public constructor
     }
@@ -51,14 +60,28 @@ public class GenerateRanking extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
+
+
+
+
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
         View inflate = inflater.inflate(R.layout.fragment_generate_ranking, container, false);
+
+        sharedPreferencesCompetition = getActivity().getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
+        sharedPreferencesCredentials = getActivity().getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
+
+        usernameCreator = getMatchCreatorUsername();
+        usernameConnected = getConnectedUsername();
+
         buttonGenerateRanking = inflate.findViewById(R.id.button_generate_ranking);
         buttonGenerateRanking.setOnClickListener(closeMatch());
         return inflate;
@@ -68,7 +91,15 @@ public class GenerateRanking extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PostCloseMatch();
+                if (usernameCreator.equals(usernameConnected)){
+                    PostCloseMatch();
+                } else {
+                    Context context = getActivity().getApplicationContext();
+                    CharSequence text = "You are not allowed to do that ! Please ask to the match creator (" + usernameCreator + ") to close the game and generate" ;
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
             }
         };
     }
@@ -109,6 +140,14 @@ public class GenerateRanking extends Fragment {
 
     private String getMatch_ref() {
         return  sharedPreferencesCompetition.getString(MATCH_REF, null);
+    }
+
+    private String getMatchCreatorUsername() {
+        return  sharedPreferencesCompetition.getString(MATCH_CREATOR, null);
+    }
+
+    private String getConnectedUsername() {
+        return  sharedPreferencesCredentials.getString(USERNAME, null);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

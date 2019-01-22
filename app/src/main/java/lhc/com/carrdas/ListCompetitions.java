@@ -88,7 +88,6 @@ public class ListCompetitions extends BaseActivity {
     private void goToAddCompetition() {
         Intent addCompetitionIntent = new Intent(this, AddCompetition.class);
         startActivity(addCompetitionIntent);
-        finish();
     }
 
     @NonNull
@@ -110,12 +109,12 @@ public class ListCompetitions extends BaseActivity {
                 // Add another TextView here for the "Description" label
                 final EditText competitionName = new EditText(context);
                 competitionName.setInputType(InputType.TYPE_CLASS_TEXT);
-                competitionName.setHint("Competition name");
+                competitionName.setHint("NAME");
                 layout.addView(competitionName);
 
                 final EditText competitionPassword = new EditText(ListCompetitions.this);
-                competitionPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                competitionPassword.setHint("Competition password");
+                competitionPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                competitionPassword.setHint("PASSWORD");
                 layout.addView(competitionPassword);
                 layout.setPadding(100, 10, 100 ,10);
 

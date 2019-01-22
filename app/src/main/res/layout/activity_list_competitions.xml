@@ -24,28 +24,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/newCompetitionButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/joinCompetitionButton"
+        style="@style/addObjectButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginEnd="148dp"
-        android:text="newCompetitionButton"
-        app:layout_constraintBottom_toTopOf="@+id/joinCompetitionButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listViewCompetition" />
+        android:layout_marginBottom="4dp"
+        android:text="Join competition"
+        app:layout_constraintBottom_toTopOf="@+id/newCompetitionButton"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/joinCompetitionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginEnd="148dp"
-        android:layout_marginBottom="16dp"
-        android:text="joinCompetitionButton"
+        android:id="@+id/newCompetitionButton"
+        android:text="Create new competition"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newCompetitionButton" />
-
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        style="@style/addObjectButton"/>
 </android.support.constraint.ConstraintLayout>

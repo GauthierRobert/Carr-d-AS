@@ -24,7 +24,7 @@ public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
     private Context mContext;
 
     public MatchAdapter_ListMatches(Context context, List<MatchDto> matchDtos) {
-        super(context, R.layout.match_cell, matchDtos);
+        super(context, R.layout.cell_match, matchDtos);
         this.matchDtos = matchDtos;
         this.mContext=context;
 
@@ -40,7 +40,7 @@ public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
         //getting the view
-        View view = layoutInflater.inflate(R.layout.match_cell, null, false);
+        View view = layoutInflater.inflate(R.layout.cell_match, null, false);
 
         //getting the view elements of the list from the view
         TextView name = view.findViewById(R.id.info_match_cell);

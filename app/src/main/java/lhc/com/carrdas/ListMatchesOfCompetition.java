@@ -230,7 +230,6 @@ public class ListMatchesOfCompetition extends BaseActivity {
                         final String jsonMatch = gson.toJson(matchDto);
 
                         saveMatch(jsonMatch);
-                        finish();
                         startActivity(getIntent());
                     }
                 });
@@ -298,8 +297,6 @@ public class ListMatchesOfCompetition extends BaseActivity {
         Intent intent = new Intent();
         intent.setClass(ListMatchesOfCompetition.this, VoteActivity.class);
         startActivity(intent);
-        finish();
-
     }
 
 

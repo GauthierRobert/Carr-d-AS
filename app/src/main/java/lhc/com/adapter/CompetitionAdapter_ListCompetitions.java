@@ -20,7 +20,7 @@ public class CompetitionAdapter_ListCompetitions extends ArrayAdapter<Competitio
     private Context mContext;
 
     public CompetitionAdapter_ListCompetitions(Context context, List<CompetitionDto> competitionDtos) {
-        super(context, R.layout.competition_cell, competitionDtos);
+        super(context, R.layout.cell_competition, competitionDtos);
         this.competitionDtos = competitionDtos;
         this.mContext=context;
 
@@ -36,7 +36,7 @@ public class CompetitionAdapter_ListCompetitions extends ArrayAdapter<Competitio
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
         //getting the view
-        View view = layoutInflater.inflate(R.layout.competition_cell, null, false);
+        View view = layoutInflater.inflate(R.layout.cell_competition, null, false);
 
         //getting the view elements of the list from the view
         TextView name = view.findViewById(R.id.name_competition_cell);

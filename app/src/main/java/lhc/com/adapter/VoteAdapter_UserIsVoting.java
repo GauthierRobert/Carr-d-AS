@@ -21,7 +21,7 @@ public class VoteAdapter_UserIsVoting extends ArrayAdapter<String> {
     private String[] users;
 
     public VoteAdapter_UserIsVoting(Context context, List<String> userVoteList, String[] users) {
-        super(context, R.layout.vote_user_cell, userVoteList);
+        super(context, R.layout.cell_vote_user, userVoteList);
         this.userVoteList = userVoteList;
         this.mContext=context;
         this.users = users;
@@ -35,7 +35,7 @@ public class VoteAdapter_UserIsVoting extends ArrayAdapter<String> {
         View view = convertView;
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            view = layoutInflater.inflate(R.layout.vote_user_cell, null, false);
+            view = layoutInflater.inflate(R.layout.cell_vote_user, null, false);
         }
 
         TextView numero_de_vote = view.findViewById(R.id.numero_de_vote);
