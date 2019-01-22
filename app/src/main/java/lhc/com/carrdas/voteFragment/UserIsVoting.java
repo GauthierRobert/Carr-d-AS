@@ -19,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -34,11 +35,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lhc.com.adapter.MatchAdapter_ListMatches;
 import lhc.com.adapter.VoteAdapter_UserIsVoting;
 import lhc.com.carrdas.ListCompetitions;
+import lhc.com.carrdas.ListMatchesOfCompetition;
 import lhc.com.carrdas.R;
 import lhc.com.dtos.BallotDto;
+import lhc.com.dtos.MatchDto;
 import lhc.com.dtos.RuleDto;
+import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.ApplicationConstants.Parameter;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
@@ -52,6 +57,8 @@ import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.RULES;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_POST;
+import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET;
+import static lhc.com.otherRessources.ApplicationConstants.URL_USER_GET;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
@@ -71,6 +78,8 @@ public class UserIsVoting extends Fragment {
     int numberFlop;
 
     Button submit;
+
+    String[] users;
 
     private OnFragmentInteractionListener mListener;
 
@@ -94,6 +103,8 @@ public class UserIsVoting extends Fragment {
         sharedPreferencesCredentials = this.getActivity().getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
         sharedPreferencesCompetition = this.getActivity().getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
 
+        GetUsernamesLinkedToCompetition();
+
         rules = getRulesOfCompetition();
         numberTop = getRules(NUMBER_VOTE_TOP);
         numberFlop = getRules(NUMBER_VOTE_FLOP);
@@ -109,11 +120,11 @@ public class UserIsVoting extends Fragment {
         submit = view.findViewById(R.id.submit_ballot);
 
         final VoteAdapter_UserIsVoting adapter_top = new VoteAdapter_UserIsVoting(getActivity().getApplicationContext(),
-                topVotes);
+                topVotes, users);
         listViewTop.setAdapter(adapter_top);
 
         final VoteAdapter_UserIsVoting adapter_flop = new VoteAdapter_UserIsVoting(getActivity().getApplicationContext(),
-                flopVotes);
+                flopVotes, users);
         listViewFlop.setAdapter(adapter_flop);
 
 
@@ -279,6 +290,46 @@ public class UserIsVoting extends Fragment {
     }
 
 
+    private void GetUsernamesLinkedToCompetition() {
+        ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(COMPETITION_REF, getCompetition_ref());
+        final String url = createURL(URL_USER_GET, parameter);
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(getActivity().getApplicationContext()).getRequestQueue();
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
+                Request.Method.GET, url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        users = new String[response.length()];
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject json = null;
+                            try {
+                                json = response.getJSONObject(i);
+                                users[i] = json.toString();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                ,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", error.toString());
+                        error.printStackTrace();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        requestQueue.add(jsonObjectRequest);
+    }
 
 
     @Override

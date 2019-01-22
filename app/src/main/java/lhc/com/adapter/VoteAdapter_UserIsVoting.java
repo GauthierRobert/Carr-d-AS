@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,12 +18,13 @@ public class VoteAdapter_UserIsVoting extends ArrayAdapter<String> {
 
     private List<String> userVoteList;
     private Context mContext;
+    private String[] users;
 
-    public VoteAdapter_UserIsVoting(Context context, List<String> userVoteList) {
+    public VoteAdapter_UserIsVoting(Context context, List<String> userVoteList, String[] users) {
         super(context, R.layout.vote_user_cell, userVoteList);
         this.userVoteList = userVoteList;
         this.mContext=context;
-
+        this.users = users;
     }
 
 
@@ -40,6 +40,11 @@ public class VoteAdapter_UserIsVoting extends ArrayAdapter<String> {
 
         TextView numero_de_vote = view.findViewById(R.id.numero_de_vote);
         AutoCompleteTextView autoCompleteTextView = view.findViewById(R.id.user_vote_cell_auto_complete);
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, users);
+        autoCompleteTextView.setAdapter(adapter);
+
         //adding values to the list item
         numero_de_vote.setText(String.format("#%s", position+1));
 

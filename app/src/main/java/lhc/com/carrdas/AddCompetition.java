@@ -1,6 +1,7 @@
 package lhc.com.carrdas;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -121,6 +123,7 @@ public class AddCompetition extends BaseActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                dialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             }
         };
     }
@@ -164,6 +167,7 @@ public class AddCompetition extends BaseActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                dialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             }
         };
     }

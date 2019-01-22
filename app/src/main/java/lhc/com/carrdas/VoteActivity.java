@@ -95,15 +95,14 @@ public class VoteActivity extends BaseActivity implements
         sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
         status = sharedPreferencesCompetition.getString(MATCH_STATUS, "OPEN");
         status = sharedPreferencesCompetition.getString(MATCH_CREATOR, "GOD");
-
+        GetBallotListLinkedToCompetition();
         switch (status){
             case "OPEN" :
-                        loadFragment(new UserIsVoting());
+                loadFragment(getFragmentUserIsVoting());
             case "CLOSED" :
-                        loadFragment(new UserIsVoting());
+                loadFragment(getFragmentUserIsVoting());
         }
 
-        loadFragment(getFragmentUserIsVoting());
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
@@ -131,7 +130,7 @@ public class VoteActivity extends BaseActivity implements
     }
 
 
-    private void GetMatchesListLinkedToCompetition() {
+    private void GetBallotListLinkedToCompetition() {
         ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(COMPETITION_REF, getMatch_ref());
         final String url = createURL(URL_BALLOT_GET, parameter);
         final Bundle[] bundle = new Bundle[1];
