@@ -182,14 +182,14 @@ public class ListMatchesOfCompetition extends BaseActivity {
                 final EditText homeTeamInput = new EditText(context);
                 homeTeamInput.setInputType(InputType.TYPE_CLASS_TEXT);
                 homeTeamInput.setHint("Home team");
-                homeTeamInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
-                homeTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+                //homeTeamInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
+                //homeTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                 layout_horizontal_1.addView(homeTeamInput);
                 final EditText awayTeamInput = new EditText(context);
                 awayTeamInput.setInputType(InputType.TYPE_CLASS_TEXT);
                 awayTeamInput.setHint("Away team");
-                awayTeamInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
-                awayTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                //awayTeamInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
+                //awayTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                 layout_horizontal_1.addView(awayTeamInput);
 
 
@@ -197,14 +197,14 @@ public class ListMatchesOfCompetition extends BaseActivity {
                 layout_horizontal_1.setOrientation(LinearLayout.HORIZONTAL);
                 final EditText homeScoreInput = new EditText(context);
                 homeScoreInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-                homeScoreInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
-                homeScoreInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+                //homeScoreInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
+                //homeScoreInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                 homeScoreInput.setHint("Home score");
                 layout_horizontal_2.addView(homeScoreInput);
                 final EditText awayScoreInput = new EditText(context);
                 awayScoreInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-                awayScoreInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
-                awayScoreInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                //awayScoreInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
+                //awayScoreInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                 awayScoreInput.setHint("Away score");
                 layout_horizontal_2.addView(awayScoreInput);
 
