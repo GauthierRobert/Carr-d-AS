@@ -81,6 +81,7 @@ public class UserIsVoting extends Fragment {
 
     String[] users;
 
+
     private OnFragmentInteractionListener mListener;
 
 
@@ -98,7 +99,8 @@ public class UserIsVoting extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        users = new String[1];
+        users[0] = "GOD";
         View view = inflater.inflate(R.layout.fragment_user_is_voting, container, false);
         sharedPreferencesCredentials = this.getActivity().getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
         sharedPreferencesCompetition = this.getActivity().getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
@@ -316,8 +318,10 @@ public class UserIsVoting extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        users[0] = "GOD";
                         Log.d("Error", error.toString());
                         error.printStackTrace();
+
                     }
                 }
         ) {

@@ -45,7 +45,6 @@ import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
 public class GenerateRanking extends Fragment {
 
-    private Button buttonGenerateRanking;
     private OnFragmentInteractionListener mListener;
     private SharedPreferences sharedPreferencesCredentials;
     private SharedPreferences sharedPreferencesCompetition;
@@ -82,7 +81,7 @@ public class GenerateRanking extends Fragment {
         usernameCreator = getMatchCreatorUsername();
         usernameConnected = getConnectedUsername();
 
-        buttonGenerateRanking = inflate.findViewById(R.id.button_generate_ranking);
+        Button buttonGenerateRanking = inflate.findViewById(R.id.button_generate_ranking);
         buttonGenerateRanking.setOnClickListener(closeMatch());
         return inflate;
     }

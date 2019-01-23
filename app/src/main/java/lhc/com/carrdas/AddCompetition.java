@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -95,6 +96,10 @@ public class AddCompetition extends BaseActivity {
                 LinearLayout layout = new LinearLayout(context);
                 layout.setOrientation(LinearLayout.VERTICAL);
 
+                TextView explication = new TextView(context);
+                explication.setText("Enter the number of points you choose to allocate to the player at the choosen position : ");
+                layout.addView(explication);
+
                 final ListView topVote = new ListView(context);
                 final TextInputLayout numberTopTIL = findViewById(R.id.numberOfTopVoteAllowed_layout_competition);
                 int numberTop = Integer.parseInt(numberTopTIL.getEditText().getText().toString());
@@ -104,7 +109,11 @@ public class AddCompetition extends BaseActivity {
                 final VoteAdapter_newCompetition adapter_top = new VoteAdapter_newCompetition(AddCompetition.this,
                         pointTopList);
                 topVote.setAdapter(adapter_top);
+
                 layout.addView(topVote);
+
+
+                layout.setPadding(50, 30, 50, 0);
 
                 builder.setView(layout);
                 // Set up the buttons
@@ -122,6 +131,7 @@ public class AddCompetition extends BaseActivity {
                 });
 
                 AlertDialog dialog = builder.create();
+
                 dialog.show();
                 dialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             }
@@ -138,6 +148,10 @@ public class AddCompetition extends BaseActivity {
 
                 LinearLayout layout = new LinearLayout(context);
                 layout.setOrientation(LinearLayout.VERTICAL);
+
+                TextView explication = new TextView(context);
+                explication.setText("Enter the number of points you choose to allocate to the player at the choosen position : ");
+                layout.addView(explication);
 
                 final ListView flopVote = new ListView(context);
                 final TextInputLayout numberFlopTIL = findViewById(R.id.numberOfFlopVoteAllowed_layout_competition);
@@ -176,10 +190,15 @@ public class AddCompetition extends BaseActivity {
 
         List<String> stringList = new ArrayList<>();
         for(int i =0; i<max; i++){
-            if(voteInt.length < i){
-                stringList.add(String.valueOf(voteInt[i]));
+            int j =i+1;
+            if (voteInt ==null) {
+                stringList.add("#" + j);
             } else {
-                stringList.add("#" + i);
+                if (voteInt.length < i) {
+                    stringList.add(String.valueOf(voteInt[i]));
+                } else {
+                    stringList.add("#" + j);
+                }
             }
         }
         return stringList;
