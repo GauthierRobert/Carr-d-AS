@@ -93,7 +93,8 @@ public class VoteActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote);
 
-        sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
+        sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
+        sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
         status = sharedPreferencesCompetition.getString(MATCH_STATUS, "OPEN");
         usernameCreator = sharedPreferencesCompetition.getString(MATCH_CREATOR, "GOD");
         GetBallotListLinkedToCompetition();

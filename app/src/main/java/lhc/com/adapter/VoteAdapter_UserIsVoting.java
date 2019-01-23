@@ -41,8 +41,8 @@ public class VoteAdapter_UserIsVoting extends ArrayAdapter<String> {
         TextView numero_de_vote = view.findViewById(R.id.numero_de_vote);
         AutoCompleteTextView autoCompleteTextView = view.findViewById(R.id.user_vote_cell_auto_complete);
 
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(mContext, R.layout.cell_auto_complete, R.id.auto_complete_text,  users);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.cell_auto_complete, R.id.auto_complete_text,  users);
+        autoCompleteTextView.setThreshold(3);
         autoCompleteTextView.setAdapter(adapter);
 
         //adding values to the list item
