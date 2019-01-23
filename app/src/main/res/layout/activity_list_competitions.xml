@@ -39,5 +39,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        style="@style/addObjectButton"/>
+        style="@style/addObjectButton"
+        />
 </android.support.constraint.ConstraintLayout>

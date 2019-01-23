@@ -1,18 +1,24 @@
 package lhc.com.carrdas.voteFragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,6 +43,8 @@ import java.util.Map;
 
 import lhc.com.adapter.MatchAdapter_ListMatches;
 import lhc.com.adapter.VoteAdapter_UserIsVoting;
+import lhc.com.adapter.VoteAdapter_newCompetition;
+import lhc.com.carrdas.AddCompetition;
 import lhc.com.carrdas.ListCompetitions;
 import lhc.com.carrdas.ListMatchesOfCompetition;
 import lhc.com.carrdas.R;
@@ -78,8 +86,15 @@ public class UserIsVoting extends Fragment {
     int numberFlop;
 
     Button submit;
+    Button voteTopButton;
+    Button voteFlopButton;
+
+    TextView overviewTop;
+    TextView overviewFlop;
 
     String[] users;
+    String[] topVoteString;
+    String[] flopVoteString;
 
     private OnFragmentInteractionListener mListener;
 
@@ -102,36 +117,122 @@ public class UserIsVoting extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_is_voting, container, false);
         sharedPreferencesCredentials = this.getActivity().getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
         sharedPreferencesCompetition = this.getActivity().getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
-
         GetUsernamesLinkedToCompetition();
+
+        overviewTop = view.findViewById(R.id.overviewOfTopVotes);
+        overviewTop = view.findViewById(R.id.overviewOfFlopVotes);
 
         rules = getRulesOfCompetition();
         numberTop = getRules(NUMBER_VOTE_TOP);
         numberFlop = getRules(NUMBER_VOTE_FLOP);
 
-
-        System.out.println(numberTop);
-
         topVotes = createEmptyList(numberTop);
         flopVotes = createEmptyList(numberFlop);
 
-        listViewTop = view.findViewById(R.id.userIsVoting_topList);
-        listViewFlop = view.findViewById(R.id.userIsVoting_flopList);
+        voteTopButton= view.findViewById(R.id.button_edit_top_rules);
+        voteTopButton.setOnClickListener(editTopVotes());
+        voteFlopButton = view.findViewById(R.id.button_edit_flop_rules);
+        voteFlopButton.setOnClickListener(editFlopVotes());
+
         submit = view.findViewById(R.id.submit_ballot);
-
-        final VoteAdapter_UserIsVoting adapter_top = new VoteAdapter_UserIsVoting(getActivity().getApplicationContext(),
-                topVotes, users);
-        listViewTop.setAdapter(adapter_top);
-
-        final VoteAdapter_UserIsVoting adapter_flop = new VoteAdapter_UserIsVoting(getActivity().getApplicationContext(),
-                flopVotes, users);
-        listViewFlop.setAdapter(adapter_flop);
-
-
         submit.setOnClickListener(submit());
 
         return view;
 
+    }
+
+    private View.OnClickListener editTopVotes() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getActivity().getApplicationContext();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Vote for TOP players");
+
+                LinearLayout layout = new LinearLayout(context);
+                layout.setOrientation(LinearLayout.VERTICAL);
+                final ListView topVote = new ListView(context);
+
+                final VoteAdapter_UserIsVoting adapter_top = new VoteAdapter_UserIsVoting(getActivity().getApplicationContext(),
+                        topVotes, users);
+                topVote.setAdapter(adapter_top);
+                layout.addView(topVote);
+
+                builder.setView(layout);
+                // Set up the buttons
+                builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        topVoteString = getStringArray(topVote);
+                        overviewTop.setText(createOverviewWithArray(topVoteString));
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            }
+        };
+    }
+
+    private View.OnClickListener editFlopVotes() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getActivity().getApplicationContext();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Vote for FLOP players");
+
+                LinearLayout layout = new LinearLayout(context);
+                layout.setOrientation(LinearLayout.VERTICAL);
+                final ListView flopVote = new ListView(context);
+
+                final VoteAdapter_UserIsVoting adapter_flop = new VoteAdapter_UserIsVoting(getActivity().getApplicationContext(),
+                        flopVotes, users);
+                flopVote.setAdapter(adapter_flop);
+                layout.addView(flopVote);
+
+                builder.setView(layout);
+                // Set up the buttons
+                builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        flopVoteString = getStringArray(flopVote);
+                        overviewFlop.setText(createOverviewWithArray(flopVoteString));
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+
+            }
+        };
+    }
+
+    private String createOverviewWithArray(String[] flopVoteString) {
+        if (flopVoteString !=null) {
+            String overview = "#1 : " + flopVoteString[0];
+            String nl = System.getProperty("line.separator");
+
+            for (int i = 2; i <= flopVoteString.length; i++) {
+                overview = overview + nl + "#" + i + " : " + flopVoteString[i - 1];
+            }
+            return overview;
+        }
+        return null;
     }
 
     private View.OnClickListener submit() {
@@ -224,8 +325,8 @@ public class UserIsVoting extends Fragment {
                 .withCompetition_ref(getCompetition_ref())
                 .withMatch_ref(getMatch_ref())
                 .withVotesDtos()
-                .addTopVote(getVotesTop())
-                .addFlopVote(getVotesFlop())
+                .addTopVote(topVoteString)
+                .addFlopVote(flopVoteString)
                 .build();
 
         Gson gson = new Gson();
