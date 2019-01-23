@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -40,14 +39,11 @@ import lhc.com.dtos.CompetitionDto;
 import lhc.com.dtos.RuleDto;
 import lhc.com.otherRessources.ApplicationConstants.Parameter;
 import lhc.com.otherRessources.BaseActivity;
-import lhc.com.otherRessources.LabelType;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
-import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_FLOP;
-import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.RULES;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_GET;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
@@ -109,12 +105,16 @@ public class ListCompetitions extends BaseActivity {
                 // Add another TextView here for the "Description" label
                 final EditText competitionName = new EditText(context);
                 competitionName.setInputType(InputType.TYPE_CLASS_TEXT);
+                competitionName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_group_work_red_24dp, 0, 0, 0);
+                competitionName.setCompoundDrawablePadding(20);
                 competitionName.setHint("NAME");
                 layout.addView(competitionName);
 
                 final EditText competitionPassword = new EditText(ListCompetitions.this);
-                competitionPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                competitionPassword.setHint("PASSWORD");
+                competitionPassword.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                competitionPassword.setHint("......");
+                competitionPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_red_400_24dp, 0, 0, 0);
+                competitionPassword.setCompoundDrawablePadding(20);
                 layout.addView(competitionPassword);
                 layout.setPadding(100, 10, 100 ,10);
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -74,7 +75,7 @@ public class ListMatchesOfCompetition extends BaseActivity {
         listView.setOnItemClickListener(matchClickListener());
 
         newMatchButton = findViewById(R.id.newMatchButton);
-        newMatchButton.setOnClickListener(newMatchAlerlDialog());
+        newMatchButton.setOnClickListener(newMatchAlertDialog());
 
     }
 
@@ -160,7 +161,7 @@ public class ListMatchesOfCompetition extends BaseActivity {
 
     }
 
-    private View.OnClickListener newMatchAlerlDialog() {
+    private View.OnClickListener newMatchAlertDialog() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,11 +181,15 @@ public class ListMatchesOfCompetition extends BaseActivity {
 
                 final EditText homeTeamInput = new EditText(context);
                 homeTeamInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                homeTeamInput.setHint("Home");
+                homeTeamInput.setHint("Home team");
+                homeTeamInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
+                homeTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                 layout_horizontal_1.addView(homeTeamInput);
                 final EditText awayTeamInput = new EditText(context);
                 awayTeamInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                awayTeamInput.setHint("Away");
+                awayTeamInput.setHint("Away team");
+                awayTeamInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
+                awayTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                 layout_horizontal_1.addView(awayTeamInput);
 
 
@@ -192,11 +197,15 @@ public class ListMatchesOfCompetition extends BaseActivity {
                 layout_horizontal_1.setOrientation(LinearLayout.HORIZONTAL);
                 final EditText homeScoreInput = new EditText(context);
                 homeScoreInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-                homeScoreInput.setHint("Home Score");
+                homeScoreInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
+                homeScoreInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+                homeScoreInput.setHint("Home score");
                 layout_horizontal_2.addView(homeScoreInput);
                 final EditText awayScoreInput = new EditText(context);
                 awayScoreInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-                awayScoreInput.setHint("Away Score");
+                awayScoreInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
+                awayScoreInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                awayScoreInput.setHint("Away score");
                 layout_horizontal_2.addView(awayScoreInput);
 
                 layout.addView(layout_horizontal_1);
