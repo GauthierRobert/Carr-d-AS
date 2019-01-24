@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -332,6 +333,7 @@ public class AddCompetition extends BaseActivity {
         String username = sharedpreferences.getString(USERNAME, null);
         String password =((EditText)  findViewById(R.id.password_competition)).getText().toString();
         String confirmedPassword =((EditText)  findViewById(R.id.confirmedPassword_competition)).getText().toString();
+        boolean isChecked = ((CheckBox) findViewById(R.id.withCommentsCheckBox)).isChecked();
         int numberTopVotes = Integer.parseInt(((EditText)  findViewById(R.id.numberOfTopVoteAllowed_competition)).getText().toString());
         int numberFlopVotes = Integer.parseInt(((EditText)  findViewById(R.id.numberOfFlopVoteAllowed_competition)).getText().toString());
 
@@ -342,6 +344,7 @@ public class AddCompetition extends BaseActivity {
                 .withCreatorUsername(username)
                 .withPassword(password)
                 .withConfirmedPassword(confirmedPassword)
+                .withComments(isChecked)
                 .withRuleDtos(numberTopVotes,numberFlopVotes)
                 .withTopRuleDtos(topVoteInt)
                 .withFlopRuleDtos(flopVoteInt)

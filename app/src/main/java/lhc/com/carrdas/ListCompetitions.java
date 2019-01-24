@@ -211,6 +211,7 @@ public class ListCompetitions extends BaseActivity {
                 Gson gson = new Gson();
                 editor.putString(COMPETITION_REF, competitionDto.getReference());
                 editor.putString(RULES,gson.toJson(ruleDtos));
+                editor.putBoolean(WITH_COMMENTS, competitionDto.isWithComments())
                 editor.apply();
 
                 Intent intent = new Intent();
