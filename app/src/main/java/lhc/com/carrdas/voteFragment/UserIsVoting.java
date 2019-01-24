@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,7 @@ import lhc.com.otherRessources.MySingletonRequestQueue;
 import static android.content.Context.MODE_PRIVATE;
 import static lhc.com.dtos.builder.BallotDtoBuilder.aBallotDtoWithRules;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
@@ -79,9 +81,6 @@ public class UserIsVoting extends Fragment {
     List<String> flopVotes;
     List<RuleDto> rules;
 
-    ListView listViewTop;
-    ListView listViewFlop;
-
     int numberTop;
     int numberFlop;
 
@@ -95,6 +94,8 @@ public class UserIsVoting extends Fragment {
     String[] users;
     String[] topVoteString;
     String[] flopVoteString;
+
+    String jsonArrayOfListVotes;
 
 
     private OnFragmentInteractionListener mListener;
@@ -115,25 +116,40 @@ public class UserIsVoting extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         users = new String[1];
-        users[0] = "GOD";
+        users[0] = "Almighty GOD";
         View view = inflater.inflate(R.layout.fragment_user_is_voting, container, false);
         sharedPreferencesCredentials = this.getActivity().getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
         sharedPreferencesCompetition = this.getActivity().getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
+
+        if (getArguments() != null) {
+            jsonArrayOfListVotes = getArguments().getString(JSON_LIST_VOTES);
+        }
+
         GetUsernamesLinkedToCompetition();
 
         overviewTop = view.findViewById(R.id.overviewOfTopVotes);
-        overviewTop = view.findViewById(R.id.overviewOfFlopVotes);
+        overviewFlop = view.findViewById(R.id.overviewOfFlopVotes);
 
         rules = getRulesOfCompetition();
         numberTop = getRules(NUMBER_VOTE_TOP);
         numberFlop = getRules(NUMBER_VOTE_FLOP);
 
+        if(numberTop == 0) {
+            LinearLayout layout = view.findViewById(R.id.layout_top_vote_user_is_voting);
+            layout.setVisibility(View.INVISIBLE);
+        }
+
+        if(numberFlop == 0) {
+            LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
+            layout.setVisibility(View.INVISIBLE);
+        }
+
         topVotes = createEmptyList(numberTop);
         flopVotes = createEmptyList(numberFlop);
 
-        voteTopButton= view.findViewById(R.id.button_edit_top_rules);
+        voteTopButton= view.findViewById(R.id.vote_top_button_user_is_voting);
         voteTopButton.setOnClickListener(editTopVotes());
-        voteFlopButton = view.findViewById(R.id.button_edit_flop_rules);
+        voteFlopButton = view.findViewById(R.id.vote_flop_button_user_is_voting);
         voteFlopButton.setOnClickListener(editFlopVotes());
 
         submit = view.findViewById(R.id.submit_ballot);
@@ -143,11 +159,30 @@ public class UserIsVoting extends Fragment {
 
     }
 
+    private boolean hasAlreadyVoted() throws JSONException {
+        JSONArray arrayBallot = new JSONArray(jsonArrayOfListVotes);
+        for (int i =0; i<arrayBallot.length(); i++){
+            JSONObject ballot = arrayBallot.getJSONObject(i);
+            JSONObject user = ballot.getJSONObject("user");
+            if (user.get(USERNAME)
+        }
+        return false;
+    }
+
+    private String generateOverViewTop(){
+        return "AAA";
+    }
+
+    private String generateOverViewFlop(){
+        return "AAA";
+    }
+
+
     private View.OnClickListener editTopVotes() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getActivity().getApplicationContext();
+                Context context = getActivity();
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Vote for TOP players");
 
@@ -155,11 +190,11 @@ public class UserIsVoting extends Fragment {
                 layout.setOrientation(LinearLayout.VERTICAL);
                 final ListView topVote = new ListView(context);
 
-                final VoteAdapter_UserIsVoting adapter_top = new VoteAdapter_UserIsVoting(getActivity().getApplicationContext(),
+                final VoteAdapter_UserIsVoting adapter_top = new VoteAdapter_UserIsVoting(context.getApplicationContext(),
                         topVotes, users);
                 topVote.setAdapter(adapter_top);
                 layout.addView(topVote);
-
+                layout.setPadding(50, 30, 50, 0);
                 builder.setView(layout);
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
@@ -187,19 +222,20 @@ public class UserIsVoting extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getActivity().getApplicationContext();
+                Context context = getActivity();
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Vote for FLOP players");
+
 
                 LinearLayout layout = new LinearLayout(context);
                 layout.setOrientation(LinearLayout.VERTICAL);
                 final ListView flopVote = new ListView(context);
 
-                final VoteAdapter_UserIsVoting adapter_flop = new VoteAdapter_UserIsVoting(getActivity().getApplicationContext(),
+                final VoteAdapter_UserIsVoting adapter_flop = new VoteAdapter_UserIsVoting(context,
                         flopVotes, users);
                 flopVote.setAdapter(adapter_flop);
                 layout.addView(flopVote);
-
+                layout.setPadding(50, 30, 50, 0);
                 builder.setView(layout);
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
@@ -226,13 +262,15 @@ public class UserIsVoting extends Fragment {
 
     private String createOverviewWithArray(String[] flopVoteString) {
         if (flopVoteString !=null) {
-            String overview = "#1 : " + flopVoteString[0];
-            String nl = System.getProperty("line.separator");
+            if (flopVoteString.length != 0) {
+                String overview = "#1 : " + flopVoteString[0];
+                String nl = System.getProperty("line.separator");
 
-            for (int i = 2; i <= flopVoteString.length; i++) {
-                overview = overview + nl + "#" + i + " : " + flopVoteString[i - 1];
+                for (int i = 2; i <= flopVoteString.length; i++) {
+                    overview = overview + nl + "#" + i + " : " + flopVoteString[i - 1];
+                }
+                return overview;
             }
-            return overview;
         }
         return null;
     }
@@ -335,25 +373,21 @@ public class UserIsVoting extends Fragment {
         return gson.toJson(ballotDto);
     }
 
-
-
-    private String[] getVotesTop() {
-       return getStringArray(listViewTop);
-    }
-
-    private String[] getVotesFlop() {
-        return getStringArray(listViewFlop);
-    }
-
     public String[] getStringArray(ListView listView) {
-        String[] listString = new String[listView.getAdapter().getCount()];
 
-        for (int i = 0; i < listString.length; i++) {
-            View view =listView.getChildAt(i);
-            EditText point_vote_cell = view.findViewById(R.id.user_vote_cell_auto_complete);
-            listString[i] = point_vote_cell.getText().toString();
+        if(listView !=null){
+            if (listView.getAdapter() !=null){
+                String[] listString = new String[listView.getAdapter().getCount()];
+
+                for (int i = 0; i < listString.length; i++) {
+                    View view =listView.getChildAt(i);
+                    EditText point_vote_cell = view.findViewById(R.id.user_vote_cell_auto_complete);
+                    listString[i] = point_vote_cell.getText().toString();
+                }
+                return listString;
+            }
         }
-        return listString;
+        return null;
     }
 
 
@@ -405,7 +439,7 @@ public class UserIsVoting extends Fragment {
                     public void onResponse(JSONArray response) {
                         users = new String[response.length()];
                         for (int i = 0; i < response.length(); i++) {
-                            JSONObject json = null;
+                            JSONObject json;
                             try {
                                 json = response.getJSONObject(i);
                                 users[i] = json.toString();

@@ -109,7 +109,6 @@ public class ListMatchesOfCompetition extends BaseActivity {
                             JSONObject json_match = null;
 
                             try {
-
                                 json_match = response.getJSONObject(i);
 
                                 ObjectMapper mapper = new ObjectMapper();
@@ -267,7 +266,10 @@ public class ListMatchesOfCompetition extends BaseActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("onResponse", "Create match : " + response.toString());
-                        
+                        finish();
+                        overridePendingTransition( 0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition( 0, 0);
                     }
                 },
                 new Response.ErrorListener() {

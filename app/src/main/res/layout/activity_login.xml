@@ -132,14 +132,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:padding="8dp"
-                    android:text="@string/log_in" />
+                    android:text="@string/log_in"
+                    android:textColor="@color/lhc_red_dark" />
 
                 <Button
                     android:id="@+id/signUpButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="@string/sign_up" />
+                    android:text="@string/sign_up"
+                    android:textColor="@color/lhc_red_dark"/>
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Body2"

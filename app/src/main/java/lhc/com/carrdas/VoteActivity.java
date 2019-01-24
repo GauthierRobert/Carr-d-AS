@@ -56,7 +56,7 @@ public class VoteActivity extends BaseActivity implements
                 case "OPEN" :
                     switch (item.getItemId()) {
                         case R.id.navigation_user_is_voting:
-                            loadFragment(new UserIsVoting());
+                            loadFragment(getFragmentUserIsVoting());
                             return true;
                         case R.id.navigation_ranking:
                             loadFragment(new GenerateRanking());
@@ -68,7 +68,7 @@ public class VoteActivity extends BaseActivity implements
                 case "CLOSED" :
                     switch (item.getItemId()) {
                         case R.id.navigation_user_is_voting:
-                            loadFragment(new UserIsVoting());
+                            loadFragment(getFragmentUserIsVoting());
                             return true;
                         case R.id.navigation_ranking:
                             loadFragment(new Ranking());
