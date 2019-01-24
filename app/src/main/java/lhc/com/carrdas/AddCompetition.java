@@ -254,7 +254,7 @@ public class AddCompetition extends BaseActivity {
         List<String> stringList = new ArrayList<>();
         for(int i =0; i<max; i++){
             int j =i+1;
-            if (voteInt ==null) {
+            if (voteInt == null) {
                 stringList.add("#" + j);
             } else {
                 if (voteInt.length < i) {
@@ -364,16 +364,19 @@ public class AddCompetition extends BaseActivity {
     }
 
     public Integer[] getIntArray(ListView listView) {
-        Integer[] listInt = new Integer[listView.getAdapter().getCount()];
+        if(listView.getAdapter()!=null) {
+            if (listView.getAdapter().getCount() > 0) {
+                Integer[] listInt = new Integer[listView.getAdapter().getCount()];
 
-        for (int i = 0; i < listInt.length; i++) {
-            View view =listView.getChildAt(i);
-            EditText point_vote_cell = view.findViewById(R.id.point_vote_cell);
-            String value = point_vote_cell.getText().toString();
-            listInt[i] = Integer.valueOf(value);
+                for (int i = 0; i < listInt.length; i++) {
+                    View view = listView.getChildAt(i);
+                    EditText point_vote_cell = view.findViewById(R.id.point_vote_cell);
+                    String value = point_vote_cell.getText().toString();
+                    listInt[i] = Integer.valueOf(value);
+                }
+                return listInt;
+            }
         }
-        return listInt;
+        return null;
     }
-
-
 }

@@ -94,8 +94,8 @@ public class GenerateRanking extends Fragment {
                     PostCloseMatch();
                 } else {
                     Context context = getActivity().getApplicationContext();
-                    CharSequence text = "You are not allowed to do that ! Please ask to the match creator (" + usernameCreator + ") to close the game and generate" ;
-                    int duration = Toast.LENGTH_SHORT;
+                    CharSequence text = "You are not allowed to do that ! Please ask to the game creator (" + usernameCreator + ") to close the game and generate the ranking"  ;
+                    int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 }
@@ -104,7 +104,7 @@ public class GenerateRanking extends Fragment {
     }
 
     private void PostCloseMatch() {
-        ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(COMPETITION_REF, getMatch_ref());
+        ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(MATCH_REF, getMatch_ref());
         final String url = createURL(URL_MATCH_CLOSE, parameter);
         RequestQueue requestQueue = MySingletonRequestQueue
                 .getInstance(Objects.requireNonNull(getActivity()).getApplicationContext()).getRequestQueue();

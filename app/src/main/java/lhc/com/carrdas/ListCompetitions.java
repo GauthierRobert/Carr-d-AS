@@ -47,12 +47,14 @@ import lhc.com.otherRessources.MySingletonRequestQueue;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
+import static lhc.com.otherRessources.ApplicationConstants.PASSWORD;
 import static lhc.com.otherRessources.ApplicationConstants.RULES;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_ADD_USER;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_GET;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_POST;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
+import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
 public class ListCompetitions extends BaseActivity {
@@ -149,10 +151,10 @@ public class ListCompetitions extends BaseActivity {
 
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
         Parameter username = new Parameter(USERNAME, getUsername());
-        Parameter competition_ref = new Parameter(USERNAME, comp);
-        Parameter competition_password = new Parameter(USERNAME, pass);
+        Parameter competition_ref = new Parameter(COMPETITION_REF, comp);
+        Parameter competition_password = new Parameter(PASSWORD, pass);
 
-        final String url = createURL(URL_COMPETITION_ADD_USER, username, competition_ref, competition_password);
+        final String url = createURL(URL_COMPETITION_ADD_USER, competition_ref, username, competition_password);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
@@ -211,7 +213,7 @@ public class ListCompetitions extends BaseActivity {
                 Gson gson = new Gson();
                 editor.putString(COMPETITION_REF, competitionDto.getReference());
                 editor.putString(RULES,gson.toJson(ruleDtos));
-                editor.putBoolean(WITH_COMMENTS, competitionDto.isWithComments())
+                editor.putBoolean(WITH_COMMENTS, competitionDto.isWithComments());
                 editor.apply();
 
                 Intent intent = new Intent();

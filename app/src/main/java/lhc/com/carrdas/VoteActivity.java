@@ -28,6 +28,7 @@ import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.BaseActivity;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
+import static lhc.com.otherRessources.ApplicationConstants.CLOSED;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.GOD;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES;
@@ -35,6 +36,7 @@ import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_STATUS;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
+import static lhc.com.otherRessources.ApplicationConstants.OPEN;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_GET;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
@@ -54,7 +56,7 @@ public class VoteActivity extends BaseActivity implements
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (status){
-                case "OPEN" :
+                case OPEN :
                     switch (item.getItemId()) {
                         case R.id.navigation_user_is_voting:
                             loadFragment(getFragmentUserIsVoting());
@@ -66,7 +68,7 @@ public class VoteActivity extends BaseActivity implements
                             loadFragment(new GenerateRanking());
                             return true;
                     }
-                case "CLOSED" :
+                case CLOSED :
                     switch (item.getItemId()) {
                         case R.id.navigation_user_is_voting:
                             loadFragment(getFragmentUserIsVoting());

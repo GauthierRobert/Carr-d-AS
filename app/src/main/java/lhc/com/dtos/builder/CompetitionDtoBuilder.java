@@ -73,21 +73,25 @@ public class CompetitionDtoBuilder {
         }
 
         public RuleDtoDtoBuilder withTopRuleDtos(Integer[] points){
-            int i = 0;
-            for (Integer point:points) {
-                i++;
-                RuleDto RuleDto = new RuleDto(LabelType.POINT_VOTE.name(),point,i);
-                CompetitionDtoBuilder.this.ruleDtos.add(RuleDto);
+            if(points != null) {
+                int i = 0;
+                for (Integer point : points) {
+                    i++;
+                    RuleDto RuleDto = new RuleDto(LabelType.POINT_VOTE.name(), point, i);
+                    CompetitionDtoBuilder.this.ruleDtos.add(RuleDto);
+                }
             }
             return this;
         }
 
         public RuleDtoDtoBuilder withFlopRuleDtos(Integer[] points){
-            int i = 0;
-            for (Integer point:points) {
-                i++;
-                RuleDto RuleDto = new RuleDto(LabelType.POINT_VOTE.name(),point,-i);
-                CompetitionDtoBuilder.this.ruleDtos.add(RuleDto);
+            if(points != null) {
+                int i = 0;
+                for (Integer point : points) {
+                    i++;
+                    RuleDto RuleDto = new RuleDto(LabelType.POINT_VOTE.name(), point, -i);
+                    CompetitionDtoBuilder.this.ruleDtos.add(RuleDto);
+                }
             }
             return this;
         }

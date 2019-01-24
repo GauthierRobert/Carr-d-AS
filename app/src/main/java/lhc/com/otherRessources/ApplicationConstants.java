@@ -34,12 +34,15 @@ public class ApplicationConstants {
     public final static String URL_BALLOT_POST = "ballot/save";
     public final static String URL_BALLOT_GET = "ballot/get";
     public final static String URL_USER_GET = "user/get";
+    public final static String URL_RANKING = "ranking";
 
     public final static String OPEN = "OPEN";
-    public final static String CLOSED = "CLOSED";
+    public final static String CLOSED = "CLOSE";
 
     public final static String TOP = "TOP";
     public final static String FLOP = "FLOP";
+
+    public final static String WITH_COMMENTS = "withComments";
 
 
 

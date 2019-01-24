@@ -68,24 +68,28 @@ public class BallotDtoBuilder {
         }
 
         public VoteDtoBuilder addTopVote(String[] names){
-            int i = 0;
-            for (String name : names) {
-                i++;
-                int point = rules.get(i);
-                VoteDto voteDto  = VoteDto.voteDto(reference, i, name, point);
-                BallotDtoBuilder.this.voteDtos.add(voteDto);
+            if(names!=null) {
+                int i = 0;
+                for (String name : names) {
+                    i++;
+                    int point = rules.get(i);
+                    VoteDto voteDto = VoteDto.voteDto(reference, i, name, point);
+                    BallotDtoBuilder.this.voteDtos.add(voteDto);
 
+                }
             }
             return this;
         }
 
         public VoteDtoBuilder addFlopVote(String[] names){
-            int i = 0;
-            for (String name : names) {
-                i++;
-                int point = rules.get(-i);
-                VoteDto voteDto  = VoteDto.voteDto(reference,-i, name, point);
-                BallotDtoBuilder.this.voteDtos.add(voteDto);
+            if(names!=null) {
+                int i = 0;
+                for (String name : names) {
+                    i++;
+                    int point = rules.get(-i);
+                    VoteDto voteDto = VoteDto.voteDto(reference, -i, name, point);
+                    BallotDtoBuilder.this.voteDtos.add(voteDto);
+                }
             }
             return this;
         }

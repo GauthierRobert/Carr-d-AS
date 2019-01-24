@@ -68,6 +68,7 @@ import static lhc.com.otherRessources.ApplicationConstants.TOP;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_POST;
 import static lhc.com.otherRessources.ApplicationConstants.URL_USER_GET;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
+import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
 
@@ -131,14 +132,18 @@ public class UserIsVoting extends Fragment {
         rules = getRulesOfCompetition();
         numberTop = getRules(NUMBER_VOTE_TOP);
         numberFlop = getRules(NUMBER_VOTE_FLOP);
+        boolean withComment = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS, false);
 
         if(numberTop == 0) {
             LinearLayout layout = view.findViewById(R.id.layout_top_vote_user_is_voting);
             layout.setVisibility(View.GONE);
         }
-
         if(numberFlop == 0) {
             LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
+            layout.setVisibility(View.GONE);
+        }
+        if(withComment) {
+            LinearLayout layout = view.findViewById(R.id.layout_comments_user_is_voting);
             layout.setVisibility(View.GONE);
         }
 
@@ -501,8 +506,7 @@ public class UserIsVoting extends Fragment {
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject json;
                             try {
-                                json = response.getJSONObject(i);
-                                users[i] = json.toString();
+                                users[i] = response.get(i).toString();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
