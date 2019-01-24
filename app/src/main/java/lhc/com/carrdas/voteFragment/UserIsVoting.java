@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,23 +40,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lhc.com.adapter.MatchAdapter_ListMatches;
 import lhc.com.adapter.VoteAdapter_UserIsVoting;
-import lhc.com.adapter.VoteAdapter_newCompetition;
-import lhc.com.carrdas.AddCompetition;
 import lhc.com.carrdas.ListCompetitions;
-import lhc.com.carrdas.ListMatchesOfCompetition;
 import lhc.com.carrdas.R;
 import lhc.com.dtos.BallotDto;
-import lhc.com.dtos.MatchDto;
 import lhc.com.dtos.RuleDto;
+import lhc.com.dtos.VoteDto;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.ApplicationConstants.Parameter;
 import lhc.com.otherRessources.MySingletonRequestQueue;
+import lombok.Data;
 
 import static android.content.Context.MODE_PRIVATE;
 import static lhc.com.dtos.builder.BallotDtoBuilder.aBallotDtoWithRules;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
+import static lhc.com.otherRessources.ApplicationConstants.FLOP;
+import static lhc.com.otherRessources.ApplicationConstants.GOD;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
@@ -66,8 +63,8 @@ import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENT
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.RULES;
+import static lhc.com.otherRessources.ApplicationConstants.TOP;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_POST;
-import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET;
 import static lhc.com.otherRessources.ApplicationConstants.URL_USER_GET;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
@@ -116,7 +113,7 @@ public class UserIsVoting extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         users = new String[1];
-        users[0] = "Almighty GOD";
+        users[0] = GOD;
         View view = inflater.inflate(R.layout.fragment_user_is_voting, container, false);
         sharedPreferencesCredentials = this.getActivity().getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
         sharedPreferencesCompetition = this.getActivity().getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
@@ -136,12 +133,12 @@ public class UserIsVoting extends Fragment {
 
         if(numberTop == 0) {
             LinearLayout layout = view.findViewById(R.id.layout_top_vote_user_is_voting);
-            layout.setVisibility(View.INVISIBLE);
+            layout.setVisibility(View.GONE);
         }
 
         if(numberFlop == 0) {
             LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
-            layout.setVisibility(View.INVISIBLE);
+            layout.setVisibility(View.GONE);
         }
 
         topVotes = createEmptyList(numberTop);
@@ -155,27 +152,59 @@ public class UserIsVoting extends Fragment {
         submit = view.findViewById(R.id.submit_ballot);
         submit.setOnClickListener(submit());
 
-        return view;
+        try {
+            JSONVote jsonVote = jsonVote();
+            if (jsonVote.isHasVoted()){
+                voteTopButton.setVisibility(View.GONE);
+                voteFlopButton.setVisibility(View.GONE);
+                submit.setVisibility(View.GONE);
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            BallotDto ballotDto = mapper.readValue(jsonVote.getBallot().toString(), BallotDto.class);
+            overviewTop.setText(generateOverView(ballotDto,TOP));
+            overviewFlop.setText(generateOverView(ballotDto,FLOP));
 
+        } catch (JSONException | IOException e){
+            e.printStackTrace();
+        }
+        return view;
     }
 
-    private boolean hasAlreadyVoted() throws JSONException {
+    private JSONVote jsonVote() throws JSONException {
         JSONArray arrayBallot = new JSONArray(jsonArrayOfListVotes);
         for (int i =0; i<arrayBallot.length(); i++){
             JSONObject ballot = arrayBallot.getJSONObject(i);
             JSONObject user = ballot.getJSONObject("user");
-            if (user.get(USERNAME)
+            if (getUsername().equals(user.get(USERNAME).toString())){
+                return new JSONVote(user.get(USERNAME).toString(),ballot,true);
+            }
         }
-        return false;
+        return new JSONVote(GOD,null,false);
     }
 
-    private String generateOverViewTop(){
-        return "AAA";
+    private String generateOverView(BallotDto ballotDto, String constantVote) {
+        String[] strings = null;
+        if (ballotDto !=null) {
+            if (ballotDto.getVoteDtos() != null) {
+                strings = new String[ballotDto.getVoteDtos().size()];
+                for (VoteDto voteDto : ballotDto.getVoteDtos()) {
+                    int indication = voteDto.getIndication();
+                    if(TOP.equals(constantVote)) {
+                        if (indication > 0) {
+                            strings[indication] = voteDto.getName();
+                        }
+                    } else if (FLOP.equals(constantVote)){
+                        if (indication < 0) {
+                            strings[-indication] = voteDto.getName();
+                        }
+                    }
+                }
+            }
+        }
+        return createOverviewWithArray(strings);
     }
 
-    private String generateOverViewFlop(){
-        return "AAA";
-    }
+
 
 
     private View.OnClickListener editTopVotes() {
@@ -279,7 +308,34 @@ public class UserIsVoting extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveBallot_JsonPostRequest();
+
+                Context context = getActivity();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Confirmation");
+                builder.setMessage("Are you happy with this vote ?");
+
+                EditText editText = new EditText(context);
+                builder.setView(editText);
+                // Set up the buttons
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SaveBallot_JsonPostRequest();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
+
+
             }
         };
     }
@@ -503,4 +559,41 @@ public class UserIsVoting extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    @Data
+    private class JSONVote {
+
+        private String username;
+        private JSONObject ballot;
+        private boolean hasVoted;
+
+        private JSONVote(String username, JSONObject ballot, boolean hasVoted) {
+            this.username = username;
+            this.ballot = ballot;
+            this.hasVoted = hasVoted;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public JSONObject getBallot() {
+            return ballot;
+        }
+
+        public void setBallot(JSONObject ballot) {
+            this.ballot = ballot;
+        }
+
+        public boolean isHasVoted() {
+            return hasVoted;
+        }
+
+        public void setHasVoted(boolean hasVoted) {
+            this.hasVoted = hasVoted;
+        }
+    }
 }

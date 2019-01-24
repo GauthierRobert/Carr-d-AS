@@ -19,6 +19,7 @@ public class BallotDtoBuilder {
     private String competition_ref;
     private List<VoteDto> voteDtos = new ArrayList<>();
     private List<RuleDto> ruleDtos = new ArrayList<>();
+    private String username;
 
     public static BallotDtoBuilder aBallotDto(){
         return new BallotDtoBuilder();
@@ -30,6 +31,11 @@ public class BallotDtoBuilder {
 
     private BallotDtoBuilder withRuleDtos(List<RuleDto> ruleDtos) {
         this.ruleDtos = ruleDtos;
+        return this;
+    }
+
+    public BallotDtoBuilder createdBy(String username){
+        this.username = username;
         return this;
     }
 
@@ -97,7 +103,7 @@ public class BallotDtoBuilder {
         }
 
         public BallotDto build(){
-            return ballotDto(match_ref, competition_ref, voteDtos);
+            return ballotDto(match_ref, competition_ref, username, voteDtos);
         }
     }
 
