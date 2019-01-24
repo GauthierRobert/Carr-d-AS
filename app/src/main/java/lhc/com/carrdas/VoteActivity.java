@@ -29,6 +29,7 @@ import lhc.com.otherRessources.BaseActivity;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
+import static lhc.com.otherRessources.ApplicationConstants.GOD;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
@@ -96,7 +97,7 @@ public class VoteActivity extends BaseActivity implements
         sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
         sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
         status = sharedPreferencesCompetition.getString(MATCH_STATUS, "OPEN");
-        usernameCreator = sharedPreferencesCompetition.getString(MATCH_CREATOR, "GOD");
+        usernameCreator = sharedPreferencesCompetition.getString(MATCH_CREATOR, GOD);
         GetBallotListLinkedToCompetition();
 
         loadFragment(getFragmentUserIsVoting());

@@ -43,6 +43,7 @@ import java.util.Map;
 import lhc.com.adapter.VoteAdapter_UserIsVoting;
 import lhc.com.carrdas.ListCompetitions;
 import lhc.com.carrdas.R;
+import lhc.com.carrdas.VoteActivity;
 import lhc.com.dtos.BallotDto;
 import lhc.com.dtos.RuleDto;
 import lhc.com.dtos.VoteDto;
@@ -152,21 +153,24 @@ public class UserIsVoting extends Fragment {
         submit = view.findViewById(R.id.submit_ballot);
         submit.setOnClickListener(submit());
 
-        try {
-            JSONVote jsonVote = jsonVote();
-            if (jsonVote.isHasVoted()){
-                voteTopButton.setVisibility(View.GONE);
-                voteFlopButton.setVisibility(View.GONE);
-                submit.setVisibility(View.GONE);
-            }
-            ObjectMapper mapper = new ObjectMapper();
-            BallotDto ballotDto = mapper.readValue(jsonVote.getBallot().toString(), BallotDto.class);
-            overviewTop.setText(generateOverView(ballotDto,TOP));
-            overviewFlop.setText(generateOverView(ballotDto,FLOP));
+        if(jsonArrayOfListVotes !=null) {
+            try {
+                JSONVote jsonVote = jsonVote();
+                if (jsonVote.isHasVoted()) {
+                    voteTopButton.setVisibility(View.GONE);
+                    voteFlopButton.setVisibility(View.GONE);
+                    submit.setVisibility(View.GONE);
+                }
+                ObjectMapper mapper = new ObjectMapper();
+                BallotDto ballotDto = mapper.readValue(jsonVote.getBallot().toString(), BallotDto.class);
+                overviewTop.setText(generateOverView(ballotDto, TOP));
+                overviewFlop.setText(generateOverView(ballotDto, FLOP));
 
-        } catch (JSONException | IOException e){
-            e.printStackTrace();
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
+            }
         }
+
         return view;
     }
 
@@ -219,7 +223,7 @@ public class UserIsVoting extends Fragment {
                 layout.setOrientation(LinearLayout.VERTICAL);
                 final ListView topVote = new ListView(context);
 
-                final VoteAdapter_UserIsVoting adapter_top = new VoteAdapter_UserIsVoting(context.getApplicationContext(),
+                final VoteAdapter_UserIsVoting adapter_top = new VoteAdapter_UserIsVoting(context,
                         topVotes, users);
                 topVote.setAdapter(adapter_top);
                 layout.addView(topVote);
@@ -321,6 +325,7 @@ public class UserIsVoting extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         SaveBallot_JsonPostRequest();
+
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -354,7 +359,7 @@ public class UserIsVoting extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("onResponse", "Create Competition : " + response.toString());
-                        goToListCompetition();
+                        refreshPage();
                     }
                 },
                 new Response.ErrorListener() {
@@ -389,12 +394,9 @@ public class UserIsVoting extends Fragment {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void goToListCompetition() {
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), ListCompetitions.class);
-        startActivity(intent);
+    private void refreshPage() {
         getActivity().finish();
-
+        startActivity(getActivity().getIntent());
     }
 
     private List<String> createEmptyList(int numberTop) {
@@ -509,7 +511,7 @@ public class UserIsVoting extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        users[0] = "GOD";
+                        users[0] = GOD;
                         Log.d("Error", error.toString());
                         error.printStackTrace();
 
