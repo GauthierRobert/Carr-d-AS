@@ -396,7 +396,9 @@ public class UserIsVoting extends Fragment {
 
     private void refreshPage() {
         getActivity().finish();
+        getActivity().overridePendingTransition( 0, 0);
         startActivity(getActivity().getIntent());
+        getActivity().overridePendingTransition( 0, 0);
     }
 
     private List<String> createEmptyList(int numberTop) {
