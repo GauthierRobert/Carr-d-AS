@@ -148,7 +148,8 @@
                     android:layout_marginTop="15dp"
                     android:clickable="true"
                     android:padding="8dp"
-                    android:text="@string/submit" />
+                    android:text="@string/submit"
+                    android:textColor="@color/lhc_red_dark"/>
 
             </LinearLayout>
         </LinearLayout>

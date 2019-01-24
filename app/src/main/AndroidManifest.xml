@@ -36,14 +36,14 @@
         <activity
             android:name=".AddCompetition"
             android:label="Add new competition"
-            android:windowSoftInputMode="adjustPan|adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".ListMatchesOfCompetition"
             android:label="List of matches" />
         <activity
             android:name=".VoteActivity"
             android:label="Votes and results"
-            android:windowSoftInputMode="adjustPan|adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
     </application>
 
 </manifest>

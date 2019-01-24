@@ -20,7 +20,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
@@ -29,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +48,10 @@ import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.RULES;
+import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
+import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_ADD_USER;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_GET;
+import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_POST;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
@@ -123,7 +129,7 @@ public class ListCompetitions extends BaseActivity {
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        PostAddUSerToCompetition(competitionName.getText().toString(),competitionPassword.getText().toString());
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -139,6 +145,52 @@ public class ListCompetitions extends BaseActivity {
         };
     }
 
+    private void PostAddUSerToCompetition(String comp, String pass) {
+
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
+        Parameter username = new Parameter(USERNAME, getUsername());
+        Parameter competition_ref = new Parameter(USERNAME, comp);
+        Parameter competition_password = new Parameter(USERNAME, pass);
+
+        final String url = createURL(URL_COMPETITION_ADD_USER, username, competition_ref, competition_password);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("onResponse", "Create Competition : " + response.toString());
+                        finish();
+                        overridePendingTransition( 0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition( 0, 0);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", error.toString());
+                        error.printStackTrace();
+                    }
+                }
+        ){
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        requestQueue.add(jsonObjectRequest);
+
+    }
 
 
     @NonNull
@@ -159,6 +211,7 @@ public class ListCompetitions extends BaseActivity {
                 Gson gson = new Gson();
                 editor.putString(COMPETITION_REF, competitionDto.getReference());
                 editor.putString(RULES,gson.toJson(ruleDtos));
+                editor.putBoolean(WITH_COMMENTS, competitionDto.isWithComments())
                 editor.apply();
 
                 Intent intent = new Intent();

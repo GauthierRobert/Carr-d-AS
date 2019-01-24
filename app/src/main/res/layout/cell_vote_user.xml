@@ -13,17 +13,15 @@
 
         <TextView
             android:id="@+id/numero_de_vote"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.85"
             android:text="TextView" />
 
         <AutoCompleteTextView
             android:id="@+id/user_vote_cell_auto_complete"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:selectAllOnFocus="false"
-            android:layout_weight="0.15"
             android:singleLine="true"
             tools:text="Username"
             tools:ignore="LabelFor" />

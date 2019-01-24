@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -74,14 +75,80 @@ public class AddCompetition extends BaseActivity {
         submitButton.setOnClickListener(submit());
 
         topRulesButton = findViewById(R.id.button_edit_top_rules);
+        topRulesButton.setEnabled(false);
         topRulesButton.setOnClickListener(editTopRules());
 
         flopRulesButton = findViewById(R.id.button_edit_flop_rules);
+        flopRulesButton.setEnabled(false);
         flopRulesButton.setOnClickListener(editFlopRules());
 
         pointTopList = new ArrayList<>();
         pointFlopList = new ArrayList<>();
 
+        final TextInputLayout numberTop = findViewById(R.id.numberOfTopVoteAllowed_layout_competition);
+        final TextInputLayout numberFlop = findViewById(R.id.numberOfFlopVoteAllowed_layout_competition);
+
+        EditText numberTopEditText = numberTop.getEditText();
+        EditText numberFlopEditText = numberFlop.getEditText();
+        Objects.requireNonNull(numberTopEditText).addTextChangedListener(getWatcherTop());
+        Objects.requireNonNull(numberFlopEditText).addTextChangedListener(getWatcherFlop());
+
+    }
+
+    private TextWatcher getWatcherTop() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0) {
+                    int numberTop_value = Integer.parseInt(String.valueOf(s));
+                    if (numberTop_value !=0){
+                        topRulesButton.setEnabled(true);
+                    } else {
+                        topRulesButton.setEnabled(false);
+                    }
+                } else {
+                    topRulesButton.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+
+    }
+
+    private TextWatcher getWatcherFlop() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0) {
+                    int numberFlop_value = Integer.parseInt(String.valueOf(s));
+                    if (numberFlop_value !=0){
+                        flopRulesButton.setEnabled(true);
+                    } else {
+                        flopRulesButton.setEnabled(false);
+                    }
+                } else {
+                    flopRulesButton.setEnabled(false);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
     }
 
 
@@ -109,12 +176,8 @@ public class AddCompetition extends BaseActivity {
                 final VoteAdapter_newCompetition adapter_top = new VoteAdapter_newCompetition(AddCompetition.this,
                         pointTopList);
                 topVote.setAdapter(adapter_top);
-
                 layout.addView(topVote);
-
-
                 layout.setPadding(50, 30, 50, 0);
-
                 builder.setView(layout);
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
@@ -163,7 +226,7 @@ public class AddCompetition extends BaseActivity {
                         pointFlopList);
                 flopVote.setAdapter(adapter_flop);
                 layout.addView(flopVote);
-
+                layout.setPadding(50, 30, 50, 0);
                 builder.setView(layout);
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
@@ -270,6 +333,7 @@ public class AddCompetition extends BaseActivity {
         String username = sharedpreferences.getString(USERNAME, null);
         String password =((EditText)  findViewById(R.id.password_competition)).getText().toString();
         String confirmedPassword =((EditText)  findViewById(R.id.confirmedPassword_competition)).getText().toString();
+        boolean isChecked = ((CheckBox) findViewById(R.id.withCommentsCheckBox)).isChecked();
         int numberTopVotes = Integer.parseInt(((EditText)  findViewById(R.id.numberOfTopVoteAllowed_competition)).getText().toString());
         int numberFlopVotes = Integer.parseInt(((EditText)  findViewById(R.id.numberOfFlopVoteAllowed_competition)).getText().toString());
 
@@ -280,6 +344,7 @@ public class AddCompetition extends BaseActivity {
                 .withCreatorUsername(username)
                 .withPassword(password)
                 .withConfirmedPassword(confirmedPassword)
+                .withComments(isChecked)
                 .withRuleDtos(numberTopVotes,numberFlopVotes)
                 .withTopRuleDtos(topVoteInt)
                 .withFlopRuleDtos(flopVoteInt)

@@ -7,6 +7,9 @@
     tools:context=".voteFragment.UserIsVoting"
     android:id="@+id/fragment_user_is_voting">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +35,7 @@
                     android:textColor="@color/lhc_red_dark"/>
 
                 <Button
-                    android:id="@+id/voteTopButton"
+                    android:id="@+id/vote_top_button_user_is_voting"
                     android:text="Vote for the TOP players"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_height="wrap_content"
@@ -61,7 +64,7 @@
                     android:paddingTop="5dp"
                     android:textColor="@color/lhc_red_dark"/>
                 <Button
-                    android:id="@+id/voteFlopButton"
+                    android:id="@+id/vote_flop_button_user_is_voting"
                     android:text="Vote for the FLOP players"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_height="wrap_content"
@@ -116,6 +119,6 @@
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
-
+    </ScrollView>
 
 </FrameLayout>
