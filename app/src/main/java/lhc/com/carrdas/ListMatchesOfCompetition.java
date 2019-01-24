@@ -238,7 +238,11 @@ public class ListMatchesOfCompetition extends BaseActivity {
                         final String jsonMatch = gson.toJson(matchDto);
 
                         saveMatch(jsonMatch);
+
+                        finish();
+                        overridePendingTransition( 0, 0);
                         startActivity(getIntent());
+                        overridePendingTransition( 0, 0);
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -266,10 +270,7 @@ public class ListMatchesOfCompetition extends BaseActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("onResponse", "Create match : " + response.toString());
-                        finish();
-                        overridePendingTransition( 0, 0);
-                        startActivity(getIntent());
-                        overridePendingTransition( 0, 0);
+
                     }
                 },
                 new Response.ErrorListener() {
