@@ -160,7 +160,7 @@ public class UserIsVoting extends Fragment {
         submit = view.findViewById(R.id.submit_ballot);
         submit.setOnClickListener(submit());
 
-        String comment = ((EditText) view.findViewById(R.id.comments_user_is_voting)).getText().toString();
+        comment = ((EditText) view.findViewById(R.id.comments_user_is_voting)).getText().toString();
 
         if(jsonArrayOfListVotes !=null) {
             try {
@@ -187,9 +187,9 @@ public class UserIsVoting extends Fragment {
         JSONArray arrayBallot = new JSONArray(jsonArrayOfListVotes);
         for (int i =0; i<arrayBallot.length(); i++){
             JSONObject ballot = arrayBallot.getJSONObject(i);
-            JSONObject user = ballot.getJSONObject("user");
-            if (getUsername().equals(user.get(USERNAME).toString())){
-                return new JSONVote(user.get(USERNAME).toString(),ballot,true);
+            String username = ballot.getString("username");
+            if (getUsername().equals(username)){
+                return new JSONVote(username,ballot,true);
             }
         }
         return new JSONVote(GOD,null,false);
@@ -204,11 +204,11 @@ public class UserIsVoting extends Fragment {
                     int indication = voteDto.getIndication();
                     if(TOP.equals(constantVote)) {
                         if (indication > 0) {
-                            strings[indication] = voteDto.getName();
+                            strings[indication-1] = voteDto.getName();
                         }
                     } else if (FLOP.equals(constantVote)){
                         if (indication < 0) {
-                            strings[-indication] = voteDto.getName();
+                            strings[(1-indication)] = voteDto.getName();
                         }
                     }
                 }
@@ -327,8 +327,6 @@ public class UserIsVoting extends Fragment {
                 builder.setTitle("Confirmation");
                 builder.setMessage("Are you happy with this vote ?");
 
-                EditText editText = new EditText(context);
-                builder.setView(editText);
                 // Set up the buttons
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
@@ -509,7 +507,6 @@ public class UserIsVoting extends Fragment {
                     public void onResponse(JSONArray response) {
                         users = new String[response.length()];
                         for (int i = 0; i < response.length(); i++) {
-                            JSONObject json;
                             try {
                                 users[i] = response.get(i).toString();
                             } catch (JSONException e) {
@@ -597,16 +594,8 @@ public class UserIsVoting extends Fragment {
             return ballot;
         }
 
-        public void setBallot(JSONObject ballot) {
-            this.ballot = ballot;
-        }
-
         public boolean isHasVoted() {
             return hasVoted;
-        }
-
-        public void setHasVoted(boolean hasVoted) {
-            this.hasVoted = hasVoted;
         }
     }
 }

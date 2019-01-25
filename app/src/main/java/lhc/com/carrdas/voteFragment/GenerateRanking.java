@@ -1,6 +1,7 @@
 package lhc.com.carrdas.voteFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import lhc.com.carrdas.AddCompetition;
+import lhc.com.carrdas.ListMatchesOfCompetition;
 import lhc.com.carrdas.R;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.MySingletonRequestQueue;
@@ -116,7 +119,7 @@ public class GenerateRanking extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
+                        GoToMatchList();
                     }
                 }
                 ,
@@ -136,6 +139,14 @@ public class GenerateRanking extends Fragment {
             }
         };
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private void GoToMatchList() {
+
+        Intent addCompetitionIntent = new Intent(getActivity(), ListMatchesOfCompetition.class);
+        getActivity().finish();
+        startActivity(addCompetitionIntent);
+
     }
 
 
