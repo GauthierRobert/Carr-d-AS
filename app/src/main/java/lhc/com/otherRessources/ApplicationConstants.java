@@ -34,7 +34,9 @@ public class ApplicationConstants {
     public final static String URL_BALLOT_POST = "ballot/save";
     public final static String URL_BALLOT_GET = "ballot/get";
     public final static String URL_USER_GET = "user/get";
-    public final static String URL_RANKING = "ranking";
+    public final static String TEMP = "ranking";
+    public final static String URL_RANKING_TOP = "ranking/top";
+    public final static String URL_RANKING_FLOP = "ranking/flop";
 
     public final static String OPEN = "OPEN";
     public final static String CLOSED = "CLOSE";

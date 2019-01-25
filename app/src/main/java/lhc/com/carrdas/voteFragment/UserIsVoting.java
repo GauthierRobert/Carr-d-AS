@@ -90,6 +90,8 @@ public class UserIsVoting extends Fragment {
     TextView overviewTop;
     TextView overviewFlop;
 
+    String comment;
+
     String[] users;
     String[] topVoteString;
     String[] flopVoteString;
@@ -157,6 +159,8 @@ public class UserIsVoting extends Fragment {
 
         submit = view.findViewById(R.id.submit_ballot);
         submit.setOnClickListener(submit());
+
+        String comment = ((EditText) view.findViewById(R.id.comments_user_is_voting)).getText().toString();
 
         if(jsonArrayOfListVotes !=null) {
             try {
@@ -429,6 +433,7 @@ public class UserIsVoting extends Fragment {
         BallotDto ballotDto = aBallotDtoWithRules(rules)
                 .withCompetition_ref(getCompetition_ref())
                 .withMatch_ref(getMatch_ref())
+                .withComment(comment)
                 .withVotesDtos()
                 .addTopVote(topVoteString)
                 .addFlopVote(flopVoteString)

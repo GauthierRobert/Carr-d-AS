@@ -4,18 +4,20 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import lhc.com.carrdas.R;
+import lhc.com.viewerPage.RankingPageAdapter;
 
 
 public class Ranking extends Fragment {
 
-    ListView rankingListView;
     private OnFragmentInteractionListener mListener;
+
+
 
     public Ranking() {
         // Required empty public constructor
@@ -32,7 +34,14 @@ public class Ranking extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ranking, container, false);
+        View view = inflater.inflate(R.layout.fragment_ranking, container, false);
+
+        RankingPageAdapter mSectionsPagerAdapter = new RankingPageAdapter(getActivity());
+        ViewPager mViewPager = view.findViewById(R.id.container_ranking);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        return view;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
