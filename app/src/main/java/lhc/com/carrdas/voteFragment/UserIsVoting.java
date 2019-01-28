@@ -3,7 +3,6 @@ package lhc.com.carrdas.voteFragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,9 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import lhc.com.adapter.VoteAdapter_UserIsVoting;
-import lhc.com.carrdas.ListCompetitions;
 import lhc.com.carrdas.R;
-import lhc.com.carrdas.VoteActivity;
 import lhc.com.dtos.BallotDto;
 import lhc.com.dtos.RuleDto;
 import lhc.com.dtos.VoteDto;
@@ -57,7 +55,8 @@ import static lhc.com.dtos.builder.BallotDtoBuilder.aBallotDtoWithRules;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.GOD;
-import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES;
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_BUNDLE;
+import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
@@ -76,6 +75,7 @@ public class UserIsVoting extends Fragment {
 
     SharedPreferences sharedPreferencesCompetition;
     SharedPreferences sharedPreferencesCredentials;
+
     List<String> topVotes;
     List<String> flopVotes;
     List<RuleDto> rules;
@@ -123,7 +123,7 @@ public class UserIsVoting extends Fragment {
         sharedPreferencesCompetition = this.getActivity().getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
 
         if (getArguments() != null) {
-            jsonArrayOfListVotes = getArguments().getString(JSON_LIST_VOTES);
+            jsonArrayOfListVotes = getArguments().getString(JSON_LIST_VOTES_BUNDLE);
         }
 
         GetUsernamesLinkedToCompetition();
@@ -459,6 +459,10 @@ public class UserIsVoting extends Fragment {
     }
 
 
+    private String getMatchCreatorUsername() {
+        return  sharedPreferencesCompetition.getString(MATCH_CREATOR, null);
+    }
+
     private String getUsername() {
         return  sharedPreferencesCredentials.getString(USERNAME, null);
     }
@@ -535,6 +539,8 @@ public class UserIsVoting extends Fragment {
         };
         requestQueue.add(jsonObjectRequest);
     }
+
+
 
 
     @Override

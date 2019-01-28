@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +19,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +48,7 @@ import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_STATUS;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
+import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_GET;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
 import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET;
 import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_POST;
@@ -89,7 +88,8 @@ public class ListMatchesOfCompetition extends BaseActivity {
                 editor.putString(MATCH_STATUS, matchDto.getStatus());
                 editor.putString(MATCH_CREATOR, matchDto.getCreatorUsername());
                 editor.apply();
-                goToVoteActivity();
+
+                getBallotListLinkedToMatch_and_GoToVoteActivity(matchDto.getReference());
             }
         };
     }
@@ -288,12 +288,7 @@ public class ListMatchesOfCompetition extends BaseActivity {
             }
             @Override
             public byte[] getBody() {
-                try {
-                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
-                    return null;
-                }
+                return mRequestBody == null ? null : mRequestBody.getBytes(StandardCharsets.UTF_8);
             }
             @Override
             public Map<String, String> getHeaders() {
@@ -305,8 +300,42 @@ public class ListMatchesOfCompetition extends BaseActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void goToVoteActivity(){
+
+    private void getBallotListLinkedToMatch_and_GoToVoteActivity(String match_ref) {
+        ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(MATCH_REF, match_ref);
+        final String url = createURL(URL_BALLOT_GET, parameter);
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
+                Request.Method.GET, url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        goToVoteActivity(response);
+                    }
+                }
+                ,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error", error.toString());
+                        error.printStackTrace();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void goToVoteActivity(JSONArray response) {
         Intent intent = new Intent();
+        intent.putExtra(JSON_LIST_VOTES_INTENT, response.toString());
         intent.setClass(ListMatchesOfCompetition.this, VoteActivity.class);
         startActivity(intent);
     }

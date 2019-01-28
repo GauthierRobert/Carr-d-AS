@@ -18,7 +18,8 @@ public class ApplicationConstants {
     public static final String NUMBER_VOTE_TOP = LabelType.NUMBER_VOTE_TOP.toString();
     public static final String NUMBER_VOTE_FLOP = LabelType.NUMBER_VOTE_FLOP.toString();
     public static final String RULES =  "rules";
-    public static final String JSON_LIST_VOTES =  "json_list_votes";
+    public static final String JSON_LIST_VOTES_BUNDLE =  "json_list_votes_bundle";
+    public static final String JSON_LIST_VOTES_INTENT =  "json_list_votes_intent";
 
 
 
@@ -40,12 +41,13 @@ public class ApplicationConstants {
 
     public final static String OPEN = "OPEN";
     public final static String CLOSED = "CLOSE";
+    public final static String ON_HOLD = "ON_HOLD";
+    public final static String ON_HOLD_TEXT = "ON HOLD";
 
     public final static String TOP = "TOP";
     public final static String FLOP = "FLOP";
 
     public final static String WITH_COMMENTS = "withComments";
-
 
 
     public final static String GOD = "Almighty God";

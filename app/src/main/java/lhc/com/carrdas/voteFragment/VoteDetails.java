@@ -4,21 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import lhc.com.carrdas.R;
 import lhc.com.viewerPage.VoteDetailsPageAdapter;
 
-import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES;
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_BUNDLE;
 
 
 public class VoteDetails extends Fragment {
@@ -46,7 +41,7 @@ public class VoteDetails extends Fragment {
         // Inflate the layout for this fragment
         String jsonListVotes = null;
         if (getArguments() != null) {
-            jsonListVotes = getArguments().getString(JSON_LIST_VOTES);
+            jsonListVotes = getArguments().getString(JSON_LIST_VOTES_BUNDLE);
         }
 
         /**

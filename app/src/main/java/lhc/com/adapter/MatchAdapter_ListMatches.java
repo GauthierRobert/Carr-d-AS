@@ -16,6 +16,8 @@ import lhc.com.carrdas.R;
 import lhc.com.dtos.MatchDto;
 
 import static lhc.com.otherRessources.ApplicationConstants.CLOSED;
+import static lhc.com.otherRessources.ApplicationConstants.ON_HOLD;
+import static lhc.com.otherRessources.ApplicationConstants.ON_HOLD_TEXT;
 import static lhc.com.otherRessources.ApplicationConstants.OPEN;
 
 public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
@@ -52,13 +54,18 @@ public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
 
         //adding values to the list item
         if (matchDto.getStatus() !=null){
-            status.setText(matchDto.getStatus());
             if (CLOSED.equals(matchDto.getStatus())){
                 int red = ContextCompat.getColor(mContext, R.color.lhc_red);
+                status.setText(CLOSED);
                 status.setTextColor(red);
             } else if (OPEN.equals(matchDto.getStatus())){
                 int green = ContextCompat.getColor(mContext, R.color.green_primary_dark);
+                status.setText(OPEN);
                 status.setTextColor(green);
+            } else if (ON_HOLD.equals(matchDto.getStatus())){
+                int orange = ContextCompat.getColor(mContext, R.color.orange_primary);
+                status.setText(ON_HOLD_TEXT);
+                status.setTextColor(orange);
             }
         }
 
