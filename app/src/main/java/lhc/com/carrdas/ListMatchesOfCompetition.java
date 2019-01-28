@@ -43,6 +43,7 @@ import lhc.com.otherRessources.MySingletonRequestQueue;
 
 import static lhc.com.dtos.builder.MatchDtoBuilder.aMatchDto;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_STATUS;
