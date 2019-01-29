@@ -94,7 +94,7 @@ public class RankingPageAdapter extends PagerAdapter {
         RequestQueue requestQueue = MySingletonRequestQueue
                 .getInstance(mContext).getRequestQueue();
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
-                Request.Method.POST, url,
+                Request.Method.GET, url,
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override

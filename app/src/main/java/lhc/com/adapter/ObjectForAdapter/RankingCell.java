@@ -14,4 +14,7 @@ public class RankingCell {
         this.name = name;
         this.points = points;
     }
+
+    public RankingCell() {
+    }
 }

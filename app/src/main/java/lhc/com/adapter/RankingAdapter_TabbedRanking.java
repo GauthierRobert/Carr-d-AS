@@ -52,12 +52,16 @@ public class RankingAdapter_TabbedRanking extends ArrayAdapter<RankingCell> {
         String rankingCellName = rankingCell.getName();
         Integer rankingCellPoints = rankingCell.getPoints();
 
-        ((TextView) result.findViewById(R.id.positionInRanking)).setText(rankingCellPosition);
-        ((TextView) result.findViewById(R.id.nameInRanking)).setText(rankingCellName);
-        ((TextView) result.findViewById(R.id.pointsInRanking)).setText(rankingCellPoints);
+        TextView positionInRankingTextView = result.findViewById(R.id.positionInRanking);
+        positionInRankingTextView.setText(rankingCellPosition);
+        TextView nameInRankingTextView = result.findViewById(R.id.nameInRanking);
+        nameInRankingTextView.setText(rankingCellName);
+        TextView pointsInRankingTextView = result.findViewById(R.id.pointsInRanking);
+        pointsInRankingTextView.setText(rankingCellPoints.toString());
 
         int firstColor;
         int secondColor;
+        int white = ContextCompat.getColor(mContext, R.color.white);
         if(TOP.equals(rankingType)) {
             firstColor = ContextCompat.getColor(mContext, R.color.lhc_red_dark);
             secondColor = ContextCompat.getColor(mContext, R.color.lhc_red);
@@ -71,9 +75,14 @@ public class RankingAdapter_TabbedRanking extends ArrayAdapter<RankingCell> {
 
         if (position == 0) {
             result.setBackgroundColor(firstColor);
+            positionInRankingTextView.setTextColor(white);
+            nameInRankingTextView.setTextColor(white);
+            pointsInRankingTextView.setTextColor(white);
         } else if (position < 4) {
-
             result.setBackgroundColor(secondColor);
+            positionInRankingTextView.setTextColor(white);
+            nameInRankingTextView.setTextColor(white);
+            pointsInRankingTextView.setTextColor(white);
         }
         return result;
 

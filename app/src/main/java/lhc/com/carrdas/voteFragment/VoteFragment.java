@@ -174,9 +174,11 @@ public class VoteFragment extends Fragment {
                     submit.setVisibility(View.INVISIBLE);
                 }
                 ObjectMapper mapper = new ObjectMapper();
-                BallotDto ballotDto = mapper.readValue(jsonVote.getBallot().toString(), BallotDto.class);
-                overviewTop.setText(generateOverView(ballotDto, TOP));
-                overviewFlop.setText(generateOverView(ballotDto, FLOP));
+                if (jsonVote.getBallot() !=null) {
+                    BallotDto ballotDto = mapper.readValue(jsonVote.getBallot().toString(), BallotDto.class);
+                    overviewTop.setText(generateOverView(ballotDto, TOP));
+                    overviewFlop.setText(generateOverView(ballotDto, FLOP));
+                }
 
             } catch (JSONException | IOException e) {
                 e.printStackTrace();

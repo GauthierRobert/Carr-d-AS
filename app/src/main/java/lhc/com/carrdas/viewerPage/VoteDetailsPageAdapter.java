@@ -60,15 +60,15 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
         withComment = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS, false);
 
         if(numberTop == 0) {
-            LinearLayout layout_top = layout.findViewById(R.id.layout_top_vote_user_is_voting);
+            LinearLayout layout_top = layout.findViewById(R.id.layout_top_vote_vote_details);
             layout_top.setVisibility(View.GONE);
         }
         if(numberFlop == 0) {
-            LinearLayout layout_flop = layout.findViewById(R.id.layout_flop_vote_user_is_voting);
+            LinearLayout layout_flop = layout.findViewById(R.id.layout_flop_vote_vote_details);
             layout_flop.setVisibility(View.GONE);
         }
         if(withComment) {
-            LinearLayout layout_comment = layout.findViewById(R.id.layout_comments_user_is_voting);
+            LinearLayout layout_comment = layout.findViewById(R.id.layout_comments_vote_details);
             layout_comment.setVisibility(View.GONE);
         }
 
