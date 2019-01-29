@@ -4,13 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".voteFragment.VoteDetails"
-    android:id="@+id/fragment_vote_details">
+    tools:context=".voteFragment.DetailsFragment"
+    android:id="@+id/fragment_vote_details"
+    android:focusableInTouchMode="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <android.support.v4.view.ViewPager

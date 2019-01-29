@@ -33,8 +33,10 @@ import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 
 import static android.content.Context.MODE_PRIVATE;
+import static lhc.com.otherRessources.ApplicationConstants.FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
+import static lhc.com.otherRessources.ApplicationConstants.TOP;
 import static lhc.com.otherRessources.ApplicationConstants.URL_RANKING_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.URL_RANKING_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
@@ -86,7 +88,7 @@ public class RankingPageAdapter extends PagerAdapter {
     }
 
 
-    private void getRanking(String url_topflop) {
+    private void getRanking(final String url_topflop) {
         ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(MATCH_REF, getMatch_ref());
         final String url = createURL(url_topflop, parameter);
         RequestQueue requestQueue = MySingletonRequestQueue
@@ -113,11 +115,13 @@ public class RankingPageAdapter extends PagerAdapter {
                             } catch (JSONException | IOException e) {
                                 e.printStackTrace();
                             }
-
-                            RankingAdapter_TabbedRanking rankingAdapter = new RankingAdapter_TabbedRanking(mContext, rankingCells);
-                            rankingListView.setAdapter(rankingAdapter);
-
-
+                            if(URL_RANKING_TOP.equals(url_topflop)){
+                                RankingAdapter_TabbedRanking rankingAdapter = new RankingAdapter_TabbedRanking(mContext, rankingCells, TOP);
+                                rankingListView.setAdapter(rankingAdapter);
+                            } else if(URL_RANKING_FLOP.equals(url_topflop)) {
+                                RankingAdapter_TabbedRanking rankingAdapter = new RankingAdapter_TabbedRanking(mContext, rankingCells, FLOP);
+                                rankingListView.setAdapter(rankingAdapter);
+                            }
                         }
                     }
                 }

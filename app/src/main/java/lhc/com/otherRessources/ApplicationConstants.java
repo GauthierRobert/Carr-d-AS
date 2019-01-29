@@ -32,10 +32,10 @@ public class ApplicationConstants {
     public final static String URL_MATCH_GET = "match/get";
     public final static String URL_MATCH_POST = "match/save";
     public final static String URL_MATCH_CLOSE = "match/close";
+    public final static String URL_MATCH_OPEN = "match/open";
     public final static String URL_BALLOT_POST = "ballot/save";
     public final static String URL_BALLOT_GET = "ballot/get";
     public final static String URL_USER_GET = "user/get";
-    public final static String TEMP = "ranking";
     public final static String URL_RANKING_TOP = "ranking/top";
     public final static String URL_RANKING_FLOP = "ranking/flop";
 

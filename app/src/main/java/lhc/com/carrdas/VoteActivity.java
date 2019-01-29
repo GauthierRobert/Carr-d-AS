@@ -10,10 +10,9 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import lhc.com.carrdas.voteFragment.GenerateRanking;
-import lhc.com.carrdas.voteFragment.Ranking;
-import lhc.com.carrdas.voteFragment.UserIsVoting;
-import lhc.com.carrdas.voteFragment.VoteDetails;
+import lhc.com.carrdas.voteFragment.RankingFragment;
+import lhc.com.carrdas.voteFragment.VoteFragment;
+import lhc.com.carrdas.voteFragment.DetailsFragment;
 import lhc.com.otherRessources.BaseActivity;
 
 import static lhc.com.otherRessources.ApplicationConstants.CLOSED;
@@ -30,10 +29,9 @@ import static lhc.com.otherRessources.ApplicationConstants.OPEN;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 
 public class VoteActivity extends BaseActivity implements
-        UserIsVoting.OnFragmentInteractionListener,
-        Ranking.OnFragmentInteractionListener,
-        VoteDetails.OnFragmentInteractionListener,
-        GenerateRanking.OnFragmentInteractionListener{
+        VoteFragment.OnFragmentInteractionListener,
+        RankingFragment.OnFragmentInteractionListener,
+        DetailsFragment.OnFragmentInteractionListener{
 
     private SharedPreferences sharedPreferencesCompetition;
     private SharedPreferences sharedPreferencesCredentials;
@@ -53,10 +51,10 @@ public class VoteActivity extends BaseActivity implements
                             loadFragment(getFragmentUserIsVoting());
                             return true;
                         case R.id.navigation_ranking:
-                            toastIfNotCreator();
+                            toastRankingIfNotCreator();
                             return true;
                         case R.id.navigation_vote_details:
-                            toastIfNotCreator();
+                            toastDetailsIfNotCreator();
                             return true;
                     }
                 case CLOSED :
@@ -65,45 +63,43 @@ public class VoteActivity extends BaseActivity implements
                             loadFragment(getFragmentUserIsVoting());
                             return true;
                         case R.id.navigation_ranking:
-                            loadFragment(new Ranking());
+                            loadFragment(new RankingFragment());
                             return true;
                         case R.id.navigation_vote_details:
-                            loadFragment(new VoteDetails());
+                            loadFragment(new DetailsFragment());
                             return true;
                     }
-                case ON_HOLD :
-                    switch (item.getItemId()) {
-                        case R.id.navigation_user_is_voting:
-                            loadFragment(getFragmentUserIsVoting());
-                            return true;
-                        case R.id.navigation_ranking:
-                            toastIfNotCreator();
-                            return true;
-                        case R.id.navigation_vote_details:
-                            toastIfNotCreator();
-                            return true;
-                    }
-
             }
-
             return false;
         }
     };
 
-    private void toastIfNotCreator(){
+    private void toastRankingIfNotCreator(){
         if (usernameCreator.equals(usernameConnected)){
-            loadFragment(new GenerateRanking());
+            loadFragment(new RankingFragment());
         } else {
-            Context context = this.getApplicationContext();
-            CharSequence text = "You are not allowed to do that ! Please ask to the game creator (" + usernameCreator + ") to close the game and generate the ranking"  ;
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+            createToast();
         }
     }
 
-    private UserIsVoting getFragmentUserIsVoting() {
-        return new UserIsVoting();
+    private void toastDetailsIfNotCreator(){
+        if (usernameCreator.equals(usernameConnected)){
+            loadFragment(new DetailsFragment());
+        } else {
+            createToast();
+        }
+    }
+
+    private void createToast() {
+        Context context = this.getApplicationContext();
+        CharSequence text = "You are not allowed to do that ! Please ask to the game creator (" + usernameCreator + ") to close the game and generate the ranking"  ;
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
+
+    private VoteFragment getFragmentUserIsVoting() {
+        return new VoteFragment();
     }
 
     @Override
@@ -130,7 +126,9 @@ public class VoteActivity extends BaseActivity implements
         //switching fragment
         if (fragment != null) {
             Bundle bundle =  new Bundle();
-            bundle.putString(JSON_LIST_VOTES_BUNDLE, getIntent().getStringExtra(JSON_LIST_VOTES_INTENT));
+            if(getIntent().getStringExtra(JSON_LIST_VOTES_INTENT)!=null) {
+                bundle.putString(JSON_LIST_VOTES_BUNDLE, getIntent().getStringExtra(JSON_LIST_VOTES_INTENT));
+            }
             fragment.setArguments(bundle);
 
             getSupportFragmentManager()

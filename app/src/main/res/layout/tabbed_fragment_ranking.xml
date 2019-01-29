@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".voteFragment.Ranking"
+    tools:context=".voteFragment.RankingFragment"
     android:id="@+id/fragment_ranking"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
 
     <ListView
         android:id="@+id/listViewRanking"
@@ -21,6 +20,9 @@
         android:padding="16dp"
         android:animationCache="false"
         android:scrollingCache="false"
-        android:smoothScrollbar="true" />
+        android:smoothScrollbar="true"
+        android:layout_weight="0.8"/>
+
+
 
 </FrameLayout>

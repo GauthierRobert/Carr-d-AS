@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".voteFragment.Ranking"
+    tools:context=".voteFragment.RankingFragment"
     android:id="@+id/fragment_ranking"
 >
 
@@ -22,7 +22,7 @@
             />
         <Button
             android:layout_margin="20dp"
-            android:id="@+id/button_on_Hold"
+            android:id="@+id/button_on_open"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:text="Put match ON HOLD"
@@ -30,7 +30,7 @@
             />
         <Button
             android:layout_margin="20dp"
-            android:id="@+id/button_generate_ranking"
+            android:id="@+id/button_on_close"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:text="Put match ON CLOSED"

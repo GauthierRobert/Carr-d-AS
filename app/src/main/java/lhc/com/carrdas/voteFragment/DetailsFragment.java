@@ -4,22 +4,24 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import lhc.com.carrdas.R;
-import lhc.com.viewerPage.RankingPageAdapter;
+import lhc.com.viewerPage.VoteDetailsPageAdapter;
+
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_BUNDLE;
 
 
-public class Ranking extends Fragment {
+public class DetailsFragment extends Fragment {
+
 
     private OnFragmentInteractionListener mListener;
 
-
-
-    public Ranking() {
+    public DetailsFragment() {
         // Required empty public constructor
     }
 
@@ -33,15 +35,31 @@ public class Ranking extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_vote_details, container, false);
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_ranking, container, false);
+        // Inflate the layout for this fragment
+        String jsonListVotes = null;
+        if (getArguments() != null) {
+            jsonListVotes = getArguments().getString(JSON_LIST_VOTES_BUNDLE);
+        }
 
-        RankingPageAdapter mSectionsPagerAdapter = new RankingPageAdapter(getActivity());
-        ViewPager mViewPager = view.findViewById(R.id.container_ranking);
+        /**
+         * The {@link android.support.v4.view.PagerAdapter} that will provide
+         * fragments for each of the sections. We use a
+         * {@link FragmentPagerAdapter} derivative, which will keep every
+         * loaded fragment in memory. If this becomes too memory intensive, it
+         * may be best to switch to a
+         * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+         */
+        VoteDetailsPageAdapter mSectionsPagerAdapter = new VoteDetailsPageAdapter(getActivity(), jsonListVotes);
+        // Set up the ViewPager with the sections adapter.
+        /**
+         * The {@link ViewPager} that will host the section contents.
+         */
+        ViewPager mViewPager = view.findViewById(R.id.container_details);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
         return view;
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

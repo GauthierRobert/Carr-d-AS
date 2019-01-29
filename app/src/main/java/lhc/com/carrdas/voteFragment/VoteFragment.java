@@ -71,7 +71,7 @@ import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
 
-public class UserIsVoting extends Fragment {
+public class VoteFragment extends Fragment {
 
     SharedPreferences sharedPreferencesCompetition;
     SharedPreferences sharedPreferencesCredentials;
@@ -102,7 +102,7 @@ public class UserIsVoting extends Fragment {
     private OnFragmentInteractionListener mListener;
 
 
-    public UserIsVoting() {
+    public VoteFragment() {
         // Required empty public constructor
     }
 
@@ -160,7 +160,8 @@ public class UserIsVoting extends Fragment {
         submit = view.findViewById(R.id.submit_ballot);
         submit.setOnClickListener(submit());
 
-        comment = ((EditText) view.findViewById(R.id.comments_user_is_voting)).getText().toString();
+        EditText commentsEditText = view.findViewById(R.id.comments_user_is_voting);
+        comment = commentsEditText.getText().toString();
 
         if(jsonArrayOfListVotes !=null) {
             try {
@@ -168,7 +169,8 @@ public class UserIsVoting extends Fragment {
                 if (jsonVote.isHasVoted()) {
                     voteTopButton.setVisibility(View.GONE);
                     voteFlopButton.setVisibility(View.GONE);
-                    submit.setVisibility(View.GONE);
+                    commentsEditText.setEnabled(false);
+                    submit.setVisibility(View.INVISIBLE);
                 }
                 ObjectMapper mapper = new ObjectMapper();
                 BallotDto ballotDto = mapper.readValue(jsonVote.getBallot().toString(), BallotDto.class);
@@ -208,12 +210,13 @@ public class UserIsVoting extends Fragment {
                         }
                     } else if (FLOP.equals(constantVote)){
                         if (indication < 0) {
-                            strings[(1-indication)] = voteDto.getName();
+                            strings[(-(1+indication))] = voteDto.getName();
                         }
                     }
                 }
             }
         }
+
         return createOverviewWithArray(strings);
     }
 
@@ -297,7 +300,6 @@ public class UserIsVoting extends Fragment {
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 dialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-
             }
         };
     }
@@ -309,7 +311,8 @@ public class UserIsVoting extends Fragment {
                 String nl = System.getProperty("line.separator");
 
                 for (int i = 2; i <= flopVoteString.length; i++) {
-                    overview = overview + nl + "#" + i + " : " + flopVoteString[i - 1];
+                    if (flopVoteString[i - 1] !=null)
+                        overview = overview + nl + "#" + i + " : " + flopVoteString[i - 1];
                 }
                 return overview;
             }

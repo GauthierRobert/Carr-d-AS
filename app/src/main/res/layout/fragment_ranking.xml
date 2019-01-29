@@ -3,21 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".voteFragment.Ranking"
+    tools:context=".voteFragment.RankingFragment"
     android:id="@+id/fragment_ranking"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusableInTouchMode="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <android.support.v4.view.ViewPager
             android:id="@+id/container_ranking"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior" />
+            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+            android:layout_weight="0.8"/>
+
+        <Button
+            android:id="@+id/button_on_close"
+            android:text="CLOSE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/lhc_red"
+            android:layout_weight="0.1"/>
+        <Button
+            android:id="@+id/button_on_open"
+            android:text="Open"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/green_primary_dark"
+            android:layout_weight="0.1"/>
+
     </LinearLayout>
 
 </FrameLayout>

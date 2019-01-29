@@ -179,33 +179,33 @@ public class ListMatchesOfCompetition extends BaseActivity {
                 LinearLayout layout_horizontal_1 = new LinearLayout(context);
                 layout_horizontal_1.setOrientation(LinearLayout.HORIZONTAL);
 
-                final EditText homeTeamInput = new EditText(context);
-                homeTeamInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                homeTeamInput.setHint("Home team");
-                //homeTeamInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
-                homeTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-                layout_horizontal_1.addView(homeTeamInput);
-                final EditText awayTeamInput = new EditText(context);
-                awayTeamInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                awayTeamInput.setHint("Away team");
-                //awayTeamInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
-                awayTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                layout_horizontal_1.addView(awayTeamInput);
-
-
                 LinearLayout layout_horizontal_2 = new LinearLayout(context);
                 layout_horizontal_1.setOrientation(LinearLayout.HORIZONTAL);
+
+                final EditText homeTeamInput = new EditText(context);
+                homeTeamInput.setInputType(InputType.TYPE_CLASS_TEXT);
+                homeTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+                homeTeamInput.setHint("Home team");
+
+                final EditText awayTeamInput = new EditText(context);
+                awayTeamInput.setInputType(InputType.TYPE_CLASS_TEXT);
+                awayTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+                awayTeamInput.setHint("Away team");
+
                 final EditText homeScoreInput = new EditText(context);
                 homeScoreInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-                //homeScoreInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
                 homeScoreInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                 homeScoreInput.setHint("Home score");
-                layout_horizontal_2.addView(homeScoreInput);
+
                 final EditText awayScoreInput = new EditText(context);
                 awayScoreInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-                //awayScoreInput.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT/2, ViewGroup.LayoutParams.WRAP_CONTENT));
                 awayScoreInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                 awayScoreInput.setHint("Away score");
+
+
+                layout_horizontal_1.addView(homeTeamInput);
+                layout_horizontal_1.addView(awayTeamInput);
+                layout_horizontal_2.addView(homeScoreInput);
                 layout_horizontal_2.addView(awayScoreInput);
 
                 layout.addView(layout_horizontal_1);
@@ -220,30 +220,15 @@ public class ListMatchesOfCompetition extends BaseActivity {
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         String homeTeam = homeTeamInput.getText().toString();
                         String awayTeam=  awayTeamInput.getText().toString();
                         Integer scoreHome = Integer.valueOf(homeScoreInput.getText().toString());
                         Integer scoreAway = Integer.valueOf(awayScoreInput.getText().toString());
 
-                        MatchDto matchDto = aMatchDto()
-                                .inCompetiton(getCompetition_ref())
-                                .createBy(getCurrentUser())
-                                .withHomeTeam(homeTeam)
-                                .withScore(scoreHome)
-                                .againstTeam(awayTeam)
-                                .withScore(scoreAway)
-                                .build();
-
-                        Gson gson = new Gson();
-                        final String jsonMatch = gson.toJson(matchDto);
-
+                        MatchDto matchDto = getMatchDto(homeTeam, awayTeam, scoreHome, scoreAway);
+                        String jsonMatch = getJsonBody(matchDto);
                         saveMatch(jsonMatch);
-
-                        finish();
-                        overridePendingTransition( 0, 0);
-                        startActivity(getIntent());
-                        overridePendingTransition( 0, 0);
+                        refresh();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -257,6 +242,29 @@ public class ListMatchesOfCompetition extends BaseActivity {
 
             }
         };
+    }
+
+    private String getJsonBody(MatchDto matchDto) {
+        Gson gson = new Gson();
+        return gson.toJson(matchDto);
+    }
+
+    private void refresh() {
+        finish();
+        overridePendingTransition( 0, 0);
+        startActivity(getIntent());
+        overridePendingTransition( 0, 0);
+    }
+
+    private MatchDto getMatchDto(String homeTeam, String awayTeam, Integer scoreHome, Integer scoreAway) {
+        return aMatchDto()
+                                    .inCompetiton(getCompetition_ref())
+                                    .createBy(getCurrentUser())
+                                    .withHomeTeam(homeTeam)
+                                    .withScore(scoreHome)
+                                    .againstTeam(awayTeam)
+                                    .withScore(scoreAway)
+                                    .build();
     }
 
 
@@ -336,7 +344,10 @@ public class ListMatchesOfCompetition extends BaseActivity {
 
     private void goToVoteActivity(JSONArray response) {
         Intent intent = new Intent();
-        intent.putExtra(JSON_LIST_VOTES_INTENT, response.toString());
+        if (response != null)
+            if (response.length() > 0) {
+                intent.putExtra(JSON_LIST_VOTES_INTENT, response.toString());
+            }
         intent.setClass(ListMatchesOfCompetition.this, VoteActivity.class);
         startActivity(intent);
     }

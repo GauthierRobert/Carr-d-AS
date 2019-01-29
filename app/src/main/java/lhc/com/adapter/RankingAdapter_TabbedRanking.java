@@ -15,19 +15,20 @@ import java.util.List;
 import lhc.com.adapter.ObjectForAdapter.RankingCell;
 import lhc.com.carrdas.R;
 
-import static lhc.com.otherRessources.ApplicationConstants.CLOSED;
-import static lhc.com.otherRessources.ApplicationConstants.OPEN;
+import static lhc.com.otherRessources.ApplicationConstants.FLOP;
+import static lhc.com.otherRessources.ApplicationConstants.TOP;
 
 public class RankingAdapter_TabbedRanking extends ArrayAdapter<RankingCell> {
 
     private List<RankingCell> rankingCells;
     private Context mContext;
+    private String rankingType;
 
-    public RankingAdapter_TabbedRanking(Context context, List<RankingCell> rankingCells) {
+    public RankingAdapter_TabbedRanking(Context context, List<RankingCell> rankingCells, String rankingType) {
         super(context, R.layout.cell_match, rankingCells);
         this.rankingCells = rankingCells;
         this.mContext=context;
-
+        this.rankingType = rankingType;
     }
 
     //this will return the ListView Item as a View
@@ -47,16 +48,35 @@ public class RankingAdapter_TabbedRanking extends ArrayAdapter<RankingCell> {
 
         RankingCell rankingCell = rankingCells.get(position);
 
-        String positioncell = rankingCell.getPosition();
-        String name = rankingCell.getName();
-        Integer points = rankingCell.getPoints();
+        String rankingCellPosition = rankingCell.getPosition();
+        String rankingCellName = rankingCell.getName();
+        Integer rankingCellPoints = rankingCell.getPoints();
 
-        ((TextView) result.findViewById(R.id.positionInRanking)).setText(positioncell);
-        ((TextView) result.findViewById(R.id.nameInRanking)).setText(name);
-        ((TextView) result.findViewById(R.id.pointsInRanking)).setText(points);
+        ((TextView) result.findViewById(R.id.positionInRanking)).setText(rankingCellPosition);
+        ((TextView) result.findViewById(R.id.nameInRanking)).setText(rankingCellName);
+        ((TextView) result.findViewById(R.id.pointsInRanking)).setText(rankingCellPoints);
 
-        //finally returning the view
+        int firstColor;
+        int secondColor;
+        if(TOP.equals(rankingType)) {
+            firstColor = ContextCompat.getColor(mContext, R.color.lhc_red_dark);
+            secondColor = ContextCompat.getColor(mContext, R.color.lhc_red);
+        } else if (FLOP.equals(rankingType)){
+            firstColor = ContextCompat.getColor(mContext, R.color.app_green_dark);
+            secondColor = ContextCompat.getColor(mContext, R.color.light_green_primary);
+        } else {
+            firstColor = 0;
+            secondColor = 0;
+        }
+
+        if (position == 0) {
+            result.setBackgroundColor(firstColor);
+        } else if (position < 4) {
+
+            result.setBackgroundColor(secondColor);
+        }
         return result;
+
     }
 
 }
