@@ -1,5 +1,6 @@
 package lhc.com.otherRessources;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 
 import lhc.com.carrdas.LoginActivity;
 import lhc.com.carrdas.R;
@@ -56,6 +58,8 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp(){
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         finish();
         return true;
     }

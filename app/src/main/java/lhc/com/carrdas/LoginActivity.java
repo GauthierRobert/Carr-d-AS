@@ -74,20 +74,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         if(isRememberMe){
-            String username_pref = sharedpreferences.getString(USERNAME, null);
-
-            username.setText(username_pref);
-            String password_pref = sharedpreferences.getString(USERNAME, null);
-            password.setText(password_pref);
+            rememberMe();
         }
 
+        settingsOfButtonListener();
+    }
+
+    private void settingsOfButtonListener() {
         Button signUpButton = findViewById(R.id.signUpButton);
         signUpButton.setOnClickListener(SignUpOnClickListener());
 
         Button loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(loginOnClickListener());
+    }
 
-
+    private void rememberMe() {
+        String username_pref = sharedpreferences.getString(USERNAME, null);
+        username.setText(username_pref);
+        String password_pref = sharedpreferences.getString(USERNAME, null);
+        password.setText(password_pref);
     }
 
 
@@ -114,7 +119,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void saveCredentials() {
-
         Editor editor = sharedpreferences.edit();
         editor.putString(USERNAME, username.getText().toString());
         editor.putString(PASSWORD, password.getText().toString());

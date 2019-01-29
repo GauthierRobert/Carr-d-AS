@@ -56,7 +56,7 @@ import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_POST;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
-public class ListMatchesOfCompetition extends BaseActivity {
+public class ListMatches extends BaseActivity {
 
 
     SharedPreferences sharedPreferencesCompetition;
@@ -120,7 +120,7 @@ public class ListMatchesOfCompetition extends BaseActivity {
                                 e.printStackTrace();
                             }
 
-                            final MatchAdapter_ListMatches adapter = new MatchAdapter_ListMatches(ListMatchesOfCompetition.this,listMatches);
+                            final MatchAdapter_ListMatches adapter = new MatchAdapter_ListMatches(ListMatches.this,listMatches);
                             listView.setAdapter(adapter);
 
 
@@ -166,12 +166,12 @@ public class ListMatchesOfCompetition extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ListMatchesOfCompetition.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ListMatches.this);
                 builder.setTitle("Join competition");
 
                 // Set up the layout
 
-                Context context = ListMatchesOfCompetition.this;
+                Context context = ListMatches.this;
                 LinearLayout layout = new LinearLayout(context);
                 layout.setOrientation(LinearLayout.VERTICAL);
                 // Add a TextView here for the "Title" label, as noted in the comments
@@ -348,7 +348,7 @@ public class ListMatchesOfCompetition extends BaseActivity {
             if (response.length() > 0) {
                 intent.putExtra(JSON_LIST_VOTES_INTENT, response.toString());
             }
-        intent.setClass(ListMatchesOfCompetition.this, VoteActivity.class);
+        intent.setClass(ListMatches.this, VoteActivity.class);
         startActivity(intent);
     }
 

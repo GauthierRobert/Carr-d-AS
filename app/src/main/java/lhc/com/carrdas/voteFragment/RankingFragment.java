@@ -27,7 +27,7 @@ import java.util.Objects;
 import lhc.com.carrdas.R;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.MySingletonRequestQueue;
-import lhc.com.viewerPage.RankingPageAdapter;
+import lhc.com.carrdas.viewerPage.RankingPageAdapter;
 
 import static android.content.Context.MODE_PRIVATE;
 import static lhc.com.otherRessources.ApplicationConstants.CLOSED;

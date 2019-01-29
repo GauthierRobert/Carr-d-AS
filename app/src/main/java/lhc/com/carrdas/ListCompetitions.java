@@ -45,6 +45,8 @@ import lhc.com.otherRessources.MySingletonRequestQueue;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
+import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_FLOP;
+import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.PASSWORD;
 import static lhc.com.otherRessources.ApplicationConstants.RULES;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_ADD_USER;
@@ -104,22 +106,15 @@ public class ListCompetitions extends BaseActivity {
                 Context context = ListCompetitions.this;
                 LinearLayout layout = new LinearLayout(context);
                 layout.setOrientation(LinearLayout.VERTICAL);
-                // Add a TextView here for the "Title" label, as noted in the comments
 
                 // Add another TextView here for the "Description" label
                 final EditText competitionName = new EditText(context);
-                competitionName.setInputType(InputType.TYPE_CLASS_TEXT);
-                competitionName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_group_work_red_24dp, 0, 0, 0);
-                competitionName.setCompoundDrawablePadding(20);
-                competitionName.setHint("NAME");
+                settingsForName(competitionName);
                 layout.addView(competitionName);
-
-                final EditText competitionPassword = new EditText(ListCompetitions.this);
-                competitionPassword.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                competitionPassword.setHint("......");
-                competitionPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_red_400_24dp, 0, 0, 0);
-                competitionPassword.setCompoundDrawablePadding(20);
+                final EditText competitionPassword = new EditText(context);
+                settingsForPassword(competitionPassword);
                 layout.addView(competitionPassword);
+
                 layout.setPadding(100, 10, 100 ,10);
 
                 builder.setView(layout);
@@ -143,14 +138,28 @@ public class ListCompetitions extends BaseActivity {
         };
     }
 
+    private void settingsForName(EditText competitionName) {
+        competitionName.setInputType(InputType.TYPE_CLASS_TEXT);
+        competitionName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_group_work_red_24dp, 0, 0, 0);
+        competitionName.setCompoundDrawablePadding(20);
+        competitionName.setHint("NAME");
+    }
+
+    private void settingsForPassword(EditText competitionPassword) {
+        competitionPassword.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        competitionPassword.setHint("......");
+        competitionPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_red_400_24dp, 0, 0, 0);
+        competitionPassword.setCompoundDrawablePadding(20);
+    }
+
     private void PostAddUSerToCompetition(String comp, String pass) {
 
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
         Parameter username = new Parameter(USERNAME, getUsername());
         Parameter competition_ref = new Parameter(COMPETITION_REF, comp);
         Parameter competition_password = new Parameter(PASSWORD, pass);
-
         final String url = createURL(URL_COMPETITION_ADD_USER, competition_ref, username, competition_password);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
@@ -209,14 +218,25 @@ public class ListCompetitions extends BaseActivity {
                 Gson gson = new Gson();
                 editor.putString(COMPETITION_REF, competitionDto.getReference());
                 editor.putString(RULES,gson.toJson(ruleDtos));
+                editor.putInt(NUMBER_VOTE_TOP,getRules(NUMBER_VOTE_TOP,competitionDto.getRuleDtos()));
+                editor.putInt(NUMBER_VOTE_FLOP,getRules(NUMBER_VOTE_FLOP,competitionDto.getRuleDtos()));
                 editor.putBoolean(WITH_COMMENTS, competitionDto.isWithComments());
                 editor.apply();
 
                 Intent intent = new Intent();
-                intent.setClass(ListCompetitions.this, ListMatchesOfCompetition.class);
+                intent.setClass(ListCompetitions.this, ListMatches.class);
                 startActivity(intent);
             }
         };
+    }
+
+    private int getRules (String constant, List<RuleDto> rules){
+        for (RuleDto ruleDto: rules) {
+            if (constant.equals(ruleDto.getLabel())){
+                return ruleDto.getPoints();
+            }
+        }
+        return 0;
     }
 
     private void GetCompetitionsListLinkedToUsername() {

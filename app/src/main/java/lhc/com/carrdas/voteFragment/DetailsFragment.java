@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import lhc.com.carrdas.R;
-import lhc.com.viewerPage.VoteDetailsPageAdapter;
+import lhc.com.carrdas.viewerPage.VoteDetailsPageAdapter;
 
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_BUNDLE;
 
@@ -61,6 +61,8 @@ public class DetailsFragment extends Fragment {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         return view;
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

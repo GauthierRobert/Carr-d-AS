@@ -19,7 +19,7 @@
         <item name="colorAccent">@color/black</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:textSize">6pt</item>
-        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:windowSoftInputMode">stateHidden</item>
     </style>
 
 

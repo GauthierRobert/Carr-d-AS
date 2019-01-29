@@ -10,9 +10,9 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import lhc.com.carrdas.voteFragment.DetailsFragment;
 import lhc.com.carrdas.voteFragment.RankingFragment;
 import lhc.com.carrdas.voteFragment.VoteFragment;
-import lhc.com.carrdas.voteFragment.DetailsFragment;
 import lhc.com.otherRessources.BaseActivity;
 
 import static lhc.com.otherRessources.ApplicationConstants.CLOSED;
@@ -24,7 +24,6 @@ import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_STATUS;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
-import static lhc.com.otherRessources.ApplicationConstants.ON_HOLD;
 import static lhc.com.otherRessources.ApplicationConstants.OPEN;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 
@@ -92,7 +91,7 @@ public class VoteActivity extends BaseActivity implements
 
     private void createToast() {
         Context context = this.getApplicationContext();
-        CharSequence text = "You are not allowed to do that ! Please ask to the game creator (" + usernameCreator + ") to close the game and generate the ranking"  ;
+        CharSequence text = "You are not allowed to watch the result yet ! Please ask to the game creator (" + usernameCreator + ") to close the game."  ;
         int duration = Toast.LENGTH_LONG;
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
@@ -144,9 +143,5 @@ public class VoteActivity extends BaseActivity implements
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-    }
-
-    private String getMatch_ref() {
-        return  sharedPreferencesCompetition.getString(MATCH_REF, null);
     }
 }

@@ -7,19 +7,90 @@
     android:layout_height="match_parent"
     tools:context=".voteFragment.DetailsFragment">
 
-    <TextView
-        android:id="@+id/tempText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
+
+            <LinearLayout
+                android:id="@+id/layout_top_vote_vote_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/top"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:paddingTop="5dp"
+                    android:textColor="@color/lhc_red_dark"/>
+
+                <TextView
+                    android:padding="5dp"
+                    android:id="@+id/overviewOfTopVotes_vote_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="You didn't vote yet"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_flop_vote_vote_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/flop"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:paddingTop="5dp"
+                    android:textColor="@color/lhc_red_dark"/>
+
+                <TextView
+                    android:padding="5dp"
+                    android:id="@+id/overviewOfFlopVotes_vote_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="You didn't vote yet"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_comments_vote_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comments"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:paddingTop="5dp"
+                    android:textColor="@color/lhc_red_dark"/>
+                <TextView
+                    android:id="@+id/comments_vote_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:padding="8dp"
+                    android:layout_marginTop="4dp"
+                    android:scrollbars="vertical"
+                    android:background="@drawable/bordershape"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </android.support.constraint.ConstraintLayout>

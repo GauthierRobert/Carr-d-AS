@@ -91,6 +91,7 @@ public class VoteFragment extends Fragment {
     TextView overviewFlop;
 
     String comment;
+    boolean withComment;
 
     String[] users;
     String[] topVoteString;
@@ -132,9 +133,9 @@ public class VoteFragment extends Fragment {
         overviewFlop = view.findViewById(R.id.overviewOfFlopVotes);
 
         rules = getRulesOfCompetition();
-        numberTop = getRules(NUMBER_VOTE_TOP);
-        numberFlop = getRules(NUMBER_VOTE_FLOP);
-        boolean withComment = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS, false);
+        numberTop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_TOP, 0);
+        numberFlop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_FLOP, 0);
+        withComment = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS, false);
 
         if(numberTop == 0) {
             LinearLayout layout = view.findViewById(R.id.layout_top_vote_user_is_voting);
@@ -220,7 +221,21 @@ public class VoteFragment extends Fragment {
         return createOverviewWithArray(strings);
     }
 
+    private String createOverviewWithArray(String[] flopVoteString) {
+        if (flopVoteString !=null) {
+            if (flopVoteString.length != 0) {
+                String overview = "#1 : " + flopVoteString[0];
+                String nl = System.getProperty("line.separator");
 
+                for (int i = 2; i <= flopVoteString.length; i++) {
+                    if (flopVoteString[i - 1] !=null)
+                        overview = overview + nl + "#" + i + " : " + flopVoteString[i - 1];
+                }
+                return overview;
+            }
+        }
+        return null;
+    }
 
 
     private View.OnClickListener editTopVotes() {
@@ -304,21 +319,7 @@ public class VoteFragment extends Fragment {
         };
     }
 
-    private String createOverviewWithArray(String[] flopVoteString) {
-        if (flopVoteString !=null) {
-            if (flopVoteString.length != 0) {
-                String overview = "#1 : " + flopVoteString[0];
-                String nl = System.getProperty("line.separator");
 
-                for (int i = 2; i <= flopVoteString.length; i++) {
-                    if (flopVoteString[i - 1] !=null)
-                        overview = overview + nl + "#" + i + " : " + flopVoteString[i - 1];
-                }
-                return overview;
-            }
-        }
-        return null;
-    }
 
     private View.OnClickListener submit() {
         return new View.OnClickListener() {
@@ -421,15 +422,6 @@ public class VoteFragment extends Fragment {
 
     }
 
-    private int getRules (String constant){
-        for (RuleDto ruleDto: rules) {
-            if (constant.equals(ruleDto.getLabel())){
-                return ruleDto.getPoints();
-            }
-        }
-       return 0;
-    }
-
     private String getJsonRequest(){
         BallotDto ballotDto = aBallotDtoWithRules(rules)
                 .withCompetition_ref(getCompetition_ref())
@@ -461,10 +453,6 @@ public class VoteFragment extends Fragment {
         return null;
     }
 
-
-    private String getMatchCreatorUsername() {
-        return  sharedPreferencesCompetition.getString(MATCH_CREATOR, null);
-    }
 
     private String getUsername() {
         return  sharedPreferencesCredentials.getString(USERNAME, null);
