@@ -40,7 +40,7 @@ public class ApplicationConstants {
     public final static String URL_RANKING_FLOP = "ranking/flop";
 
     public final static String OPEN = "OPEN";
-    public final static String CLOSED = "CLOSE";
+    public final static String CLOSED = "CLOSED";
     public final static String ON_HOLD = "ON_HOLD";
     public final static String ON_HOLD_TEXT = "ON HOLD";
 

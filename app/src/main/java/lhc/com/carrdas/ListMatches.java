@@ -83,9 +83,6 @@ public class ListMatches extends BaseActivity {
         listOfMatchesListView = findViewById(R.id.listViewMatch);
         listOfMatchesListView.setOnItemClickListener(matchClickListener());
 
-        final MatchAdapter_ListMatches adapter = new MatchAdapter_ListMatches(ListMatches.this,listMatches);
-        listOfMatchesListView.setAdapter(adapter);
-
         newMatchButton = findViewById(R.id.newMatchButton);
         newMatchButton.setOnClickListener(newMatchAlertDialog());
 
@@ -162,6 +159,9 @@ public class ListMatches extends BaseActivity {
                                 Log.d(json_match.toString(), "Output");
                             }
                         }
+                        final MatchAdapter_ListMatches adapter = new MatchAdapter_ListMatches(ListMatches.this,listMatches);
+                        listOfMatchesListView.setAdapter(adapter);
+                        mySwipeRefreshLayout.setRefreshing(false);
                     }
                 }
                 ,
