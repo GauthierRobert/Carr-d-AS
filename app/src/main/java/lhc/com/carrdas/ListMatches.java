@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -43,6 +44,7 @@ import lhc.com.otherRessources.MySingletonRequestQueue;
 
 import static lhc.com.dtos.builder.MatchDtoBuilder.aMatchDto;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
+import static lhc.com.otherRessources.ApplicationConstants.HAS_VOTED;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
@@ -70,6 +72,9 @@ public class ListMatches extends BaseActivity {
         setContentView(R.layout.activity_list_match_of_competition);
         sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
         sharedPreferencesCredentials = getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
+
+        if (getIntent().getBooleanExtra(HAS_VOTED, false)){ showDialogBox(); }
+
         listView = findViewById(R.id.listViewMatch);
         GetMatchesListLinkedToCompetition();
         listView.setOnItemClickListener(matchClickListener());
@@ -77,6 +82,11 @@ public class ListMatches extends BaseActivity {
         newMatchButton = findViewById(R.id.newMatchButton);
         newMatchButton.setOnClickListener(newMatchAlertDialog());
 
+    }
+
+    private void showDialogBox() {
+        Toast toast = Toast.makeText(ListMatches.this, "Thank you for your vote !", Toast.LENGTH_SHORT;
+        toast.show();
     }
 
     private AdapterView.OnItemClickListener matchClickListener() {

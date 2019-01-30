@@ -57,10 +57,36 @@ public class SignUpActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JsonPostSignUpRequest();
+
+                boolean error = settingsOfErrors();
+                if(!error)
+                    JsonPostSignUpRequest();
 
             }
         };
+    }
+    private boolean settingsOfErrors(){
+        EditText username = findViewById(R.id.text_input_username_signUp);
+        EditText password = findViewById(R.id.text_input_password_signUp);
+        EditText confirmedPassword = findViewById(R.id.text_input_confirmedPassword_signUp);
+
+        if (username.getText().toString().matches("")){
+            username.setError("The item username cannot be empty");
+            return true;
+        }
+        if(password.getText().toString().matches("")){
+            username.setError("The item password cannot be empty");
+            return true;
+        }
+        if(confirmedPassword.getText().toString().matches("")){
+            username.setError("The item confirmed password cannot be empty");
+            return true;
+        }
+        if(confirmedPassword.getText().toString().matches(password.getText().toString())) {
+            username.setError("Password and confirmed password must match");
+            return true;
+        }
+        return false;
     }
 
     private void saveIsLoggedStatusUser() {
