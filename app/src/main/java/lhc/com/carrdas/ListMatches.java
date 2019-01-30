@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -64,8 +65,10 @@ public class ListMatches extends BaseActivity {
     SharedPreferences sharedPreferencesCompetition;
     SharedPreferences sharedPreferencesCredentials;
     Button newMatchButton;
-    ListView listView;
+    ListView listOfMatchesListView;
     List<MatchDto> listMatches;
+    SwipeRefreshLayout mySwipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,17 +78,43 @@ public class ListMatches extends BaseActivity {
 
         if (getIntent().getBooleanExtra(HAS_VOTED, false)){ showDialogBox(); }
 
-        listView = findViewById(R.id.listViewMatch);
+
         GetMatchesListLinkedToCompetition();
-        listView.setOnItemClickListener(matchClickListener());
+        listOfMatchesListView = findViewById(R.id.listViewMatch);
+        listOfMatchesListView.setOnItemClickListener(matchClickListener());
+
+        final MatchAdapter_ListMatches adapter = new MatchAdapter_ListMatches(ListMatches.this,listMatches);
+        listOfMatchesListView.setAdapter(adapter);
 
         newMatchButton = findViewById(R.id.newMatchButton);
         newMatchButton.setOnClickListener(newMatchAlertDialog());
 
+        mySwipeRefreshLayout = findViewById(R.id.swipe_refresh_matches);
+        mySwipeRefreshLayout.setOnRefreshListener(getOnRefreshListener());}
+
+    private SwipeRefreshLayout.OnRefreshListener getOnRefreshListener() {
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i("LOG", "onRefresh called from SwipeRefreshLayout");
+
+                // This method performs the actual data-refresh operation.
+                // The method calls setRefreshing(false) when it's finished.
+                myUpdateOperation();
+            }
+        };
     }
 
+
+    private void myUpdateOperation() {
+        GetMatchesListLinkedToCompetition();
+        ((MatchAdapter_ListMatches) listOfMatchesListView.getAdapter()).notifyDataSetChanged();
+    }
+
+
+
     private void showDialogBox() {
-        Toast toast = Toast.makeText(ListMatches.this, "Thank you for your vote !", Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(ListMatches.this, "Thank you for your vote !", Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -94,7 +123,7 @@ public class ListMatches extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferences.Editor editor = sharedPreferencesCompetition.edit();
-                MatchDto matchDto = (MatchDto) listView.getAdapter().getItem(position);
+                MatchDto matchDto = (MatchDto) listOfMatchesListView.getAdapter().getItem(position);
                 editor.putString(MATCH_REF, matchDto.getReference());
                 editor.putString(MATCH_STATUS, matchDto.getStatus());
                 editor.putString(MATCH_CREATOR, matchDto.getCreatorUsername());
@@ -129,11 +158,6 @@ public class ListMatches extends BaseActivity {
                             } catch (JSONException | IOException e) {
                                 e.printStackTrace();
                             }
-
-                            final MatchAdapter_ListMatches adapter = new MatchAdapter_ListMatches(ListMatches.this,listMatches);
-                            listView.setAdapter(adapter);
-
-
                             if (json_match != null) {
                                 Log.d(json_match.toString(), "Output");
                             }

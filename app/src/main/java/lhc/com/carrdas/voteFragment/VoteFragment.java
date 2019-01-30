@@ -370,7 +370,7 @@ public class VoteFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("onResponse", "Create Competition : " + response.toString());
-                        refreshPage();
+                        goToMatchList();
                     }
                 },
                 new Response.ErrorListener() {
@@ -407,9 +407,9 @@ public class VoteFragment extends Fragment {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void goToMatchList(boolean hasVoted) {
+    private void goToMatchList() {
         Intent intent = new Intent(getActivity(), ListMatches.class);
-        intent.putExtra(HAS_VOTED, hasVoted);
+        intent.putExtra(HAS_VOTED, true);
         getActivity().finish();
         startActivity(intent);
     }
