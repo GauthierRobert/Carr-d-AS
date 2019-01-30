@@ -3,6 +3,7 @@ package lhc.com.carrdas.viewerPage;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,9 @@ public class RankingPageAdapter extends PagerAdapter {
 
     private Context mContext;
     private SharedPreferences sharedPreferencesCompetition;
+    List<RankingCell> rankingCellsTop;
+    List<RankingCell> rankingCellsFlop;
+
     private ListView rankingListView;
 
     public RankingPageAdapter(Context context) {
@@ -56,13 +60,13 @@ public class RankingPageAdapter extends PagerAdapter {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.tabbed_fragment_ranking, collection, false);
         rankingListView = layout.findViewById(R.id.listViewRanking);
+        sharedPreferencesCompetition = mContext.getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
 
-        if(position == 1) {
+        if (position == 0) {
             getRanking(URL_RANKING_TOP);
-        } else if (position == 2){
+        } else if (position == 1) {
             getRanking(URL_RANKING_FLOP);
         }
-        sharedPreferencesCompetition = mContext.getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
 
         collection.addView(layout);
         return layout;
@@ -83,8 +87,8 @@ public class RankingPageAdapter extends PagerAdapter {
         return view == object;
     }
 
-    private int numberPage(){
-        return 2 ;
+    private int numberPage() {
+        return 2;
     }
 
 
@@ -99,27 +103,27 @@ public class RankingPageAdapter extends PagerAdapter {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
-
-                        List<RankingCell> rankingCells = new ArrayList<>();
                         JSONObject json_ranking_cell;
+                        rankingCellsTop = new ArrayList<>();
+                        rankingCellsFlop = new ArrayList<>();
                         for (int i = 0; i < response.length(); i++) {
                             try {
-
                                 json_ranking_cell = response.getJSONObject(i);
-
                                 ObjectMapper mapper = new ObjectMapper();
                                 RankingCell rankingCell = mapper.readValue(json_ranking_cell.toString(), RankingCell.class);
-
-                                rankingCells.add(rankingCell);
+                                if (URL_RANKING_TOP.equals(url_topflop)) {
+                                    rankingCellsTop.add(rankingCell);
+                                } else if (URL_RANKING_FLOP.equals(url_topflop)) {
+                                    rankingCellsFlop.add(rankingCell);
+                                }
                             } catch (JSONException | IOException e) {
                                 e.printStackTrace();
                             }
-                            if(URL_RANKING_TOP.equals(url_topflop)){
-                                RankingAdapter_TabbedRanking rankingAdapter = new RankingAdapter_TabbedRanking(mContext, rankingCells, TOP);
+                            if (URL_RANKING_TOP.equals(url_topflop)) {
+                                RankingAdapter_TabbedRanking rankingAdapter = new RankingAdapter_TabbedRanking(mContext, rankingCellsTop, TOP);
                                 rankingListView.setAdapter(rankingAdapter);
-                            } else if(URL_RANKING_FLOP.equals(url_topflop)) {
-                                RankingAdapter_TabbedRanking rankingAdapter = new RankingAdapter_TabbedRanking(mContext, rankingCells, FLOP);
+                            } else if (URL_RANKING_FLOP.equals(url_topflop)) {
+                                RankingAdapter_TabbedRanking rankingAdapter = new RankingAdapter_TabbedRanking(mContext, rankingCellsFlop, FLOP);
                                 rankingListView.setAdapter(rankingAdapter);
                             }
                         }
@@ -139,13 +143,14 @@ public class RankingPageAdapter extends PagerAdapter {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;
+
             }
         };
         requestQueue.add(jsonObjectRequest);
     }
 
     private String getMatch_ref() {
-        return  sharedPreferencesCompetition.getString(MATCH_REF, null);
+        return sharedPreferencesCompetition.getString(MATCH_REF, null);
     }
 
 

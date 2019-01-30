@@ -21,7 +21,7 @@ public class VoteAdapter_newCompetition extends ArrayAdapter<String> {
     public VoteAdapter_newCompetition(Context context, List<String> numberVoteList) {
         super(context, R.layout.cell_vote, numberVoteList);
         this.numberVoteList = numberVoteList;
-        this.mContext=context;
+        this.mContext = context;
 
     }
 

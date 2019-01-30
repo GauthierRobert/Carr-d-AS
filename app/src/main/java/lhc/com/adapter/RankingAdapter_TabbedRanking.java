@@ -27,7 +27,7 @@ public class RankingAdapter_TabbedRanking extends ArrayAdapter<RankingCell> {
     public RankingAdapter_TabbedRanking(Context context, List<RankingCell> rankingCells, String rankingType) {
         super(context, R.layout.cell_match, rankingCells);
         this.rankingCells = rankingCells;
-        this.mContext=context;
+        this.mContext = context;
         this.rankingType = rankingType;
     }
 
@@ -62,10 +62,10 @@ public class RankingAdapter_TabbedRanking extends ArrayAdapter<RankingCell> {
         int firstColor;
         int secondColor;
         int white = ContextCompat.getColor(mContext, R.color.white);
-        if(TOP.equals(rankingType)) {
+        if (FLOP.equals(rankingType)) {
             firstColor = ContextCompat.getColor(mContext, R.color.lhc_red_dark);
             secondColor = ContextCompat.getColor(mContext, R.color.lhc_red);
-        } else if (FLOP.equals(rankingType)){
+        } else if (TOP.equals(rankingType)) {
             firstColor = ContextCompat.getColor(mContext, R.color.app_green_dark);
             secondColor = ContextCompat.getColor(mContext, R.color.light_green_primary);
         } else {
