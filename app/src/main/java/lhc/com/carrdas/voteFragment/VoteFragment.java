@@ -148,7 +148,7 @@ public class VoteFragment extends Fragment {
             LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
             layout.setVisibility(View.GONE);
         }
-        if (withComment) {
+        if (!withComment) {
             LinearLayout layout = view.findViewById(R.id.layout_comments_user_is_voting);
             layout.setVisibility(View.GONE);
         }

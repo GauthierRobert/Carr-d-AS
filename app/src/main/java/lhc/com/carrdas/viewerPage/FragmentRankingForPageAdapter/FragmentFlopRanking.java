@@ -77,7 +77,7 @@ public class FragmentFlopRanking extends Fragment {
         View view = inflater.inflate(R.layout.tabbed_fragment_ranking, container, false);
 
         TextView title = view.findViewById(R.id.title_ranking);
-        title.setText("TOP RANKING");
+        title.setText("FLOP RANKING");
         mContext = getActivity();
         rankingListView = view.findViewById(R.id.listViewRanking);
         sharedPreferencesCompetition = mContext.getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);

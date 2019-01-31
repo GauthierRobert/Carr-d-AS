@@ -67,7 +67,7 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
             LinearLayout layout_flop = layout.findViewById(R.id.layout_flop_vote_vote_details);
             layout_flop.setVisibility(View.GONE);
         }
-        if(withComment) {
+        if(!withComment) {
             LinearLayout layout_comment = layout.findViewById(R.id.layout_comments_vote_details);
             layout_comment.setVisibility(View.GONE);
         }
