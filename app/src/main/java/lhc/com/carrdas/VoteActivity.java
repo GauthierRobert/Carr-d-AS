@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import lhc.com.carrdas.viewerPage.FragmentRankingForPageAdapter.FragmentFlopRanking;
+import lhc.com.carrdas.viewerPage.FragmentRankingForPageAdapter.FragmentTopRanking;
 import lhc.com.carrdas.voteFragment.DetailsFragment;
 import lhc.com.carrdas.voteFragment.RankingFragment;
 import lhc.com.carrdas.voteFragment.VoteFragment;
@@ -30,7 +32,9 @@ import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 public class VoteActivity extends BaseActivity implements
         VoteFragment.OnFragmentInteractionListener,
         RankingFragment.OnFragmentInteractionListener,
-        DetailsFragment.OnFragmentInteractionListener{
+        DetailsFragment.OnFragmentInteractionListener,
+        FragmentTopRanking.OnFragmentInteractionListener,
+        FragmentFlopRanking.OnFragmentInteractionListener{
 
     private SharedPreferences sharedPreferencesCompetition;
     private SharedPreferences sharedPreferencesCredentials;
@@ -74,7 +78,7 @@ public class VoteActivity extends BaseActivity implements
     };
 
     private void toastRankingIfNotCreator(){
-        if (usernameCreator.equals(usernameConnected)){
+        if (usernameCreator.equalsIgnoreCase(usernameConnected)){
             loadFragment(new RankingFragment());
         } else {
             createToast();
@@ -82,7 +86,7 @@ public class VoteActivity extends BaseActivity implements
     }
 
     private void toastDetailsIfNotCreator(){
-        if (usernameCreator.equals(usernameConnected)){
+        if (usernameCreator.equalsIgnoreCase(usernameConnected)){
             loadFragment(new DetailsFragment());
         } else {
             createToast();

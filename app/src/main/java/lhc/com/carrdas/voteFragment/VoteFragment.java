@@ -3,6 +3,7 @@ package lhc.com.carrdas.voteFragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import lhc.com.adapter.VoteAdapter_UserIsVoting;
+import lhc.com.carrdas.ListMatches;
 import lhc.com.carrdas.R;
 import lhc.com.dtos.BallotDto;
 import lhc.com.dtos.RuleDto;
@@ -55,6 +57,7 @@ import static lhc.com.dtos.builder.BallotDtoBuilder.aBallotDtoWithRules;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.GOD;
+import static lhc.com.otherRessources.ApplicationConstants.HAS_VOTED;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_BUNDLE;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
@@ -137,15 +140,15 @@ public class VoteFragment extends Fragment {
         numberFlop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_FLOP, 0);
         withComment = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS, false);
 
-        if(numberTop == 0) {
+        if (numberTop == 0) {
             LinearLayout layout = view.findViewById(R.id.layout_top_vote_user_is_voting);
             layout.setVisibility(View.GONE);
         }
-        if(numberFlop == 0) {
+        if (numberFlop == 0) {
             LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
             layout.setVisibility(View.GONE);
         }
-        if(withComment) {
+        if (withComment) {
             LinearLayout layout = view.findViewById(R.id.layout_comments_user_is_voting);
             layout.setVisibility(View.GONE);
         }
@@ -153,7 +156,7 @@ public class VoteFragment extends Fragment {
         topVotes = createEmptyList(numberTop);
         flopVotes = createEmptyList(numberFlop);
 
-        voteTopButton= view.findViewById(R.id.vote_top_button_user_is_voting);
+        voteTopButton = view.findViewById(R.id.vote_top_button_user_is_voting);
         voteTopButton.setOnClickListener(editTopVotes());
         voteFlopButton = view.findViewById(R.id.vote_flop_button_user_is_voting);
         voteFlopButton.setOnClickListener(editFlopVotes());
@@ -164,7 +167,7 @@ public class VoteFragment extends Fragment {
         EditText commentsEditText = view.findViewById(R.id.comments_user_is_voting);
         comment = commentsEditText.getText().toString();
 
-        if(jsonArrayOfListVotes !=null) {
+        if (jsonArrayOfListVotes != null) {
             try {
                 JSONVote jsonVote = jsonVote();
                 if (jsonVote.isHasVoted()) {
@@ -188,30 +191,30 @@ public class VoteFragment extends Fragment {
 
     private JSONVote jsonVote() throws JSONException {
         JSONArray arrayBallot = new JSONArray(jsonArrayOfListVotes);
-        for (int i =0; i<arrayBallot.length(); i++){
+        for (int i = 0; i < arrayBallot.length(); i++) {
             JSONObject ballot = arrayBallot.getJSONObject(i);
             String username = ballot.getString("username");
-            if (getUsername().equals(username)){
-                return new JSONVote(username,ballot,true);
+            if (getUsername().equalsIgnoreCase(username)) {
+                return new JSONVote(username, ballot, true);
             }
         }
-        return new JSONVote(GOD,null,false);
+        return new JSONVote(GOD, null, false);
     }
 
     private String generateOverView(BallotDto ballotDto, String constantVote) {
         String[] strings = null;
-        if (ballotDto !=null) {
+        if (ballotDto != null) {
             if (ballotDto.getVoteDtos() != null) {
                 strings = new String[ballotDto.getVoteDtos().size()];
                 for (VoteDto voteDto : ballotDto.getVoteDtos()) {
                     int indication = voteDto.getIndication();
-                    if(TOP.equals(constantVote)) {
+                    if (TOP.equals(constantVote)) {
                         if (indication > 0) {
-                            strings[indication-1] = voteDto.getName();
+                            strings[indication - 1] = voteDto.getName();
                         }
-                    } else if (FLOP.equals(constantVote)){
+                    } else if (FLOP.equals(constantVote)) {
                         if (indication < 0) {
-                            strings[(-(1+indication))] = voteDto.getName();
+                            strings[(-(1 + indication))] = voteDto.getName();
                         }
                     }
                 }
@@ -222,13 +225,13 @@ public class VoteFragment extends Fragment {
     }
 
     private String createOverviewWithArray(String[] flopVoteString) {
-        if (flopVoteString !=null) {
+        if (flopVoteString != null) {
             if (flopVoteString.length != 0) {
                 String overview = "#1 : " + flopVoteString[0];
                 String nl = System.getProperty("line.separator");
 
                 for (int i = 2; i <= flopVoteString.length; i++) {
-                    if (flopVoteString[i - 1] !=null)
+                    if (flopVoteString[i - 1] != null)
                         overview = overview + nl + "#" + i + " : " + flopVoteString[i - 1];
                 }
                 return overview;
@@ -273,7 +276,7 @@ public class VoteFragment extends Fragment {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
-                dialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             }
         };
     }
@@ -314,11 +317,10 @@ public class VoteFragment extends Fragment {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
-                dialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             }
         };
     }
-
 
 
     private View.OnClickListener submit() {
@@ -350,8 +352,6 @@ public class VoteFragment extends Fragment {
                 dialog.show();
 
 
-
-
             }
         };
     }
@@ -364,13 +364,13 @@ public class VoteFragment extends Fragment {
         final String mRequestBody = getJsonRequest();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                url ,
+                url,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("onResponse", "Create Competition : " + response.toString());
-                        refreshPage();
+                        goToMatchList();
                     }
                 },
                 new Response.ErrorListener() {
@@ -380,12 +380,13 @@ public class VoteFragment extends Fragment {
                         error.printStackTrace();
                     }
                 }
-        ){
+        ) {
 
             @Override
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";
             }
+
             @Override
             public byte[] getBody() {
                 try {
@@ -395,6 +396,7 @@ public class VoteFragment extends Fragment {
                     return null;
                 }
             }
+
             @Override
             public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
@@ -405,24 +407,24 @@ public class VoteFragment extends Fragment {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void refreshPage() {
+    private void goToMatchList() {
+        Intent intent = new Intent(getActivity(), ListMatches.class);
+        intent.putExtra(HAS_VOTED, true);
         getActivity().finish();
-        getActivity().overridePendingTransition( 0, 0);
-        startActivity(getActivity().getIntent());
-        getActivity().overridePendingTransition( 0, 0);
+        startActivity(intent);
     }
 
     private List<String> createEmptyList(int numberTop) {
         List<String> emptyList = new ArrayList<>();
 
-        for (int i = 0; i<numberTop;i++){
+        for (int i = 0; i < numberTop; i++) {
             emptyList.add(null);
         }
         return emptyList;
 
     }
 
-    private String getJsonRequest(){
+    private String getJsonRequest() {
         BallotDto ballotDto = aBallotDtoWithRules(rules)
                 .withCompetition_ref(getCompetition_ref())
                 .withMatch_ref(getMatch_ref())
@@ -438,12 +440,12 @@ public class VoteFragment extends Fragment {
 
     public String[] getStringArray(ListView listView) {
 
-        if(listView !=null){
-            if (listView.getAdapter() !=null){
+        if (listView != null) {
+            if (listView.getAdapter() != null) {
                 String[] listString = new String[listView.getAdapter().getCount()];
 
                 for (int i = 0; i < listString.length; i++) {
-                    View view =listView.getChildAt(i);
+                    View view = listView.getChildAt(i);
                     EditText point_vote_cell = view.findViewById(R.id.user_vote_cell_auto_complete);
                     listString[i] = point_vote_cell.getText().toString();
                 }
@@ -455,18 +457,18 @@ public class VoteFragment extends Fragment {
 
 
     private String getUsername() {
-        return  sharedPreferencesCredentials.getString(USERNAME, null);
+        return sharedPreferencesCredentials.getString(USERNAME, null);
     }
 
     private String getCompetition_ref() {
-        return  sharedPreferencesCompetition.getString(COMPETITION_REF, null);
+        return sharedPreferencesCompetition.getString(COMPETITION_REF, null);
     }
 
     private String getMatch_ref() {
-        return  sharedPreferencesCompetition.getString(MATCH_REF, null);
+        return sharedPreferencesCompetition.getString(MATCH_REF, null);
     }
 
-    private List<RuleDto> getRulesOfCompetition(){
+    private List<RuleDto> getRulesOfCompetition() {
         List<RuleDto> ruleDtoList = new ArrayList<>();
 
         String jsonStringOfRuleDto = sharedPreferencesCompetition.getString(RULES, null);
@@ -530,8 +532,6 @@ public class VoteFragment extends Fragment {
         };
         requestQueue.add(jsonObjectRequest);
     }
-
-
 
 
     @Override

@@ -75,15 +75,16 @@ public class SignUpActivity extends AppCompatActivity {
             return true;
         }
         if(password.getText().toString().matches("")){
-            username.setError("The item password cannot be empty");
+            password.setError("The item password cannot be empty");
             return true;
         }
         if(confirmedPassword.getText().toString().matches("")){
-            username.setError("The item confirmed password cannot be empty");
+            confirmedPassword.setError("The item confirmed password cannot be empty");
             return true;
         }
-        if(confirmedPassword.getText().toString().matches(password.getText().toString())) {
-            username.setError("Password and confirmed password must match");
+        if(!confirmedPassword.getText().toString().equals(password.getText().toString())) {
+            password.setError("Password and confirmed password must match");
+            confirmedPassword.setError("Password and confirmed password must match");
             return true;
         }
         return false;

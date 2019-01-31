@@ -25,6 +25,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import lhc.com.carrdas.R;
+import lhc.com.carrdas.viewerPage.FragmentRankingForPageAdapter.FragmentFlopRanking;
+import lhc.com.carrdas.viewerPage.FragmentRankingForPageAdapter.FragmentTopRanking;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.MySingletonRequestQueue;
 import lhc.com.carrdas.viewerPage.RankingPageAdapter;
@@ -87,7 +89,7 @@ public class RankingFragment extends Fragment {
         onOpenButton = view.findViewById(R.id.button_on_open);
         onClosedButton = view.findViewById(R.id.button_on_close);
 
-        if(!usernameConnected.equals(usernameCreator)){
+        if(!usernameConnected.equalsIgnoreCase(usernameCreator)){
             onOpenButton.setVisibility(View.GONE);
             onClosedButton.setVisibility(View.GONE);
         } else {
@@ -101,7 +103,9 @@ public class RankingFragment extends Fragment {
         onOpenButton.setOnClickListener(openMatch());
         onClosedButton.setOnClickListener(closeMatch());
 
-        RankingPageAdapter mSectionsPagerAdapter = new RankingPageAdapter(getActivity());
+        RankingPageAdapter mSectionsPagerAdapter = new RankingPageAdapter(getFragmentManager());
+        mSectionsPagerAdapter.addFragment(FragmentTopRanking.newInstance());
+        mSectionsPagerAdapter.addFragment(FragmentFlopRanking.newInstance());
         ViewPager mViewPager = view.findViewById(R.id.container_ranking);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 

@@ -36,8 +36,6 @@ public class RankingAdapter_TabbedRanking extends ArrayAdapter<RankingCell> {
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        //we need to get the view of the xml for our list item
-        //And for this we need a layoutinflater
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         final View result;
         if (convertView == null) {
@@ -62,6 +60,7 @@ public class RankingAdapter_TabbedRanking extends ArrayAdapter<RankingCell> {
         int firstColor;
         int secondColor;
         int white = ContextCompat.getColor(mContext, R.color.white);
+        int black = ContextCompat.getColor(mContext, R.color.black_overlay);
         if (FLOP.equals(rankingType)) {
             firstColor = ContextCompat.getColor(mContext, R.color.lhc_red_dark);
             secondColor = ContextCompat.getColor(mContext, R.color.lhc_red);
@@ -73,16 +72,22 @@ public class RankingAdapter_TabbedRanking extends ArrayAdapter<RankingCell> {
             secondColor = 0;
         }
 
-        if (position == 0) {
+        int positionInt = Integer.parseInt(rankingCellPosition.replaceAll("[^0-9]", ""));
+        if (positionInt == 1) {
             result.setBackgroundColor(firstColor);
             positionInRankingTextView.setTextColor(white);
             nameInRankingTextView.setTextColor(white);
             pointsInRankingTextView.setTextColor(white);
-        } else if (position < 4) {
+        } else if (positionInt < 5) {
             result.setBackgroundColor(secondColor);
             positionInRankingTextView.setTextColor(white);
             nameInRankingTextView.setTextColor(white);
             pointsInRankingTextView.setTextColor(white);
+        } else {
+            result.setBackgroundColor(white);
+            positionInRankingTextView.setTextColor(black);
+            nameInRankingTextView.setTextColor(black);
+            pointsInRankingTextView.setTextColor(black);
         }
         return result;
 
