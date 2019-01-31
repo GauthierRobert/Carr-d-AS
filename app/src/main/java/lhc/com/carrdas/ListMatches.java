@@ -76,7 +76,8 @@ public class ListMatches extends BaseActivity {
         sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
         sharedPreferencesCredentials = getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
 
-        if (getIntent().getBooleanExtra(HAS_VOTED, false)){ showDialogBox(); }
+        if (getIntent().getBooleanExtra(HAS_VOTED, false)){ showDialogBox();
+            getIntent().removeExtra(HAS_VOTED);}
 
 
         GetMatchesListLinkedToCompetition();

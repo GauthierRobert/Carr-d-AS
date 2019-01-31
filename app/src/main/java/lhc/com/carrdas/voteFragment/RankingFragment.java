@@ -103,7 +103,7 @@ public class RankingFragment extends Fragment {
         onOpenButton.setOnClickListener(openMatch());
         onClosedButton.setOnClickListener(closeMatch());
 
-        RankingPageAdapter mSectionsPagerAdapter = new RankingPageAdapter(getFragmentManager());
+        RankingPageAdapter mSectionsPagerAdapter = new RankingPageAdapter(getChildFragmentManager());
         mSectionsPagerAdapter.addFragment(FragmentTopRanking.newInstance());
         mSectionsPagerAdapter.addFragment(FragmentFlopRanking.newInstance());
         ViewPager mViewPager = view.findViewById(R.id.container_ranking);
