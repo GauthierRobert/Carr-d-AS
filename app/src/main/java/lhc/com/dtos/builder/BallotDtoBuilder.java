@@ -21,6 +21,7 @@ public class BallotDtoBuilder {
     private List<RuleDto> ruleDtos = new ArrayList<>();
     private String username;
     private String comment;
+    private final BallotDtoCompletion ballotCompletion = new BallotDtoCompletion();
 
     public static BallotDtoBuilder aBallotDto(){
         return new BallotDtoBuilder();
@@ -58,6 +59,10 @@ public class BallotDtoBuilder {
     public BallotDtoBuilder withComment(String comment){
         this.comment = comment;
         return this;
+    }
+
+    public BallotDto buildWithoutVotes(){
+        return ballotCompletion.build();
     }
 
     public VoteDtoBuilder withVotesDtos(){
@@ -114,6 +119,10 @@ public class BallotDtoBuilder {
 
         public BallotDto build(){
             return ballotDto(match_ref, competition_ref, username, comment, voteDtos);
+        }
+
+        public BallotDto buildWithoutVotes(){
+            return ballotDto(match_ref, competition_ref, username, comment, new ArrayList<VoteDto>());
         }
     }
 
