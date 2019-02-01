@@ -92,6 +92,7 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
         comments_vote_details.setText(ballotDto.getComment());
         collection.addView(layout);
         return layout;
+
     }
 
     @Override

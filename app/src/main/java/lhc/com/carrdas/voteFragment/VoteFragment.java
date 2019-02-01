@@ -94,6 +94,7 @@ public class VoteFragment extends Fragment {
     TextView overviewFlop;
 
     String comment;
+    EditText commentsEditText;
     boolean withComment;
 
     String[] users;
@@ -164,7 +165,7 @@ public class VoteFragment extends Fragment {
         submit = view.findViewById(R.id.submit_ballot);
         submit.setOnClickListener(submit());
 
-        EditText commentsEditText = view.findViewById(R.id.comments_user_is_voting);
+        commentsEditText = view.findViewById(R.id.comments_user_is_voting);
         comment = commentsEditText.getText().toString();
 
         if (jsonArrayOfListVotes != null) {
@@ -180,6 +181,7 @@ public class VoteFragment extends Fragment {
                     BallotDto ballotDto = mapper.readValue(jsonVote.getBallot().toString(), BallotDto.class);
                     overviewTop.setText(generateOverView(ballotDto, TOP));
                     overviewFlop.setText(generateOverView(ballotDto, FLOP));
+                    commentsEditText.setText(ballotDto.getComment());
                 }
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
