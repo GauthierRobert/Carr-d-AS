@@ -28,7 +28,7 @@ import lhc.com.carrdas.R;
 import lhc.com.carrdas.viewerPage.FragmentRankingForPageAdapter.FragmentFlopRanking;
 import lhc.com.carrdas.viewerPage.FragmentRankingForPageAdapter.FragmentTopRanking;
 import lhc.com.otherRessources.ApplicationConstants;
-import lhc.com.otherRessources.MySingletonRequestQueue;
+import lhc.com.volley.MySingletonRequestQueue;
 import lhc.com.carrdas.viewerPage.RankingPageAdapter;
 
 import static android.content.Context.MODE_PRIVATE;

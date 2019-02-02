@@ -8,19 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
 
 import lhc.com.carrdas.R;
 
-public class VoteAdapter_UserIsVoting extends ArrayAdapter<String> {
+public class VoteAdapter_VoteFragment extends ArrayAdapter<String> {
 
     private List<String> userVoteList;
     private Context mContext;
     private String[] users;
 
-    public VoteAdapter_UserIsVoting(Context context, List<String> userVoteList, String[] users) {
+    public VoteAdapter_VoteFragment(Context context, List<String> userVoteList, String[] users) {
         super(context, R.layout.cell_vote_user, userVoteList);
         this.userVoteList = userVoteList;
         this.mContext=context;
@@ -39,11 +40,10 @@ public class VoteAdapter_UserIsVoting extends ArrayAdapter<String> {
         }
 
         TextView numero_de_vote = view.findViewById(R.id.numero_de_vote);
-        AutoCompleteTextView autoCompleteTextView = view.findViewById(R.id.user_vote_cell_auto_complete);
+        Spinner spinner = view.findViewById(R.id.user_vote_cell_auto_complete);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.cell_auto_complete, R.id.auto_complete_text,  users);
-        autoCompleteTextView.setThreshold(1);
-        autoCompleteTextView.setAdapter(adapter);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.cell_vote_fragment_spinner, R.id.auto_complete_text,  users);
+        spinner.setAdapter(adapter);
 
         //adding values to the list item
         numero_de_vote.setText(String.format("#%s", position+1));

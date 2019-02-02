@@ -2,7 +2,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffffff">
+    android:background="@color/google_assistant_background"
+    >
 
 
     <ImageView
@@ -11,7 +12,8 @@
         android:id="@+id/a"
         android:background="@color/lhc_red"
         android:src="@drawable/lhc_logo"
-        android:scaleType="fitStart" />
+        android:scaleType="fitStart"
+        android:padding="8dp"/>
 
     <TextView
         android:id="@+id/text_dialog_1"

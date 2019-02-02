@@ -17,16 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
@@ -35,13 +30,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import lhc.com.adapter.VoteAdapter_UserIsVoting;
+import lhc.com.volley.JsonArrayRequestGet;
+import lhc.com.volley.JsonObjectRequestPost;
+import lhc.com.adapter.VoteAdapter_VoteFragment;
 import lhc.com.carrdas.ListMatches;
 import lhc.com.carrdas.R;
 import lhc.com.dtos.BallotDto;
@@ -49,17 +43,17 @@ import lhc.com.dtos.RuleDto;
 import lhc.com.dtos.VoteDto;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.ApplicationConstants.Parameter;
-import lhc.com.otherRessources.MySingletonRequestQueue;
+import lhc.com.volley.MySingletonRequestQueue;
 import lombok.Data;
 
 import static android.content.Context.MODE_PRIVATE;
+import static lhc.com.volley.JsonArrayRequestGet.jsonArrayRequestGet;
 import static lhc.com.dtos.builder.BallotDtoBuilder.aBallotDtoWithRules;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.GOD;
 import static lhc.com.otherRessources.ApplicationConstants.HAS_VOTED;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_BUNDLE;
-import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
@@ -70,7 +64,8 @@ import static lhc.com.otherRessources.ApplicationConstants.TOP;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_POST;
 import static lhc.com.otherRessources.ApplicationConstants.URL_USER_GET;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
-import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS;
+import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_FLOP;
+import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
 
@@ -93,9 +88,12 @@ public class VoteFragment extends Fragment {
     TextView overviewTop;
     TextView overviewFlop;
 
-    String comment;
-    EditText commentsEditText;
-    boolean withComment;
+    String commentTop;
+    String commentFlop;
+    EditText commentsEditTextTop;
+    EditText commentsEditTextFlop;
+    boolean withCommentTop;
+    boolean withCommentFlop;
 
     String[] users;
     String[] topVoteString;
@@ -123,7 +121,7 @@ public class VoteFragment extends Fragment {
                              Bundle savedInstanceState) {
         users = new String[1];
         users[0] = GOD;
-        View view = inflater.inflate(R.layout.fragment_user_is_voting, container, false);
+        View view = inflater.inflate(R.layout.fragment_vote, container, false);
         sharedPreferencesCredentials = this.getActivity().getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
         sharedPreferencesCompetition = this.getActivity().getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
 
@@ -139,19 +137,26 @@ public class VoteFragment extends Fragment {
         rules = getRulesOfCompetition();
         numberTop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_TOP, 0);
         numberFlop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_FLOP, 0);
-        withComment = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS, false);
+        withCommentTop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_TOP, false);
+        withCommentFlop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_FLOP, false);
 
         if (numberTop == 0) {
             LinearLayout layout = view.findViewById(R.id.layout_top_vote_user_is_voting);
             layout.setVisibility(View.GONE);
+        } else {
+            if (!withCommentTop) {
+                EditText layout = view.findViewById(R.id.comments_top_vote);
+                layout.setVisibility(View.GONE);
+            }
         }
         if (numberFlop == 0) {
             LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
             layout.setVisibility(View.GONE);
-        }
-        if (!withComment) {
-            LinearLayout layout = view.findViewById(R.id.layout_comments_user_is_voting);
-            layout.setVisibility(View.GONE);
+        } else {
+            if (!withCommentFlop) {
+                EditText layout = view.findViewById(R.id.comments_flop_vote);
+                layout.setVisibility(View.GONE);
+            }
         }
 
         topVotes = createEmptyList(numberTop);
@@ -165,8 +170,8 @@ public class VoteFragment extends Fragment {
         submit = view.findViewById(R.id.submit_ballot);
         submit.setOnClickListener(submit());
 
-        commentsEditText = view.findViewById(R.id.comments_user_is_voting);
-        comment = commentsEditText.getText().toString();
+        commentsEditTextTop = view.findViewById(R.id.comments_top_vote);
+        commentsEditTextFlop = view.findViewById(R.id.comments_flop_vote);
 
         if (jsonArrayOfListVotes != null) {
             try {
@@ -174,14 +179,16 @@ public class VoteFragment extends Fragment {
                 if (jsonVote.isHasVoted()) {
                     voteTopButton.setVisibility(View.GONE);
                     voteFlopButton.setVisibility(View.GONE);
-                    commentsEditText.setEnabled(false);
+                    commentsEditTextTop.setEnabled(false);
+                    commentsEditTextFlop.setEnabled(false);
                     submit.setVisibility(View.INVISIBLE);
 
                     ObjectMapper mapper = new ObjectMapper();
                     BallotDto ballotDto = mapper.readValue(jsonVote.getBallot().toString(), BallotDto.class);
                     overviewTop.setText(generateOverView(ballotDto, TOP));
                     overviewFlop.setText(generateOverView(ballotDto, FLOP));
-                    commentsEditText.setText(ballotDto.getComment());
+                    commentsEditTextFlop.setText(ballotDto.getCommentTop());
+                    commentsEditTextFlop.setText(ballotDto.getCommentFlop());
                 }
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
@@ -255,7 +262,7 @@ public class VoteFragment extends Fragment {
                 layout.setOrientation(LinearLayout.VERTICAL);
                 final ListView topVote = new ListView(context);
 
-                final VoteAdapter_UserIsVoting adapter_top = new VoteAdapter_UserIsVoting(context,
+                final VoteAdapter_VoteFragment adapter_top = new VoteAdapter_VoteFragment(context,
                         topVotes, users);
                 topVote.setAdapter(adapter_top);
                 layout.addView(topVote);
@@ -296,7 +303,7 @@ public class VoteFragment extends Fragment {
                 layout.setOrientation(LinearLayout.VERTICAL);
                 final ListView flopVote = new ListView(context);
 
-                final VoteAdapter_UserIsVoting adapter_flop = new VoteAdapter_UserIsVoting(context,
+                final VoteAdapter_VoteFragment adapter_flop = new VoteAdapter_VoteFragment(context,
                         flopVotes, users);
                 flopVote.setAdapter(adapter_flop);
                 layout.addView(flopVote);
@@ -339,7 +346,8 @@ public class VoteFragment extends Fragment {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SaveBallot_JsonPostRequest();
+                        saveComments();
+                        saveBallot_JsonPostRequest();
 
                     }
                 });
@@ -358,16 +366,20 @@ public class VoteFragment extends Fragment {
         };
     }
 
-    private void SaveBallot_JsonPostRequest() {
+    private void saveComments() {
+        commentTop = commentsEditTextTop.getText().toString();
+        commentFlop = commentsEditTextFlop.getText().toString();
+    }
+
+    private void saveBallot_JsonPostRequest() {
         Parameter parameter = new Parameter(USERNAME, getUsername());
         final String url = createURL(URL_BALLOT_POST, parameter);
 
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getActivity().getApplicationContext()).getRequestQueue();
+        Context mContext = this.getActivity().getApplicationContext();
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
         final String mRequestBody = getJsonRequest();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST,
+        JsonObjectRequestPost jsonObjectRequest = JsonObjectRequestPost.jsonObjectRequestPost(
                 url,
-                null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -375,37 +387,10 @@ public class VoteFragment extends Fragment {
                         goToMatchList();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error", error.toString());
-                        error.printStackTrace();
-                    }
-                }
-        ) {
+                mRequestBody,
+                mContext
+        );
 
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-
-            @Override
-            public byte[] getBody() {
-                try {
-                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
-                    return null;
-                }
-            }
-
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                return headers;
-            }
-        };
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -430,7 +415,7 @@ public class VoteFragment extends Fragment {
         BallotDto ballotDto = aBallotDtoWithRules(rules)
                 .withCompetition_ref(getCompetition_ref())
                 .withMatch_ref(getMatch_ref())
-                .withComment(comment)
+                .withComment(commentTop, commentFlop)
                 .withVotesDtos()
                 .addTopVote(topVoteString)
                 .addFlopVote(flopVoteString)
@@ -448,8 +433,8 @@ public class VoteFragment extends Fragment {
 
                 for (int i = 0; i < listString.length; i++) {
                     View view = listView.getChildAt(i);
-                    EditText point_vote_cell = view.findViewById(R.id.user_vote_cell_auto_complete);
-                    listString[i] = point_vote_cell.getText().toString();
+                    Spinner point_vote_cell = view.findViewById(R.id.user_vote_cell_auto_complete);
+                    listString[i] = point_vote_cell.getSelectedItem().toString();
                 }
                 return listString;
             }
@@ -497,10 +482,11 @@ public class VoteFragment extends Fragment {
     private void GetUsernamesLinkedToCompetition() {
         ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(COMPETITION_REF, getCompetition_ref());
         final String url = createURL(URL_USER_GET, parameter);
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(getActivity().getApplicationContext()).getRequestQueue();
-        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
-                Request.Method.GET, url,
-                null,
+        Context mContext = getActivity().getApplicationContext();
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
+
+        JsonArrayRequestGet jsonObjectRequest = jsonArrayRequestGet(
+                url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -513,25 +499,8 @@ public class VoteFragment extends Fragment {
                             }
                         }
                     }
-                }
-                ,
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        users[0] = GOD;
-                        Log.d("Error", error.toString());
-                        error.printStackTrace();
-
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                return headers;
-            }
-        };
+                },
+                mContext);
         requestQueue.add(jsonObjectRequest);
     }
 

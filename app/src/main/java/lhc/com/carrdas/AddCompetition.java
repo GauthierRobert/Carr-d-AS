@@ -1,22 +1,16 @@
 package lhc.com.carrdas;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -24,27 +18,21 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
+import lhc.com.volley.JsonObjectRequestPost;
 import lhc.com.adapter.VoteAdapter_newCompetition;
 import lhc.com.dtos.CompetitionDto;
 import lhc.com.otherRessources.BaseActivity;
-import lhc.com.otherRessources.MySingletonRequestQueue;
+import lhc.com.volley.MySingletonRequestQueue;
 
 import static lhc.com.dtos.builder.CompetitionDtoBuilder.aCompetitionDto;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
@@ -85,11 +73,9 @@ public class AddCompetition extends BaseActivity {
         pointTopList = new ArrayList<>();
         pointFlopList = new ArrayList<>();
 
-        final TextInputLayout numberTop = findViewById(R.id.numberOfTopVoteAllowed_layout_competition);
-        final TextInputLayout numberFlop = findViewById(R.id.numberOfFlopVoteAllowed_layout_competition);
 
-        EditText numberTopEditText = numberTop.getEditText();
-        EditText numberFlopEditText = numberFlop.getEditText();
+        final EditText numberTopEditText = findViewById(R.id.numberOfTopVoteAllowed_competition);
+        final EditText numberFlopEditText = findViewById(R.id.numberOfFlopVoteAllowed_competition);
         Objects.requireNonNull(numberTopEditText).addTextChangedListener(getWatcherTop());
         Objects.requireNonNull(numberFlopEditText).addTextChangedListener(getWatcherFlop());
 
@@ -168,8 +154,8 @@ public class AddCompetition extends BaseActivity {
                 layout.addView(explication);
 
                 final ListView topVote = new ListView(context);
-                final TextInputLayout numberTopTIL = findViewById(R.id.numberOfTopVoteAllowed_layout_competition);
-                int numberTop = Integer.parseInt(numberTopTIL.getEditText().getText().toString());
+                final EditText numberTopET =  findViewById(R.id.numberOfTopVoteAllowed_competition);
+                int numberTop = Integer.parseInt(numberTopET.getText().toString());
 
                 List<String> pointTopList = createList(numberTop, topVoteInt);
 
@@ -217,8 +203,8 @@ public class AddCompetition extends BaseActivity {
                 layout.addView(explication);
 
                 final ListView flopVote = new ListView(context);
-                final TextInputLayout numberFlopTIL = findViewById(R.id.numberOfFlopVoteAllowed_layout_competition);
-                int numberFlop = Integer.parseInt(numberFlopTIL.getEditText().getText().toString());
+                final EditText numberFlopET =  findViewById(R.id.numberOfFlopVoteAllowed_competition);
+                int numberFlop = Integer.parseInt(numberFlopET.getText().toString());
 
                 List<String> pointFlopList = createList(numberFlop, flopVoteInt);
 
@@ -279,12 +265,12 @@ public class AddCompetition extends BaseActivity {
 
 
     private void AddCompetition_JsonPostRequest() {
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
+        Context mContext = this.getApplicationContext();
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
         final String mRequestBody = getJsonRequest();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST,
+
+        JsonObjectRequestPost jsonObjectRequest = JsonObjectRequestPost.jsonObjectRequestPost(
                 URL_BASE + URL_COMPETITION_POST,
-                null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -292,35 +278,9 @@ public class AddCompetition extends BaseActivity {
                         goToListCompetition();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error", error.toString());
-                        error.printStackTrace();
-                    }
-                }
-        ){
-
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-            @Override
-            public byte[] getBody() {
-                try {
-                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
-                    return null;
-                }
-            }
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                return headers;
-            }
-        };
+                mRequestBody,
+                mContext
+        );
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -333,7 +293,8 @@ public class AddCompetition extends BaseActivity {
         String username = sharedpreferences.getString(USERNAME, null);
         String password =((EditText)  findViewById(R.id.password_competition)).getText().toString();
         String confirmedPassword =((EditText)  findViewById(R.id.confirmedPassword_competition)).getText().toString();
-        boolean isChecked = ((CheckBox) findViewById(R.id.withCommentsCheckBox)).isChecked();
+        boolean isCheckedTop = ((CheckBox) findViewById(R.id.withCommentsCheckBoxTop)).isChecked();
+        boolean isCheckedFlop = ((CheckBox) findViewById(R.id.withCommentsCheckBoxFlop)).isChecked();
         int numberTopVotes = Integer.parseInt(((EditText)  findViewById(R.id.numberOfTopVoteAllowed_competition)).getText().toString());
         int numberFlopVotes = Integer.parseInt(((EditText)  findViewById(R.id.numberOfFlopVoteAllowed_competition)).getText().toString());
 
@@ -344,7 +305,7 @@ public class AddCompetition extends BaseActivity {
                 .withCreatorUsername(username)
                 .withPassword(password)
                 .withConfirmedPassword(confirmedPassword)
-                .withComments(isChecked)
+                .withComments(isCheckedTop, isCheckedFlop)
                 .withRuleDtos(numberTopVotes,numberFlopVotes)
                 .withTopRuleDtos(topVoteInt)
                 .withFlopRuleDtos(flopVoteInt)

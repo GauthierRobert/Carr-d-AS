@@ -48,7 +48,18 @@
                     android:layout_height="wrap_content"
                     android:text="You didn't vote yet"
                     />
-
+                <EditText
+                    android:id="@+id/comments_top_vote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textMultiLine"
+                    android:gravity="top|left"
+                    android:hint="@string/comments"
+                    android:padding="8dp"
+                    android:layout_marginTop="4dp"
+                    android:scrollbars="vertical"
+                    android:background="@drawable/bordershape"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/layout_flop_vote_user_is_voting"
@@ -78,33 +89,22 @@
                     android:text="You didn't vote yet"
                     />
 
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/layout_comments_user_is_voting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
+                <EditText
+                    android:id="@+id/comments_flop_vote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/comments"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:paddingTop="5dp"
-                    android:textColor="@color/lhc_red_dark"/>
-                <EditText
-                    android:id="@+id/comments_user_is_voting"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
                     android:ems="10"
                     android:inputType="textMultiLine"
-                    android:lines="10"
                     android:gravity="top|left"
                     android:padding="8dp"
                     android:layout_marginTop="4dp"
                     android:scrollbars="vertical"
+                    android:hint="@string/comments"
                     android:background="@drawable/bordershape"/>
             </LinearLayout>
+
+
+
 
             <Button
 

@@ -1,6 +1,5 @@
 package lhc.com.carrdas;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,21 +11,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import lhc.com.otherRessources.MySingletonRequestQueue;
+import lhc.com.volley.JsonObjectRequestPost;
+import lhc.com.volley.MySingletonRequestQueue;
 
+import static lhc.com.volley.JsonObjectRequestPost.jsonObjectRequestPost;
 import static lhc.com.otherRessources.ApplicationConstants.IS_USER_LOGGED_IN;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.PASSWORD;
@@ -113,12 +109,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void JsonPostSignUpRequest() {
 
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
+        Context mContext = this.getApplicationContext();
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
         final String mRequestBody = getJSONObject().toString();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST,
+        JsonObjectRequestPost jsonObjectRequest = jsonObjectRequestPost(
                 URL_BASE+URL_SIGN_UP,
-                null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -128,38 +123,9 @@ public class SignUpActivity extends AppCompatActivity {
                         goToMainActivity();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error", error.toString());
-                        AlertDialog alertDialog = new AlertDialog.Builder(SignUpActivity.this).create();
-                        alertDialog.setTitle("Alert");
-                        alertDialog.setMessage(error.toString());
-                        alertDialog.show();
-                        error.printStackTrace();
-                    }
-                }
-        ){
-            @Override
-            public String getBodyContentType () {
-                return "application/json; charset=utf-8";
-            }
-            @Override
-            public byte[] getBody () {
-                try {
-                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
-                    return null;
-                }
-            }
-            @Override
-            public Map<String, String> getHeaders () {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                return headers;
-            }
-        };
+                mRequestBody,
+                mContext
+        );
         requestQueue.add(jsonObjectRequest);
     }
 
