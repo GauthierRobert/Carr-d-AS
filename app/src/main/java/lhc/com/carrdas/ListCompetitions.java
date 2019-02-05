@@ -155,8 +155,8 @@ public class ListCompetitions extends BaseActivity {
 
     private void PostAddUSerToCompetition(String comp, String pass) {
 
-        final Context mContext = this.getApplicationContext();
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
+        final Context mContext = ListCompetitions.this;
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
 
         final String url = createURL_AddUserToCompetition(comp, pass);
 

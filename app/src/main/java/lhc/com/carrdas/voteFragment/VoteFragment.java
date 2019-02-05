@@ -375,8 +375,8 @@ public class VoteFragment extends Fragment {
         Parameter parameter = new Parameter(USERNAME, getUsername());
         final String url = createURL(URL_BALLOT_POST, parameter);
 
-        Context mContext = this.getActivity().getApplicationContext();
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
+        Context mContext = this.getActivity();
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
         final String mRequestBody = getJsonRequest();
         JsonObjectRequestPost jsonObjectRequest = JsonObjectRequestPost.jsonObjectRequestPost(
                 url,

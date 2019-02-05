@@ -265,8 +265,8 @@ public class AddCompetition extends BaseActivity {
 
 
     private void AddCompetition_JsonPostRequest() {
-        Context mContext = this.getApplicationContext();
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
+        Context mContext = AddCompetition.this;
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
         final String mRequestBody = getJsonRequest();
 
         JsonObjectRequestPost jsonObjectRequest = JsonObjectRequestPost.jsonObjectRequestPost(

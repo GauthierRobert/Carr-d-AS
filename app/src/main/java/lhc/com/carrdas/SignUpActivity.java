@@ -109,8 +109,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void JsonPostSignUpRequest() {
 
-        Context mContext = this.getApplicationContext();
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
+        Context mContext = SignUpActivity.this;
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
         final String mRequestBody = getJSONObject().toString();
         JsonObjectRequestPost jsonObjectRequest = jsonObjectRequestPost(
                 URL_BASE+URL_SIGN_UP,

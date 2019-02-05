@@ -136,8 +136,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void JsonPostLoginRequest() {
-        final Context mContext = this.getApplicationContext();
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
+        final Context mContext = LoginActivity.this;
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
         final String mRequestBody = new JSONObject(getParamsMap()).toString();
         StringRequest jsonObjectRequest = new StringRequest(
                  Request.Method.POST,

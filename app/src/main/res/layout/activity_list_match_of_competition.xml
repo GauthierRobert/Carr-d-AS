@@ -6,32 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".ListMatches">
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipe_refresh_matches"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/listViewMatch"
-            android:layout_width="0dp"
-            android:layout_height="450dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:animationCache="false"
-            android:padding="16dp"
-            android:scrollingCache="false"
-            android:smoothScrollbar="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipe_refresh_matches"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9">
 
-    <Button
-        android:id="@+id/newMatchButton"
-        style="@style/addObjectButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="New match"
-        app:layout_constraintBottom_toBottomOf="parent" />
+            <ListView
+                android:id="@+id/listViewMatch"
+                android:layout_width="0dp"
+                android:layout_height="450dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:animationCache="false"
+                android:padding="16dp"
+                android:scrollingCache="false"
+                android:smoothScrollbar="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
+        <Button
+            android:id="@+id/newMatchButton"
+            style="@style/addObjectButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="New match"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
