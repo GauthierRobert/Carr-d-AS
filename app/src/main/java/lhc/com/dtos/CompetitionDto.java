@@ -8,7 +8,6 @@ import lombok.Data;
 
 @Data
 public class CompetitionDto {
-
     private String reference;
 
     private String name;
@@ -22,6 +21,8 @@ public class CompetitionDto {
     private String division;
 
     private String season;
+
+    private String imageAsBase64;
 
     private boolean withCommentTop;
 
