@@ -187,7 +187,7 @@ public class VoteFragment extends Fragment {
                     BallotDto ballotDto = mapper.readValue(jsonVote.getBallot().toString(), BallotDto.class);
                     overviewTop.setText(generateOverView(ballotDto, TOP));
                     overviewFlop.setText(generateOverView(ballotDto, FLOP));
-                    commentsEditTextFlop.setText(ballotDto.getCommentTop());
+                    commentsEditTextTop.setText(ballotDto.getCommentTop());
                     commentsEditTextFlop.setText(ballotDto.getCommentFlop());
                 }
             } catch (JSONException | IOException e) {
@@ -383,7 +383,7 @@ public class VoteFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("onResponse", "Create Competition : " + response.toString());
+                        Log.d("onResponse", "Create Balot : " + response.toString());
                         goToMatchList();
                     }
                 },
