@@ -117,28 +117,12 @@
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
-        <CheckBox
-            android:id="@+id/withCommentsCheckBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/comments" />
 
-
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Rules"
-            android:layout_marginTop="15dp"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:textColor="@color/lhc_red_dark"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="4dp"
             android:baselineAligned="false"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -150,32 +134,57 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.5"
-                android:orientation="vertical">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/numberOfTopVoteAllowed_layout_competition"
+                android:orientation="vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp">
+                <TextView
+                    android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:text="Top"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/lhc_red_dark"
+                    android:layout_marginBottom="5dp"/>
+                <CheckBox
+                    android:id="@+id/withCommentsCheckBoxTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comments" />
 
-                    android:textColorHint="@color/hint_color">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginLeft="8dp">
+
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="# of votes"
+                        />
+
                     <EditText
                         android:id="@+id/numberOfTopVoteAllowed_competition"
-                        android:layout_width="match_parent"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:gravity="center"
-                        android:hint="# of top votes"
+                        android:text="0"
                         android:inputType="number"
                         android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/button_edit_top_rules"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Edit Top Rules"
+                    android:text="Edit Rules"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"/>
             </LinearLayout>
@@ -185,35 +194,55 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0.5"
-                android:orientation="vertical">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/numberOfFlopVoteAllowed_layout_competition"
+                android:orientation="vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp">
+                <TextView
+                    android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="2dp"
+                    android:text="Flop"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/lhc_red_dark"/>
+                <CheckBox
+                    android:id="@+id/withCommentsCheckBoxFlop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comments" />
 
-                    android:textColorHint="@color/hint_color">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginLeft="8dp">
 
 
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="# of votes"
+                        />
 
                     <EditText
                         android:id="@+id/numberOfFlopVoteAllowed_competition"
-                        android:layout_width="match_parent"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:gravity="center"
-                        android:hint="# of flop votes"
+                        android:text="0"
                         android:inputType="number"
                         android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
                 <Button
                     android:id="@+id/button_edit_flop_rules"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Edit Flop Rules"
+                    android:text="Edit Rules"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"/>
             </LinearLayout>

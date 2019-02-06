@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONArray;
@@ -18,12 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import lhc.com.carrdas.R;
 import lhc.com.dtos.BallotDto;
-import lhc.com.dtos.RuleDto;
 import lhc.com.dtos.VoteDto;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -31,9 +26,9 @@ import static lhc.com.otherRessources.ApplicationConstants.FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
-import static lhc.com.otherRessources.ApplicationConstants.RULES;
 import static lhc.com.otherRessources.ApplicationConstants.TOP;
-import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS;
+import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_FLOP;
+import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_TOP;
 
 public class VoteDetailsPageAdapter extends PagerAdapter {
 
@@ -42,7 +37,8 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
 
     int numberTop;
     int numberFlop;
-    boolean withComment;
+    boolean withCommentTop;
+    boolean withCommentFlop;
 
     public VoteDetailsPageAdapter(Context context, String jsonArrayString) {
         this.mContext = context;
@@ -57,25 +53,34 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
 
         numberTop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_TOP, 0);
         numberFlop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_FLOP, 0);
-        withComment = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS, false);
+        withCommentTop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_TOP, false);
+        withCommentFlop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_FLOP, false);
 
         if(numberTop == 0) {
             LinearLayout layout_top = layout.findViewById(R.id.layout_top_vote_vote_details);
             layout_top.setVisibility(View.GONE);
+        } else {
+            if(!withCommentTop) {
+                TextView layout_comment = layout.findViewById(R.id.comments_vote_details_top);
+                layout_comment.setVisibility(View.GONE);
+            }
         }
         if(numberFlop == 0) {
             LinearLayout layout_flop = layout.findViewById(R.id.layout_flop_vote_vote_details);
             layout_flop.setVisibility(View.GONE);
+        } else {
+            if (!withCommentFlop) {
+                TextView layout_comment = layout.findViewById(R.id.comments_vote_details_flop);
+                layout_comment.setVisibility(View.GONE);
+            }
         }
-        if(!withComment) {
-            LinearLayout layout_comment = layout.findViewById(R.id.layout_comments_vote_details);
-            layout_comment.setVisibility(View.GONE);
-        }
+
 
 
         TextView overviewOfTopVotes = layout.findViewById(R.id.overviewOfTopVotes_vote_details);
         TextView overviewOfFlopVotes = layout.findViewById(R.id.overviewOfFlopVotes_vote_details);
-        TextView comments_vote_details = layout.findViewById(R.id.comments_vote_details);
+        TextView comments_vote_details_top = layout.findViewById(R.id.comments_vote_details_top);
+        TextView comments_vote_details_flop = layout.findViewById(R.id.comments_vote_details_flop);
         BallotDto ballotDto = null;
 
         try {
@@ -89,7 +94,8 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
 
         overviewOfTopVotes.setText(generateOverView(ballotDto,TOP));
         overviewOfFlopVotes.setText(generateOverView(ballotDto,FLOP));
-        comments_vote_details.setText(ballotDto.getComment());
+        comments_vote_details_top.setText(ballotDto.getCommentTop());
+        comments_vote_details_flop.setText(ballotDto.getCommentFlop());
         collection.addView(layout);
         return layout;
 

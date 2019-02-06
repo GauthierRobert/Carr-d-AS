@@ -47,7 +47,8 @@ public class ApplicationConstants {
     public final static String TOP = "TOP";
     public final static String FLOP = "FLOP";
 
-    public final static String WITH_COMMENTS = "withComments";
+    public final static String WITH_COMMENTS_TOP = "withCommentsTop";
+    public final static String WITH_COMMENTS_FLOP = "withCommentsFlop";
     public final static String HAS_VOTED = "hasVoted";
 
 

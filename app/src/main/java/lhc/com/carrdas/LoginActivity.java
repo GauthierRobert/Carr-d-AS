@@ -20,17 +20,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -39,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lhc.com.otherRessources.MySingletonRequestQueue;
+import lhc.com.volley.MySingletonRequestQueue;
 
 import static lhc.com.otherRessources.ApplicationConstants.IS_REMEMBER_ME;
 import static lhc.com.otherRessources.ApplicationConstants.IS_USER_LOGGED_IN;
@@ -140,7 +136,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void JsonPostLoginRequest() {
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
+        final Context mContext = LoginActivity.this;
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
         final String mRequestBody = new JSONObject(getParamsMap()).toString();
         StringRequest jsonObjectRequest = new StringRequest(
                  Request.Method.POST,
@@ -162,6 +159,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("Error", error.toString());
+                        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+                        alertDialog.setTitle("Alert");
+                        alertDialog.setMessage(error.toString());
+                        alertDialog.show();
                         error.printStackTrace();
                     }
                 }

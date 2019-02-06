@@ -41,7 +41,7 @@ import lhc.com.adapter.MatchAdapter_ListMatches;
 import lhc.com.dtos.MatchDto;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.BaseActivity;
-import lhc.com.otherRessources.MySingletonRequestQueue;
+import lhc.com.volley.MySingletonRequestQueue;
 
 import static lhc.com.dtos.builder.MatchDtoBuilder.aMatchDto;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;

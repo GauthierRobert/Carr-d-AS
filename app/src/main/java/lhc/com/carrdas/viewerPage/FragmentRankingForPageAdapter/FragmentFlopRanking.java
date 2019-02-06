@@ -33,7 +33,7 @@ import lhc.com.adapter.ObjectForAdapter.RankingCell;
 import lhc.com.adapter.RankingAdapter_TabbedRanking;
 import lhc.com.carrdas.R;
 import lhc.com.otherRessources.ApplicationConstants;
-import lhc.com.otherRessources.MySingletonRequestQueue;
+import lhc.com.volley.MySingletonRequestQueue;
 
 import static android.content.Context.MODE_PRIVATE;
 import static lhc.com.otherRessources.ApplicationConstants.FLOP;

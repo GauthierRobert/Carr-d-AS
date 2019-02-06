@@ -20,7 +20,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -35,12 +34,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lhc.com.volley.JsonArrayRequestGet;
 import lhc.com.adapter.CompetitionAdapter_ListCompetitions;
 import lhc.com.dtos.CompetitionDto;
 import lhc.com.dtos.RuleDto;
 import lhc.com.otherRessources.ApplicationConstants.Parameter;
 import lhc.com.otherRessources.BaseActivity;
-import lhc.com.otherRessources.MySingletonRequestQueue;
+import lhc.com.volley.MySingletonRequestQueue;
 
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
@@ -52,7 +52,8 @@ import static lhc.com.otherRessources.ApplicationConstants.RULES;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_ADD_USER;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_GET;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
-import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS;
+import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_FLOP;
+import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
 public class ListCompetitions extends BaseActivity {
@@ -154,11 +155,10 @@ public class ListCompetitions extends BaseActivity {
 
     private void PostAddUSerToCompetition(String comp, String pass) {
 
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
-        Parameter username = new Parameter(USERNAME, getUsername());
-        Parameter competition_ref = new Parameter(COMPETITION_REF, comp);
-        Parameter competition_password = new Parameter(PASSWORD, pass);
-        final String url = createURL(URL_COMPETITION_ADD_USER, competition_ref, username, competition_password);
+        final Context mContext = ListCompetitions.this;
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
+
+        final String url = createURL_AddUserToCompetition(comp, pass);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
@@ -178,6 +178,10 @@ public class ListCompetitions extends BaseActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("Error", error.toString());
+                        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+                        alertDialog.setTitle("Alert");
+                        alertDialog.setMessage(error.toString());
+                        alertDialog.show();
                         error.printStackTrace();
                     }
                 }
@@ -197,6 +201,13 @@ public class ListCompetitions extends BaseActivity {
         };
         requestQueue.add(jsonObjectRequest);
 
+    }
+
+    private String createURL_AddUserToCompetition(String comp, String pass) {
+        Parameter username = new Parameter(USERNAME, getUsername());
+        Parameter competition_ref = new Parameter(COMPETITION_REF, comp);
+        Parameter competition_password = new Parameter(PASSWORD, pass);
+        return createURL(URL_COMPETITION_ADD_USER, competition_ref, username, competition_password);
     }
 
 
@@ -220,7 +231,8 @@ public class ListCompetitions extends BaseActivity {
                 editor.putString(RULES,gson.toJson(ruleDtos));
                 editor.putInt(NUMBER_VOTE_TOP,getRules(NUMBER_VOTE_TOP,competitionDto.getRuleDtos()));
                 editor.putInt(NUMBER_VOTE_FLOP,getRules(NUMBER_VOTE_FLOP,competitionDto.getRuleDtos()));
-                editor.putBoolean(WITH_COMMENTS, competitionDto.isWithComments());
+                editor.putBoolean(WITH_COMMENTS_TOP, competitionDto.isWithCommentTop());
+                editor.putBoolean(WITH_COMMENTS_FLOP, competitionDto.isWithCommentFlop());
                 editor.apply();
 
                 Intent intent = new Intent();
@@ -243,10 +255,11 @@ public class ListCompetitions extends BaseActivity {
 
         Parameter parameter = new Parameter(USERNAME, getUsername());
         final String url = createURL(URL_COMPETITION_GET, parameter);
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
-        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
-                Request.Method.GET, url,
-                null,
+        Context mContext = this.getApplicationContext();
+        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
+
+        JsonArrayRequestGet jsonObjectRequest = JsonArrayRequestGet.jsonArrayRequestGet(
+               url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -265,7 +278,7 @@ public class ListCompetitions extends BaseActivity {
                                 e.printStackTrace();
                             }
 
-                            final CompetitionAdapter_ListCompetitions adapter = new CompetitionAdapter_ListCompetitions(ListCompetitions.this,listCompetitions);
+                            final CompetitionAdapter_ListCompetitions adapter = new CompetitionAdapter_ListCompetitions(ListCompetitions.this, listCompetitions);
                             listView.setAdapter(adapter);
 
 
@@ -274,23 +287,8 @@ public class ListCompetitions extends BaseActivity {
                             }
                         }
                     }
-                }
-                ,
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error", error.toString());
-                        error.printStackTrace();
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() {
-                    HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                return headers;
-            }
-        };
+                },
+                mContext);
         requestQueue.add(jsonObjectRequest);
     }
 

@@ -17,7 +17,8 @@ public class CompetitionDtoBuilder {
     private String password;
     private String confirmedPassword;
     private String creatorUsername;
-    private boolean withComments;
+    private boolean withCommentTop;
+    private boolean withCommentFlop;
     private List<RuleDto> ruleDtos = new ArrayList<>();
 
     public static CompetitionDtoBuilder aCompetitionDto(){
@@ -50,8 +51,9 @@ public class CompetitionDtoBuilder {
         this.creatorUsername = creatorUsername;
         return this;
     }
-    public CompetitionDtoBuilder withComments(boolean withComments){
-        this.withComments = withComments;
+    public CompetitionDtoBuilder withComments(boolean withCommentTop, boolean withCommentFlop){
+        this.withCommentTop = withCommentTop;
+        this.withCommentFlop = withCommentFlop;
         return this;
     }
 
@@ -109,7 +111,7 @@ public class CompetitionDtoBuilder {
         }
 
         public CompetitionDto build(){
-            return competitionDto(name, season, division, password, confirmedPassword, creatorUsername, withComments, ruleDtos);
+            return competitionDto(name, season, division, password, confirmedPassword, creatorUsername, withCommentTop, withCommentFlop, ruleDtos);
         }
     }
 

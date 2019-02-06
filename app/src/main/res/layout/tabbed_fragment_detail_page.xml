@@ -40,7 +40,14 @@
                     android:layout_height="wrap_content"
                     android:text="You didn't vote yet"
                     />
-
+                <TextView
+                    android:id="@+id/comments_vote_details_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_marginTop="4dp"
+                    android:scrollbars="vertical"
+                    android:background="@drawable/bordershape"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/layout_flop_vote_vote_details"
@@ -63,30 +70,18 @@
                     android:layout_height="wrap_content"
                     android:text="You didn't vote yet"
                     />
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/layout_comments_vote_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
                 <TextView
+                    android:id="@+id/comments_vote_details_flop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/comments"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:paddingTop="5dp"
-                    android:textColor="@color/lhc_red_dark"/>
-                <TextView
-                    android:id="@+id/comments_vote_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
                     android:padding="8dp"
                     android:layout_marginTop="4dp"
                     android:scrollbars="vertical"
                     android:background="@drawable/bordershape"/>
+
             </LinearLayout>
+
+
 
 
         </LinearLayout>
