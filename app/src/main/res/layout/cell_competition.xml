@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_margin="7dp"
+            android:layout_margin="2dp"
             android:src="@drawable/lhc_logo" />
 
         <RelativeLayout
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/season_competition_cell"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginBottom="0dp"
                 android:layout_toEndOf="@+id/division_competition_cell"
                 android:text="Season : "
@@ -78,6 +78,7 @@
                 android:layout_toEndOf="@+id/season_competition"
                 android:text="Season"
                 android:textColor="@android:color/black" />
+
             <ImageView
                 android:id="@+id/point_vote_cell"
                 android:layout_width="50dp"
@@ -85,7 +86,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="7dp"
+                android:layout_marginEnd="0dp"
                 android:layout_marginRight="7dp"
                 android:src="@drawable/arrow" />
         </RelativeLayout>
@@ -93,6 +94,8 @@
 
 
     </LinearLayout>
+
+
 
 
 

@@ -28,30 +28,4 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
-    <style name="addObjectButton" parent="@android:style/Widget.Button">
-        <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textColor">#FFFFFFFF</item>
-        <item name="android:shadowColor">#FF000000</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1</item>
-        <item name="android:textSize">16dp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/add_object_button</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-    </style>
-
-    <style name="voteButton" parent="@android:style/Widget.Button">
-        <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textColor">#FFFFFFFF</item>
-        <item name="android:shadowColor">#FF000000</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1</item>
-        <item name="android:textSize">16dp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/vote_button</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-    </style>
-
 </resources>

@@ -1,12 +1,14 @@
 package lhc.com.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -36,12 +38,14 @@ public class CompetitionAdapter_ListCompetitions extends ArrayAdapter<Competitio
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
         //getting the view
-        View view = layoutInflater.inflate(R.layout.cell_competition, null, false);
+        View view = layoutInflater.inflate(R.layout.cell_competition_cardview, null, false);
 
         //getting the view elements of the list from the view
         TextView name = view.findViewById(R.id.name_competition_cell);
         TextView division = view.findViewById(R.id.division_competition_cell);
         TextView season = view.findViewById(R.id.season_competition_cell);
+        ImageView image = view.findViewById(R.id.image_competition);
+        image.setImageResource(R.drawable.ranking);
 
 
         //getting the hero of the specified position
