@@ -1,14 +1,15 @@
 package lhc.com.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class CompetitionAdapter_ListCompetitions extends ArrayAdapter<Competitio
         TextView division = view.findViewById(R.id.division_competition_cell);
         TextView season = view.findViewById(R.id.season_competition_cell);
         ImageView image = view.findViewById(R.id.image_competition);
+        ImageView toggleImage = view.findViewById(R.id.imageview);
         image.setImageResource(R.drawable.ranking);
 
 
@@ -56,10 +58,44 @@ public class CompetitionAdapter_ListCompetitions extends ArrayAdapter<Competitio
         name.setText(competitionDto.getName());
         division.setText(competitionDto.getDivision());
         season.setText(competitionDto.getSeason());
+        toggleImage.setOnClickListener(getMenuForToggle());
 
-        //finally returning the view
         return view;
     }
 
+    private View.OnClickListener getMenuForToggle() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.imageview:
+                        PopupMenu popup = new PopupMenu(mContext.getApplicationContext(), view);
+                        popup.setOnMenuItemClickListener(getOnMenuItemClickListener());
+                        popup.getMenuInflater().inflate(R.menu.clipboard_popup,popup.getMenu());
+                        popup.show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+    }
+
+    private PopupMenu.OnMenuItemClickListener getOnMenuItemClickListener() {
+        return new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.edit:
+                        break;
+                    case R.id.delete:
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        };
+    }
 }
 

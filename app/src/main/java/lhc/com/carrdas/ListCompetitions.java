@@ -64,8 +64,6 @@ public class ListCompetitions extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
         setContentView(R.layout.activity_list_competitions);
         Button newCompetitionButton = findViewById(R.id.newCompetitionButton);
         newCompetitionButton.setOnClickListener(newCompetitionOnClickListener());
