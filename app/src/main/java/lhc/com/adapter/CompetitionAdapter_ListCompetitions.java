@@ -71,7 +71,7 @@ public class CompetitionAdapter_ListCompetitions extends ArrayAdapter<Competitio
                     case R.id.imageview:
                         PopupMenu popup = new PopupMenu(mContext.getApplicationContext(), view);
                         popup.setOnMenuItemClickListener(getOnMenuItemClickListener());
-                        popup.getMenuInflater().inflate(R.menu.clipboard_popup,popup.getMenu());
+                        popup.getMenuInflater().inflate(R.menu.clipboard_popup_competition,popup.getMenu());
                         popup.show();
                         break;
                     default:

@@ -11,12 +11,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import lhc.com.carrdas.AddCompetition;
+import lhc.com.carrdas.ChangePasswordActivity;
+import lhc.com.carrdas.ListCompetitions;
 import lhc.com.carrdas.LoginActivity;
 import lhc.com.carrdas.R;
 
+import static lhc.com.otherRessources.ApplicationConstants.GOD;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
+import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -24,7 +31,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout mDrawerLayout;
 
     protected void onCreateDrawer() {
-
+        sharedPreferencesCredentials = getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -34,8 +41,14 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
+
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView usernameHeader = headerView.findViewById(R.id.username_header);
+        usernameHeader.setText(sharedPreferencesCredentials.getString(USERNAME, GOD));
     }
 
 
@@ -77,16 +90,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.nav_change_password) {
+            goToChangePasswordActivity();
         } else if (id == R.id.nav_log_out) {
             logOut();
         }
@@ -96,8 +103,16 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private void goToChangePasswordActivity() {
+
+            Intent intent = new Intent();
+            intent.setClass(BaseActivity.this, ChangePasswordActivity.class);
+            startActivity(intent);
+            finish();
+
+    }
+
     private void logOut() {
-        sharedPreferencesCredentials = getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferencesCredentials.edit();
         editor.clear().apply();
         finish();

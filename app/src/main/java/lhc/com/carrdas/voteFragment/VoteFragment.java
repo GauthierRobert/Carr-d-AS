@@ -82,6 +82,7 @@ public class VoteFragment extends Fragment {
     int numberFlop;
 
     Button submit;
+    Button addSpectator;
     Button voteTopButton;
     Button voteFlopButton;
 
@@ -170,6 +171,8 @@ public class VoteFragment extends Fragment {
         submit = view.findViewById(R.id.submit_ballot);
         submit.setOnClickListener(submit());
 
+        addSpectator = view.findViewById(R.id.add_spectator);
+
         commentsEditTextTop = view.findViewById(R.id.comments_top_vote);
         commentsEditTextFlop = view.findViewById(R.id.comments_flop_vote);
 
@@ -181,7 +184,8 @@ public class VoteFragment extends Fragment {
                     voteFlopButton.setVisibility(View.GONE);
                     commentsEditTextTop.setEnabled(false);
                     commentsEditTextFlop.setEnabled(false);
-                    submit.setVisibility(View.INVISIBLE);
+                    submit.setVisibility(View.GONE);
+                    addSpectator.setVisibility(View.GONE);
 
                     ObjectMapper mapper = new ObjectMapper();
                     BallotDto ballotDto = mapper.readValue(jsonVote.getBallot().toString(), BallotDto.class);

@@ -2,108 +2,132 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_user_is_voting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".voteFragment.VoteFragment"
-    android:id="@+id/fragment_user_is_voting"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    tools:context=".voteFragment.VoteFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="30dp"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/layout_top_vote_user_is_voting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/top"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
                     android:paddingTop="5dp"
-                    android:textColor="@color/lhc_red_dark"/>
+                    android:paddingBottom="5dp"
+                    android:text="@string/top"
+                    android:textColor="@color/lhc_red_dark"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/vote_top_button_user_is_voting"
-                    android:text="Vote for the TOP players"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    />
+                    android:layout_height="wrap_content"
+                    android:text="Vote for the TOP players"
+                    android:background="@drawable/cardview"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
                 <TextView
-                    android:padding="5dp"
                     android:id="@+id/overviewOfTopVotes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="You didn't vote yet"
-                    />
+                    android:padding="5dp"
+                    android:text="You didn't vote yet" />
+
                 <EditText
                     android:id="@+id/comments_top_vote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bordershape"
                     android:ems="10"
-                    android:inputType="textMultiLine"
                     android:gravity="top|left"
                     android:hint="@string/comments"
+                    android:inputType="textMultiLine"
                     android:padding="8dp"
-                    android:layout_marginTop="4dp"
-                    android:scrollbars="vertical"
-                    android:background="@drawable/bordershape"/>
+                    android:scrollbars="vertical" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/layout_flop_vote_user_is_voting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/flop"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
                     android:paddingTop="5dp"
-                    android:textColor="@color/lhc_red_dark"/>
+                    android:paddingBottom="5dp"
+                    android:text="@string/flop"
+                    android:textColor="@color/lhc_red_dark"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
                 <Button
                     android:id="@+id/vote_flop_button_user_is_voting"
-                    android:text="Vote for the FLOP players"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    />
+                    android:layout_height="wrap_content"
+                    android:text="Vote for the FLOP players"
+                    android:background="@drawable/cardview"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
                 <TextView
-                    android:padding="5dp"
                     android:id="@+id/overviewOfFlopVotes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="You didn't vote yet"
-                    />
+                    android:padding="5dp"
+                    android:text="You didn't vote yet" />
 
                 <EditText
                     android:id="@+id/comments_flop_vote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textMultiLine"
-                    android:gravity="top|left"
-                    android:padding="8dp"
                     android:layout_marginTop="4dp"
-                    android:scrollbars="vertical"
+                    android:background="@drawable/bordershape"
+                    android:ems="10"
+                    android:gravity="top|left"
                     android:hint="@string/comments"
-                    android:background="@drawable/bordershape"/>
+                    android:inputType="textMultiLine"
+                    android:padding="8dp"
+                    android:scrollbars="vertical" />
             </LinearLayout>
 
 
+            <Button
+
+                android:id="@+id/add_spectator"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+
+                android:background="@drawable/cardview"
+                android:drawableLeft="@drawable/ic_person_add_spect_24dp"
+                android:drawablePadding="5dp"
+                android:text="Add spectators"
+                android:padding="8dp"
+                android:textColor="@color/lhc_red_dark" />
 
 
             <Button
@@ -111,10 +135,10 @@
                 android:id="@+id/submit_ballot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/submit"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/lhc_red"
+                android:background="@color/lhc_red_dark"
+                android:text="@string/submit"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>

@@ -44,6 +44,7 @@ import static lhc.com.otherRessources.ApplicationConstants.PASSWORD;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
 import static lhc.com.otherRessources.ApplicationConstants.URL_LOGIN;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
+import static lhc.com.volley.StringRequestPost.stringRequestPost;
 
 /**
  * A login screen that offers login via username/password.
@@ -139,8 +140,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         final Context mContext = LoginActivity.this;
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
         final String mRequestBody = new JSONObject(getParamsMap()).toString();
-        StringRequest jsonObjectRequest = new StringRequest(
-                 Request.Method.POST,
+        StringRequest stringRequest = stringRequestPost(
                 URL_BASE + URL_LOGIN,
                 new Response.Listener<String>() {
                     @Override
@@ -155,40 +155,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error", error.toString());
-                        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
-                        alertDialog.setTitle("Alert");
-                        alertDialog.setMessage(error.toString());
-                        alertDialog.show();
-                        error.printStackTrace();
-                    }
-                }
-        ){
-
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
-            @Override
-            public byte[] getBody() {
-                try {
-                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
-                    return null;
-                }
-            }
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                return headers;
-            }
-        };
-        requestQueue.add(jsonObjectRequest);
+                mRequestBody,
+                mContext);
+        requestQueue.add(stringRequest);
     }
 
     @NonNull

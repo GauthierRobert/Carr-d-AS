@@ -8,6 +8,8 @@ public class ApplicationConstants {
 
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    public static final String NEW_PASSWORD = "newPassword";
+    public static final String NEW_CONFIRMED_PASSWORD = "newConfirmedPassword";
     public static final String IS_USER_LOGGED_IN = "isUserLoggedIn";
     public static final String IS_REMEMBER_ME = "isRememberMe";
 
@@ -26,6 +28,7 @@ public class ApplicationConstants {
     public final static String URL_BASE = "http://ec2-52-47-206-114.eu-west-3.compute.amazonaws.com:8080/RestServices/";
     public final static String URL_LOGIN = "login";
     public final static String URL_SIGN_UP = "signUp";
+    public final static String URL_CHANGE_PASSWORD = "change/password";
     public final static String URL_COMPETITION_GET = "competition/get";
     public final static String URL_COMPETITION_POST = "competition/save";
     public final static String URL_COMPETITION_ADD_USER = "competition/addUser";
