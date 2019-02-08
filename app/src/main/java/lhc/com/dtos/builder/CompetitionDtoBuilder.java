@@ -20,6 +20,9 @@ public class CompetitionDtoBuilder {
     private boolean withCommentTop;
     private boolean withCommentFlop;
     private List<RuleDto> ruleDtos = new ArrayList<>();
+    private String topName;
+    private String flopName;
+    private String imageAsBase64;
 
     public static CompetitionDtoBuilder aCompetitionDto(){
         return new CompetitionDtoBuilder();

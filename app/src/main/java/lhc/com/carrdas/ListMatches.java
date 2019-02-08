@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -68,7 +70,10 @@ public class ListMatches extends BaseActivity {
     ListView listOfMatchesListView;
     List<MatchDto> listMatches;
     SwipeRefreshLayout mySwipeRefreshLayout;
-
+    private TextView homeScoreTV;
+    private TextView awayScoreTV;
+    int mIntegerHome = 0;
+    int mIntegerAway = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -201,66 +206,69 @@ public class ListMatches extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ListMatches.this);
-                builder.setTitle("Join competition");
-
                 // Set up the layout
 
                 Context context = ListMatches.this;
-                LinearLayout layout = new LinearLayout(context);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                // Add a TextView here for the "Title" label, as noted in the comments
 
-                LinearLayout layout_horizontal_1 = new LinearLayout(context);
-                layout_horizontal_1.setOrientation(LinearLayout.HORIZONTAL);
-
-                LinearLayout layout_horizontal_2 = new LinearLayout(context);
-                layout_horizontal_1.setOrientation(LinearLayout.HORIZONTAL);
-
-                final EditText homeTeamInput = new EditText(context);
-                homeTeamInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                homeTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-                homeTeamInput.setHint("Home team");
-
-                final EditText awayTeamInput = new EditText(context);
-                awayTeamInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                awayTeamInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                awayTeamInput.setHint("Away team");
-
-                final EditText homeScoreInput = new EditText(context);
-                homeScoreInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-                homeScoreInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-                homeScoreInput.setHint("Home score");
-
-                final EditText awayScoreInput = new EditText(context);
-                awayScoreInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-                awayScoreInput.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-                awayScoreInput.setHint("Away score");
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = ListMatches.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_custom_match, null);
+                ((TextView) dialogView.findViewById(R.id.title_dialog)).setText("Create match");
 
 
-                layout_horizontal_1.addView(homeTeamInput);
-                layout_horizontal_1.addView(awayTeamInput);
-                layout_horizontal_2.addView(homeScoreInput);
-                layout_horizontal_2.addView(awayScoreInput);
-
-                layout.addView(layout_horizontal_1);
-                layout.addView(layout_horizontal_2);
-                layout.setPadding(100, 10, 100 ,10);
-
-                builder.setView(layout);
+                final EditText homeTeamET =  dialogView.findViewById(R.id.dialog_home);
+                final EditText awayTeamET =  dialogView.findViewById(R.id.dialog_away);
 
 
+                homeScoreTV = dialogView.findViewById(R.id.score_home);
+                awayScoreTV = dialogView.findViewById(R.id.score_away);
+
+
+                Button buttonP1 = dialogView.findViewById(R.id.increase_1);
+                buttonP1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mIntegerHome = mIntegerHome + 1;
+                        homeScoreTV.setText(Integer.toString(mIntegerHome));
+                    }
+                });
+                Button buttonM1 = dialogView.findViewById(R.id.decrease_1);
+                buttonM1.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mIntegerHome = mIntegerHome - 1;
+                        homeScoreTV.setText(Integer.toString(mIntegerHome));
+                    }
+                });
+                Button buttonP2 = dialogView.findViewById(R.id.increase_2);
+                buttonP2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mIntegerAway = mIntegerAway + 1;
+                        awayScoreTV.setText(Integer.toString(mIntegerAway));
+                    }
+                });
+                Button buttonM2 = dialogView.findViewById(R.id.decrease_2);
+                buttonM2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mIntegerAway = mIntegerAway - 1;
+                        awayScoreTV.setText(Integer.toString(mIntegerAway));
+                    }
+                });
+
+                builder.setView(dialogView);
 
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String homeTeam = homeTeamInput.getText().toString();
-                        String awayTeam=  awayTeamInput.getText().toString();
-                        Integer scoreHome = Integer.valueOf(homeScoreInput.getText().toString());
-                        Integer scoreAway = Integer.valueOf(awayScoreInput.getText().toString());
+                        String homeTeam = homeTeamET.getText().toString();
+                        String awayTeam=  awayTeamET.getText().toString();
+                        Integer homeScore = Integer.valueOf(homeScoreTV.getText().toString());
+                        Integer awayScore = Integer.valueOf(awayScoreTV.getText().toString());
 
-                        MatchDto matchDto = getMatchDto(homeTeam, awayTeam, scoreHome, scoreAway);
+                        MatchDto matchDto = getMatchDto(homeTeam, awayTeam, homeScore, awayScore);
                         String jsonMatch = getJsonBody(matchDto);
                         saveMatch(jsonMatch);
                         refresh();
@@ -278,6 +286,7 @@ public class ListMatches extends BaseActivity {
             }
         };
     }
+
 
     private String getJsonBody(MatchDto matchDto) {
         Gson gson = new Gson();
@@ -386,6 +395,8 @@ public class ListMatches extends BaseActivity {
         intent.setClass(ListMatches.this, VoteActivity.class);
         startActivity(intent);
     }
+
+
 
 
 }

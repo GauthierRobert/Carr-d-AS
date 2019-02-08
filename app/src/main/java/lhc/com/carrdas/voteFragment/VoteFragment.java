@@ -134,6 +134,13 @@ public class VoteFragment extends Fragment {
 
         overviewTop = view.findViewById(R.id.overviewOfTopVotes);
         overviewFlop = view.findViewById(R.id.overviewOfFlopVotes);
+        voteFlopButton = view.findViewById(R.id.vote_flop_button_user_is_voting);
+        voteTopButton = view.findViewById(R.id.vote_top_button_user_is_voting);
+        commentsEditTextTop = view.findViewById(R.id.comments_top_vote);
+        commentsEditTextFlop = view.findViewById(R.id.comments_flop_vote);
+        addSpectator = view.findViewById(R.id.add_spectator);
+        submit = view.findViewById(R.id.submit_ballot);
+
 
         rules = getRulesOfCompetition();
         numberTop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_TOP, 0);
@@ -141,40 +148,40 @@ public class VoteFragment extends Fragment {
         withCommentTop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_TOP, false);
         withCommentFlop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_FLOP, false);
 
-        if (numberTop == 0) {
-            LinearLayout layout = view.findViewById(R.id.layout_top_vote_user_is_voting);
-            layout.setVisibility(View.GONE);
-        } else {
-            if (!withCommentTop) {
-                EditText layout = view.findViewById(R.id.comments_top_vote);
-                layout.setVisibility(View.GONE);
-            }
-        }
-        if (numberFlop == 0) {
+
+        if ((numberTop == 0) && (!withCommentTop)){
             LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
             layout.setVisibility(View.GONE);
         } else {
-            if (!withCommentFlop) {
-                EditText layout = view.findViewById(R.id.comments_flop_vote);
-                layout.setVisibility(View.GONE);
+            if (numberTop == 0) {
+                voteTopButton.setVisibility(View.GONE);
+                overviewTop.setVisibility(View.GONE);
+            }
+            if (!withCommentTop) {
+                commentsEditTextTop.setVisibility(View.GONE);
             }
         }
+        if ((numberFlop == 0) && (!withCommentFlop)){
+            LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
+            layout.setVisibility(View.GONE);
+        } else {
+            if (numberFlop == 0) {
+                voteFlopButton.setVisibility(View.GONE);
+                overviewFlop.setVisibility(View.GONE);
+            }
+            if (!withCommentFlop) {
+                commentsEditTextFlop.setVisibility(View.GONE);
+            }
+        }
+
 
         topVotes = createEmptyList(numberTop);
         flopVotes = createEmptyList(numberFlop);
 
-        voteTopButton = view.findViewById(R.id.vote_top_button_user_is_voting);
         voteTopButton.setOnClickListener(editTopVotes());
-        voteFlopButton = view.findViewById(R.id.vote_flop_button_user_is_voting);
         voteFlopButton.setOnClickListener(editFlopVotes());
-
-        submit = view.findViewById(R.id.submit_ballot);
         submit.setOnClickListener(submit());
 
-        addSpectator = view.findViewById(R.id.add_spectator);
-
-        commentsEditTextTop = view.findViewById(R.id.comments_top_vote);
-        commentsEditTextFlop = view.findViewById(R.id.comments_flop_vote);
 
         if (jsonArrayOfListVotes != null) {
             try {

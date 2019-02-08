@@ -35,11 +35,6 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
     private Context mContext;
     private String jsonArrayString;
 
-    int numberTop;
-    int numberFlop;
-    boolean withCommentTop;
-    boolean withCommentFlop;
-
     public VoteDetailsPageAdapter(Context context, String jsonArrayString) {
         this.mContext = context;
         this.jsonArrayString = jsonArrayString;
@@ -51,36 +46,40 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.tabbed_fragment_detail_page, collection, false);
         SharedPreferences sharedPreferencesCompetition = mContext.getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
 
-        numberTop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_TOP, 0);
-        numberFlop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_FLOP, 0);
-        withCommentTop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_TOP, false);
-        withCommentFlop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_FLOP, false);
-
-        if(numberTop == 0) {
-            LinearLayout layout_top = layout.findViewById(R.id.layout_top_vote_vote_details);
-            layout_top.setVisibility(View.GONE);
-        } else {
-            if(!withCommentTop) {
-                TextView layout_comment = layout.findViewById(R.id.comments_vote_details_top);
-                layout_comment.setVisibility(View.GONE);
-            }
-        }
-        if(numberFlop == 0) {
-            LinearLayout layout_flop = layout.findViewById(R.id.layout_flop_vote_vote_details);
-            layout_flop.setVisibility(View.GONE);
-        } else {
-            if (!withCommentFlop) {
-                TextView layout_comment = layout.findViewById(R.id.comments_vote_details_flop);
-                layout_comment.setVisibility(View.GONE);
-            }
-        }
-
-
+        int numberTop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_TOP, 0);
+        int numberFlop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_FLOP, 0);
+        boolean withCommentTop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_TOP, false);
+        boolean withCommentFlop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_FLOP, false);
 
         TextView overviewOfTopVotes = layout.findViewById(R.id.overviewOfTopVotes_vote_details);
         TextView overviewOfFlopVotes = layout.findViewById(R.id.overviewOfFlopVotes_vote_details);
         TextView comments_vote_details_top = layout.findViewById(R.id.comments_vote_details_top);
         TextView comments_vote_details_flop = layout.findViewById(R.id.comments_vote_details_flop);
+        LinearLayout layout_top = layout.findViewById(R.id.layout_top_vote_vote_details);
+        LinearLayout layout_flop = layout.findViewById(R.id.layout_flop_vote_vote_details);
+
+        if ((numberTop == 0) && (!withCommentTop)){
+            layout_top.setVisibility(View.GONE);
+        } else {
+            if (numberTop == 0) {
+                overviewOfTopVotes.setVisibility(View.GONE);
+            }
+            if (!withCommentTop) {
+                comments_vote_details_top.setVisibility(View.GONE);
+            }
+        }
+        if ((numberFlop == 0) && (!withCommentFlop)){
+            layout_flop.setVisibility(View.GONE);
+        } else {
+            if (numberFlop == 0) {
+                overviewOfFlopVotes.setVisibility(View.GONE);
+            }
+            if (!withCommentFlop) {
+                comments_vote_details_flop.setVisibility(View.GONE);
+            }
+        }
+
+
         BallotDto ballotDto = null;
 
         try {

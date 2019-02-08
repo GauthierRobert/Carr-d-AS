@@ -42,7 +42,7 @@ import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 
 public class AddCompetition extends BaseActivity {
 
-    Button submitButton;
+    Button nextButton;
     Button topRulesButton;
     Button flopRulesButton;
 
@@ -59,8 +59,8 @@ public class AddCompetition extends BaseActivity {
         setContentView(R.layout.activity_add_competition);
 
 
-        submitButton = findViewById(R.id.submit_button_competition);
-        submitButton.setOnClickListener(submit());
+        nextButton = findViewById(R.id.next_button_competition);
+        nextButton.setOnClickListener(next());
 
         topRulesButton = findViewById(R.id.button_edit_top_rules);
         topRulesButton.setEnabled(false);
@@ -253,7 +253,7 @@ public class AddCompetition extends BaseActivity {
         return stringList;
     }
 
-    private View.OnClickListener submit() {
+    private View.OnClickListener next() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -275,7 +275,7 @@ public class AddCompetition extends BaseActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("onResponse", "Create Competition : " + response.toString());
-                        goToListCompetition();
+                        goToImageCompetition();
                     }
                 },
                 mRequestBody,
@@ -295,6 +295,8 @@ public class AddCompetition extends BaseActivity {
         String confirmedPassword =((EditText)  findViewById(R.id.confirmedPassword_competition)).getText().toString();
         boolean isCheckedTop = ((CheckBox) findViewById(R.id.withCommentsCheckBoxTop)).isChecked();
         boolean isCheckedFlop = ((CheckBox) findViewById(R.id.withCommentsCheckBoxFlop)).isChecked();
+        String nameTop = ((EditText)  findViewById(R.id.name_top_competition)).getText().toString();
+        String nameFlop = ((EditText)  findViewById(R.id.name_top_competition)).getText().toString();
         int numberTopVotes = Integer.parseInt(((EditText)  findViewById(R.id.numberOfTopVoteAllowed_competition)).getText().toString());
         int numberFlopVotes = Integer.parseInt(((EditText)  findViewById(R.id.numberOfFlopVoteAllowed_competition)).getText().toString());
 
@@ -316,9 +318,9 @@ public class AddCompetition extends BaseActivity {
 
     }
 
-    private void goToListCompetition() {
+    private void goToImageCompetition() {
         Intent intent = new Intent();
-        intent.setClass(AddCompetition.this, ListCompetitions.class);
+        intent.setClass(AddCompetition.this, ImageCompetitionActivity.class);
         startActivity(intent);
         finish();
 

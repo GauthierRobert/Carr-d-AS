@@ -154,6 +154,14 @@
                         android:textSize="16dp"
                         android:textStyle="bold" />
 
+                    <EditText
+                        android:id="@+id/name_top_competition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Name top"
+                        android:inputType="text" />
+
                     <CheckBox
                         android:id="@+id/withCommentsCheckBoxTop"
                         android:layout_width="match_parent"
@@ -215,6 +223,14 @@
                         android:textSize="16dp"
                         android:textStyle="bold" />
 
+                    <EditText
+                        android:id="@+id/name_flop_competition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Name flop"
+                        android:inputType="text" />
+
                     <CheckBox
                         android:id="@+id/withCommentsCheckBoxFlop"
                         android:layout_width="match_parent"
@@ -258,13 +274,13 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/submit_button_competition"
+                android:id="@+id/next_button_competition"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/lhc_red"
-                android:text="Submit"
+                android:text="Next"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </ScrollView>

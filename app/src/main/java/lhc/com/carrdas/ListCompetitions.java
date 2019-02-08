@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -96,27 +98,28 @@ public class ListCompetitions extends BaseActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Context context = ListCompetitions.this;
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ListCompetitions.this);
-                builder.setTitle("Join competition");
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = ListCompetitions.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_custom, null);
+                LinearLayout dialog_layout = dialogView.findViewById(R.id.dialog_layout);
+                ((TextView) dialogView.findViewById(R.id.title_dialog)).setText("Join competition");
 
-                // Set up the layout
 
-                Context context = ListCompetitions.this;
-                LinearLayout layout = new LinearLayout(context);
-                layout.setOrientation(LinearLayout.VERTICAL);
 
                 // Add another TextView here for the "Description" label
                 final EditText competitionName = new EditText(context);
                 settingsForName(competitionName);
-                layout.addView(competitionName);
+                dialog_layout.addView(competitionName);
                 final EditText competitionPassword = new EditText(context);
                 settingsForPassword(competitionPassword);
-                layout.addView(competitionPassword);
+                dialog_layout.addView(competitionPassword);
+                dialog_layout.setPadding(100, 10, 100 ,10);
 
-                layout.setPadding(100, 10, 100 ,10);
 
-                builder.setView(layout);
+
+                builder.setView(dialogView);
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
