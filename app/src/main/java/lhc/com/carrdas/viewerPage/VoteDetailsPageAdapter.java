@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 
@@ -24,6 +25,8 @@ import lhc.com.dtos.VoteDto;
 import static android.content.Context.MODE_PRIVATE;
 import static lhc.com.otherRessources.ApplicationConstants.FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
+import static lhc.com.otherRessources.ApplicationConstants.NAME_FLOP;
+import static lhc.com.otherRessources.ApplicationConstants.NAME_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.TOP;
@@ -57,7 +60,8 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
         TextView comments_vote_details_flop = layout.findViewById(R.id.comments_vote_details_flop);
         LinearLayout layout_top = layout.findViewById(R.id.layout_top_vote_vote_details);
         LinearLayout layout_flop = layout.findViewById(R.id.layout_flop_vote_vote_details);
-
+        TextView nameTop = layout.findViewById(R.id.name_top_details);
+        TextView nameFlop = layout.findViewById(R.id.name_flop_details);
         if ((numberTop == 0) && (!withCommentTop)){
             layout_top.setVisibility(View.GONE);
         } else {
@@ -93,6 +97,8 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
 
         overviewOfTopVotes.setText(generateOverView(ballotDto,TOP));
         overviewOfFlopVotes.setText(generateOverView(ballotDto,FLOP));
+        nameTop.setText(sharedPreferencesCompetition.getString(NAME_TOP, TOP));
+        nameFlop.setText(sharedPreferencesCompetition.getString(NAME_FLOP, FLOP));
         comments_vote_details_top.setText(ballotDto.getCommentTop());
         comments_vote_details_flop.setText(ballotDto.getCommentFlop());
         collection.addView(layout);

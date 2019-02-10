@@ -32,6 +32,7 @@ public class ApplicationConstants {
     public final static String URL_COMPETITION_GET = "competition/get";
     public final static String URL_COMPETITION_POST = "competition/save";
     public final static String URL_COMPETITION_ADD_USER = "competition/addUser";
+    public final static String URL_COMPETITION_ADD_IMAGE = "competition/image";
     public final static String URL_MATCH_GET = "match/get";
     public final static String URL_MATCH_POST = "match/save";
     public final static String URL_MATCH_CLOSE = "match/close";
@@ -52,7 +53,10 @@ public class ApplicationConstants {
 
     public final static String WITH_COMMENTS_TOP = "withCommentsTop";
     public final static String WITH_COMMENTS_FLOP = "withCommentsFlop";
+    public final static String NAME_TOP = "nameTop";
+    public final static String NAME_FLOP = "nameFlop";
     public final static String HAS_VOTED = "hasVoted";
+    public final static String IS_PLAYER = "isPlayer";
 
 
     public final static String GOD = "Almighty God";

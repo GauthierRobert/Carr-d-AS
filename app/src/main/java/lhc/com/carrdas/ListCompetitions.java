@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,8 +47,11 @@ import lhc.com.otherRessources.BaseActivity;
 import lhc.com.volley.MySingletonRequestQueue;
 
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
+import static lhc.com.otherRessources.ApplicationConstants.IS_PLAYER;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
+import static lhc.com.otherRessources.ApplicationConstants.NAME_FLOP;
+import static lhc.com.otherRessources.ApplicationConstants.NAME_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.PASSWORD;
@@ -78,6 +83,7 @@ public class ListCompetitions extends BaseActivity {
         listView.setOnItemClickListener(competitionClickListener());
 
     }
+
     @NonNull
     private View.OnClickListener newCompetitionOnClickListener() {
         return new View.OnClickListener() {
@@ -90,7 +96,9 @@ public class ListCompetitions extends BaseActivity {
 
     private void goToAddCompetition() {
         Intent addCompetitionIntent = new Intent(this, AddCompetition.class);
+        finish();
         startActivity(addCompetitionIntent);
+
     }
 
     @NonNull
@@ -107,7 +115,6 @@ public class ListCompetitions extends BaseActivity {
                 ((TextView) dialogView.findViewById(R.id.title_dialog)).setText("Join competition");
 
 
-
                 // Add another TextView here for the "Description" label
                 final EditText competitionName = new EditText(context);
                 settingsForName(competitionName);
@@ -115,8 +122,23 @@ public class ListCompetitions extends BaseActivity {
                 final EditText competitionPassword = new EditText(context);
                 settingsForPassword(competitionPassword);
                 dialog_layout.addView(competitionPassword);
-                dialog_layout.setPadding(100, 10, 100 ,10);
+                competitionPassword.setVisibility(View.GONE);
+                final CheckBox isPlayerBox = new CheckBox(context);
+                isPlayerBox.setText(R.string.isPlayer);
+                dialog_layout.addView(isPlayerBox);
+                dialog_layout.setPadding(100, 10, 100, 10);
 
+
+                isPlayerBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            competitionPassword.setVisibility(View.VISIBLE);
+                        } else {
+                            competitionPassword.setVisibility(View.GONE);
+                        }
+                    }
+                });
 
 
                 builder.setView(dialogView);
@@ -124,7 +146,7 @@ public class ListCompetitions extends BaseActivity {
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        PostAddUSerToCompetition(competitionName.getText().toString(),competitionPassword.getText().toString());
+                        PostAddUSerToCompetition(competitionName.getText().toString(), competitionPassword.getText().toString(), isPlayerBox.isChecked());
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -135,6 +157,7 @@ public class ListCompetitions extends BaseActivity {
                 });
 
                 builder.show();
+
 
             }
         };
@@ -148,18 +171,18 @@ public class ListCompetitions extends BaseActivity {
     }
 
     private void settingsForPassword(EditText competitionPassword) {
-        competitionPassword.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        competitionPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         competitionPassword.setHint("......");
         competitionPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_red_400_24dp, 0, 0, 0);
         competitionPassword.setCompoundDrawablePadding(20);
     }
 
-    private void PostAddUSerToCompetition(String comp, String pass) {
+    private void PostAddUSerToCompetition(String comp, String pass, boolean isPlayer) {
 
         final Context mContext = ListCompetitions.this;
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
 
-        final String url = createURL_AddUserToCompetition(comp, pass);
+        final String url = createURL_AddUserToCompetition(comp, pass, isPlayer);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
@@ -170,9 +193,9 @@ public class ListCompetitions extends BaseActivity {
                     public void onResponse(JSONObject response) {
                         Log.d("onResponse", "Create Competition : " + response.toString());
                         finish();
-                        overridePendingTransition( 0, 0);
+                        overridePendingTransition(0, 0);
                         startActivity(getIntent());
-                        overridePendingTransition( 0, 0);
+                        overridePendingTransition(0, 0);
                     }
                 },
                 new Response.ErrorListener() {
@@ -186,7 +209,7 @@ public class ListCompetitions extends BaseActivity {
                         error.printStackTrace();
                     }
                 }
-        ){
+        ) {
 
             @Override
             public String getBodyContentType() {
@@ -204,11 +227,12 @@ public class ListCompetitions extends BaseActivity {
 
     }
 
-    private String createURL_AddUserToCompetition(String comp, String pass) {
+    private String createURL_AddUserToCompetition(String comp, String pass, boolean isPlayer) {
         Parameter username = new Parameter(USERNAME, getUsername());
         Parameter competition_ref = new Parameter(COMPETITION_REF, comp);
         Parameter competition_password = new Parameter(PASSWORD, pass);
-        return createURL(URL_COMPETITION_ADD_USER, competition_ref, username, competition_password);
+        Parameter isPlayerParam = new Parameter(IS_PLAYER, Boolean.toString(isPlayer));
+        return createURL(URL_COMPETITION_ADD_USER, competition_ref, username, competition_password, isPlayerParam);
     }
 
 
@@ -229,11 +253,13 @@ public class ListCompetitions extends BaseActivity {
 
                 Gson gson = new Gson();
                 editor.putString(COMPETITION_REF, competitionDto.getReference());
-                editor.putString(RULES,gson.toJson(ruleDtos));
-                editor.putInt(NUMBER_VOTE_TOP,getRules(NUMBER_VOTE_TOP,competitionDto.getRuleDtos()));
-                editor.putInt(NUMBER_VOTE_FLOP,getRules(NUMBER_VOTE_FLOP,competitionDto.getRuleDtos()));
+                editor.putString(RULES, gson.toJson(ruleDtos));
+                editor.putInt(NUMBER_VOTE_TOP, getRules(NUMBER_VOTE_TOP, competitionDto.getRuleDtos()));
+                editor.putInt(NUMBER_VOTE_FLOP, getRules(NUMBER_VOTE_FLOP, competitionDto.getRuleDtos()));
                 editor.putBoolean(WITH_COMMENTS_TOP, competitionDto.isWithCommentTop());
                 editor.putBoolean(WITH_COMMENTS_FLOP, competitionDto.isWithCommentFlop());
+                editor.putString(NAME_TOP, competitionDto.getTopName());
+                editor.putString(NAME_FLOP, competitionDto.getFlopName());
                 editor.apply();
 
                 Intent intent = new Intent();
@@ -243,9 +269,9 @@ public class ListCompetitions extends BaseActivity {
         };
     }
 
-    private int getRules (String constant, List<RuleDto> rules){
-        for (RuleDto ruleDto: rules) {
-            if (constant.equals(ruleDto.getLabel())){
+    private int getRules(String constant, List<RuleDto> rules) {
+        for (RuleDto ruleDto : rules) {
+            if (constant.equals(ruleDto.getLabel())) {
                 return ruleDto.getPoints();
             }
         }
@@ -260,7 +286,7 @@ public class ListCompetitions extends BaseActivity {
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
 
         JsonArrayRequestGet jsonObjectRequest = JsonArrayRequestGet.jsonArrayRequestGet(
-               url,
+                url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -295,11 +321,8 @@ public class ListCompetitions extends BaseActivity {
 
     private String getUsername() {
         SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES_CREDENTIALS, Context.MODE_PRIVATE);
-        return  sharedpreferences.getString(USERNAME, null);
+        return sharedpreferences.getString(USERNAME, null);
     }
-
-
-
 
 
 }

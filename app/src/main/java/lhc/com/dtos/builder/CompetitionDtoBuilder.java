@@ -22,7 +22,6 @@ public class CompetitionDtoBuilder {
     private List<RuleDto> ruleDtos = new ArrayList<>();
     private String topName;
     private String flopName;
-    private String imageAsBase64;
 
     public static CompetitionDtoBuilder aCompetitionDto(){
         return new CompetitionDtoBuilder();
@@ -59,6 +58,11 @@ public class CompetitionDtoBuilder {
         this.withCommentFlop = withCommentFlop;
         return this;
     }
+    public CompetitionDtoBuilder withTopFlopName(String topName, String flopName){
+        this.topName = topName;
+        this.flopName = flopName;
+        return this;
+    }
 
     public RuleDtoDtoBuilder withRuleDtos(int numberOfTopVote, int numberOfFlopVote){
 
@@ -70,7 +74,7 @@ public class CompetitionDtoBuilder {
         private final CompetitionDtoCompletion competitionCompletion = new CompetitionDtoCompletion();
 
 
-        public RuleDtoDtoBuilder(int numberOfTopVote, int numberOfFlopVote) {
+        RuleDtoDtoBuilder(int numberOfTopVote, int numberOfFlopVote) {
             RuleDto RuleDtoTop = new RuleDto(LabelType.NUMBER_VOTE_TOP.name(),numberOfTopVote, 0);
             RuleDto RuleDtoFlop = new RuleDto(LabelType.NUMBER_VOTE_FLOP.name(), numberOfFlopVote, 0);
             CompetitionDtoBuilder.this.ruleDtos.add(RuleDtoTop);
@@ -113,8 +117,8 @@ public class CompetitionDtoBuilder {
         private CompetitionDtoCompletion(){
         }
 
-        public CompetitionDto build(){
-            return competitionDto(name, season, division, password, confirmedPassword, creatorUsername, withCommentTop, withCommentFlop, ruleDtos);
+        CompetitionDto build(){
+            return competitionDto(name, season, division, password, confirmedPassword, creatorUsername, topName, flopName, withCommentTop, withCommentFlop, ruleDtos);
         }
     }
 

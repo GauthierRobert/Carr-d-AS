@@ -47,6 +47,8 @@ import lhc.com.volley.MySingletonRequestQueue;
 import lombok.Data;
 
 import static android.content.Context.MODE_PRIVATE;
+import static lhc.com.otherRessources.ApplicationConstants.NAME_FLOP;
+import static lhc.com.otherRessources.ApplicationConstants.NAME_TOP;
 import static lhc.com.volley.JsonArrayRequestGet.jsonArrayRequestGet;
 import static lhc.com.dtos.builder.BallotDtoBuilder.aBallotDtoWithRules;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
@@ -88,6 +90,9 @@ public class VoteFragment extends Fragment {
 
     TextView overviewTop;
     TextView overviewFlop;
+
+    TextView nameTop;
+    TextView nameFlop;
 
     String commentTop;
     String commentFlop;
@@ -141,6 +146,10 @@ public class VoteFragment extends Fragment {
         addSpectator = view.findViewById(R.id.add_spectator);
         submit = view.findViewById(R.id.submit_ballot);
 
+        nameTop = view.findViewById(R.id.name_top_vote);
+        nameFlop = view.findViewById(R.id.name_flop_vote);
+        nameTop.setText(sharedPreferencesCompetition.getString(NAME_TOP, TOP));
+        nameFlop.setText(sharedPreferencesCompetition.getString(NAME_FLOP, FLOP));
 
         rules = getRulesOfCompetition();
         numberTop = sharedPreferencesCompetition.getInt(NUMBER_VOTE_TOP, 0);
@@ -351,7 +360,7 @@ public class VoteFragment extends Fragment {
                 Context context = getActivity();
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Confirmation");
-                builder.setMessage("Are you happy with this vote ?");
+                builder.setMessage("Do you confirm your vote?");
 
                 // Set up the buttons
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

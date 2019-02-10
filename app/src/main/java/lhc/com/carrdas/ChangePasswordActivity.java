@@ -24,6 +24,7 @@ import lhc.com.volley.MySingletonRequestQueue;
 
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
+import static lhc.com.otherRessources.ApplicationConstants.NEW_CONFIRMED_PASSWORD;
 import static lhc.com.otherRessources.ApplicationConstants.NEW_PASSWORD;
 import static lhc.com.otherRessources.ApplicationConstants.PASSWORD;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
@@ -72,7 +73,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         final Context mContext = ChangePasswordActivity.this;
 
         ApplicationConstants.Parameter newPassword_param = new ApplicationConstants.Parameter(NEW_PASSWORD, newPassword.getText().toString());
-        ApplicationConstants.Parameter confirmedNewPassword_param = new ApplicationConstants.Parameter(NEW_PASSWORD, confirmedNewPassword.getText().toString());
+        ApplicationConstants.Parameter confirmedNewPassword_param = new ApplicationConstants.Parameter(NEW_CONFIRMED_PASSWORD, confirmedNewPassword.getText().toString());
         final String url = createURL(URL_CHANGE_PASSWORD, newPassword_param, confirmedNewPassword_param);
 
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();

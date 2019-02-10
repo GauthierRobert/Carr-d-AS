@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import lhc.com.adapter.MatchAdapter_ListMatches;
+import lhc.com.adapter.SpectatorAdapter_AddMatch;
 import lhc.com.dtos.MatchDto;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.BaseActivity;
@@ -70,10 +73,7 @@ public class ListMatches extends BaseActivity {
     ListView listOfMatchesListView;
     List<MatchDto> listMatches;
     SwipeRefreshLayout mySwipeRefreshLayout;
-    private TextView homeScoreTV;
-    private TextView awayScoreTV;
-    int mIntegerHome = 0;
-    int mIntegerAway = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,44 +218,26 @@ public class ListMatches extends BaseActivity {
 
                 final EditText homeTeamET =  dialogView.findViewById(R.id.dialog_home);
                 final EditText awayTeamET =  dialogView.findViewById(R.id.dialog_away);
+                final EditText homeScoreET =  dialogView.findViewById(R.id.dialog_home_score);
+                final EditText awayScoreET =  dialogView.findViewById(R.id.dialog_away_score);
 
-
-                homeScoreTV = dialogView.findViewById(R.id.score_home);
-                awayScoreTV = dialogView.findViewById(R.id.score_away);
-
-
-                Button buttonP1 = dialogView.findViewById(R.id.increase_1);
-                buttonP1.setOnClickListener(new View.OnClickListener() {
+                final List<String> spectatorList = new ArrayList<>();
+                final ListView listView = dialogView.findViewById(R.id.list_spectator);
+                SpectatorAdapter_AddMatch spectatorAdapter_addMatch = new SpectatorAdapter_AddMatch(context, spectatorList);
+                listView.setAdapter(spectatorAdapter_addMatch);
+                final EditText spectatorET = dialogView.findViewById(R.id.dialog_spectator_name);
+                final ImageView add_spectator = dialogView.findViewById(R.id.dialog_image_add_spectator);
+                add_spectator.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mIntegerHome = mIntegerHome + 1;
-                        homeScoreTV.setText(Integer.toString(mIntegerHome));
+                        if(spectatorET.getText()!=null) {
+                            spectatorList.add(spectatorET.getText().toString());
+                            ((SpectatorAdapter_AddMatch) listView.getAdapter()).notifyDataSetChanged();
+                        }
                     }
                 });
-                Button buttonM1 = dialogView.findViewById(R.id.decrease_1);
-                buttonM1.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mIntegerHome = mIntegerHome - 1;
-                        homeScoreTV.setText(Integer.toString(mIntegerHome));
-                    }
-                });
-                Button buttonP2 = dialogView.findViewById(R.id.increase_2);
-                buttonP2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mIntegerAway = mIntegerAway + 1;
-                        awayScoreTV.setText(Integer.toString(mIntegerAway));
-                    }
-                });
-                Button buttonM2 = dialogView.findViewById(R.id.decrease_2);
-                buttonM2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mIntegerAway = mIntegerAway - 1;
-                        awayScoreTV.setText(Integer.toString(mIntegerAway));
-                    }
-                });
+
+
 
                 builder.setView(dialogView);
 
@@ -265,10 +247,9 @@ public class ListMatches extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String homeTeam = homeTeamET.getText().toString();
                         String awayTeam=  awayTeamET.getText().toString();
-                        Integer homeScore = Integer.valueOf(homeScoreTV.getText().toString());
-                        Integer awayScore = Integer.valueOf(awayScoreTV.getText().toString());
-
-                        MatchDto matchDto = getMatchDto(homeTeam, awayTeam, homeScore, awayScore);
+                        Integer homeScore = Integer.valueOf(homeScoreET.getText().toString());
+                        Integer awayScore = Integer.valueOf(awayScoreET.getText().toString());
+                        MatchDto matchDto = getMatchDto(homeTeam, awayTeam, homeScore, awayScore, spectatorList);
                         String jsonMatch = getJsonBody(matchDto);
                         saveMatch(jsonMatch);
                         refresh();
@@ -300,10 +281,11 @@ public class ListMatches extends BaseActivity {
         overridePendingTransition( 0, 0);
     }
 
-    private MatchDto getMatchDto(String homeTeam, String awayTeam, Integer scoreHome, Integer scoreAway) {
+    private MatchDto getMatchDto(String homeTeam, String awayTeam, Integer scoreHome, Integer scoreAway, List<String> spectators) {
         return aMatchDto()
                                     .inCompetiton(getCompetition_ref())
                                     .createBy(getCurrentUser())
+                .withSpectators(spectators)
                                     .withHomeTeam(homeTeam)
                                     .withScore(scoreHome)
                                     .againstTeam(awayTeam)

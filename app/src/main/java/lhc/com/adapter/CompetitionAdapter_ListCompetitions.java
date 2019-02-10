@@ -1,8 +1,11 @@
 package lhc.com.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,12 +50,15 @@ public class CompetitionAdapter_ListCompetitions extends ArrayAdapter<Competitio
         TextView season = view.findViewById(R.id.season_competition_cell);
         ImageView image = view.findViewById(R.id.image_competition);
         ImageView toggleImage = view.findViewById(R.id.imageview);
-        image.setImageResource(R.drawable.ranking);
+
 
 
         //getting the hero of the specified position
 
         CompetitionDto competitionDto = competitionDtos.get(position);
+
+
+
 
         //adding values to the list item
         name.setText(competitionDto.getName());
@@ -60,6 +66,13 @@ public class CompetitionAdapter_ListCompetitions extends ArrayAdapter<Competitio
         season.setText(competitionDto.getSeason());
         toggleImage.setOnClickListener(getMenuForToggle());
 
+
+        String encodedImage = competitionDto.getImageAsBase64();
+        if(encodedImage !=null) {
+            byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            image.setImageBitmap(decodedByte);
+        }
         return view;
     }
 

@@ -20,10 +20,12 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +37,7 @@ import lhc.com.otherRessources.BaseActivity;
 import lhc.com.volley.MySingletonRequestQueue;
 
 import static lhc.com.dtos.builder.CompetitionDtoBuilder.aCompetitionDto;
+import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_POST;
@@ -90,9 +93,9 @@ public class AddCompetition extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0) {
+                if (s.length() != 0) {
                     int numberTop_value = Integer.parseInt(String.valueOf(s));
-                    if (numberTop_value !=0){
+                    if (numberTop_value != 0) {
                         topRulesButton.setEnabled(true);
                     } else {
                         topRulesButton.setEnabled(false);
@@ -119,9 +122,9 @@ public class AddCompetition extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0) {
+                if (s.length() != 0) {
                     int numberFlop_value = Integer.parseInt(String.valueOf(s));
-                    if (numberFlop_value !=0){
+                    if (numberFlop_value != 0) {
                         flopRulesButton.setEnabled(true);
                     } else {
                         flopRulesButton.setEnabled(false);
@@ -130,6 +133,7 @@ public class AddCompetition extends BaseActivity {
                     flopRulesButton.setEnabled(false);
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -154,7 +158,7 @@ public class AddCompetition extends BaseActivity {
                 layout.addView(explication);
 
                 final ListView topVote = new ListView(context);
-                final EditText numberTopET =  findViewById(R.id.numberOfTopVoteAllowed_competition);
+                final EditText numberTopET = findViewById(R.id.numberOfTopVoteAllowed_competition);
                 int numberTop = Integer.parseInt(numberTopET.getText().toString());
 
                 List<String> pointTopList = createList(numberTop, topVoteInt);
@@ -182,7 +186,7 @@ public class AddCompetition extends BaseActivity {
                 AlertDialog dialog = builder.create();
 
                 dialog.show();
-                dialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             }
         };
     }
@@ -203,7 +207,7 @@ public class AddCompetition extends BaseActivity {
                 layout.addView(explication);
 
                 final ListView flopVote = new ListView(context);
-                final EditText numberFlopET =  findViewById(R.id.numberOfFlopVoteAllowed_competition);
+                final EditText numberFlopET = findViewById(R.id.numberOfFlopVoteAllowed_competition);
                 int numberFlop = Integer.parseInt(numberFlopET.getText().toString());
 
                 List<String> pointFlopList = createList(numberFlop, flopVoteInt);
@@ -230,7 +234,7 @@ public class AddCompetition extends BaseActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
-                dialog.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             }
         };
     }
@@ -238,8 +242,8 @@ public class AddCompetition extends BaseActivity {
     private List<String> createList(int max, Integer[] voteInt) {
 
         List<String> stringList = new ArrayList<>();
-        for(int i =0; i<max; i++){
-            int j =i+1;
+        for (int i = 0; i < max; i++) {
+            int j = i + 1;
             if (voteInt == null) {
                 stringList.add("#" + j);
             } else {
@@ -263,7 +267,6 @@ public class AddCompetition extends BaseActivity {
     }
 
 
-
     private void AddCompetition_JsonPostRequest() {
         Context mContext = AddCompetition.this;
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
@@ -275,7 +278,16 @@ public class AddCompetition extends BaseActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("onResponse", "Create Competition : " + response.toString());
-                        goToImageCompetition();
+                        ObjectMapper mapper = new ObjectMapper();
+                        CompetitionDto competitionDto = null;
+                        try {
+                            competitionDto = mapper.readValue(response.toString(), CompetitionDto.class);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (competitionDto != null) {
+                            goToImageCompetition(competitionDto.getReference());
+                        }
                     }
                 },
                 mRequestBody,
@@ -284,21 +296,21 @@ public class AddCompetition extends BaseActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private String getJsonRequest(){
+    private String getJsonRequest() {
         sharedpreferences = getSharedPreferences(MyPREFERENCES_CREDENTIALS, Context.MODE_PRIVATE);
 
         String name = ((EditText) findViewById(R.id.name_competition)).getText().toString();
-        String division =((EditText)  findViewById(R.id.division_competition)).getText().toString();
-        String season = ((EditText)  findViewById(R.id.season_competition)).getText().toString();
+        String division = ((EditText) findViewById(R.id.division_competition)).getText().toString();
+        String season = ((EditText) findViewById(R.id.season_competition)).getText().toString();
         String username = sharedpreferences.getString(USERNAME, null);
-        String password =((EditText)  findViewById(R.id.password_competition)).getText().toString();
-        String confirmedPassword =((EditText)  findViewById(R.id.confirmedPassword_competition)).getText().toString();
+        String password = ((EditText) findViewById(R.id.password_competition)).getText().toString();
+        String confirmedPassword = ((EditText) findViewById(R.id.confirmedPassword_competition)).getText().toString();
         boolean isCheckedTop = ((CheckBox) findViewById(R.id.withCommentsCheckBoxTop)).isChecked();
         boolean isCheckedFlop = ((CheckBox) findViewById(R.id.withCommentsCheckBoxFlop)).isChecked();
-        String nameTop = ((EditText)  findViewById(R.id.name_top_competition)).getText().toString();
-        String nameFlop = ((EditText)  findViewById(R.id.name_top_competition)).getText().toString();
-        int numberTopVotes = Integer.parseInt(((EditText)  findViewById(R.id.numberOfTopVoteAllowed_competition)).getText().toString());
-        int numberFlopVotes = Integer.parseInt(((EditText)  findViewById(R.id.numberOfFlopVoteAllowed_competition)).getText().toString());
+        String nameTop = ((EditText) findViewById(R.id.name_top_competition)).getText().toString();
+        String nameFlop = ((EditText) findViewById(R.id.name_flop_competition)).getText().toString();
+        int numberTopVotes = Integer.parseInt(((EditText) findViewById(R.id.numberOfTopVoteAllowed_competition)).getText().toString());
+        int numberFlopVotes = Integer.parseInt(((EditText) findViewById(R.id.numberOfFlopVoteAllowed_competition)).getText().toString());
 
         CompetitionDto competitionDto = aCompetitionDto()
                 .withName(name)
@@ -308,7 +320,8 @@ public class AddCompetition extends BaseActivity {
                 .withPassword(password)
                 .withConfirmedPassword(confirmedPassword)
                 .withComments(isCheckedTop, isCheckedFlop)
-                .withRuleDtos(numberTopVotes,numberFlopVotes)
+                .withTopFlopName(nameTop, nameFlop)
+                .withRuleDtos(numberTopVotes, numberFlopVotes)
                 .withTopRuleDtos(topVoteInt)
                 .withFlopRuleDtos(flopVoteInt)
                 .build();
@@ -318,16 +331,16 @@ public class AddCompetition extends BaseActivity {
 
     }
 
-    private void goToImageCompetition() {
+    private void goToImageCompetition(String competition_ref) {
         Intent intent = new Intent();
         intent.setClass(AddCompetition.this, ImageCompetitionActivity.class);
+        intent.putExtra(COMPETITION_REF, competition_ref);
         startActivity(intent);
         finish();
-
     }
 
     public Integer[] getIntArray(ListView listView) {
-        if(listView.getAdapter()!=null) {
+        if (listView.getAdapter() != null) {
             if (listView.getAdapter().getCount() > 0) {
                 Integer[] listInt = new Integer[listView.getAdapter().getCount()];
 
