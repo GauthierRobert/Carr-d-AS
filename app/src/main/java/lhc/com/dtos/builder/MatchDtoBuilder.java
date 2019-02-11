@@ -3,7 +3,9 @@ package lhc.com.dtos.builder;
 import java.util.ArrayList;
 import java.util.List;
 
+import lhc.com.dtos.BallotDto;
 import lhc.com.dtos.MatchDto;
+import lhc.com.dtos.VoteDto;
 
 public class MatchDtoBuilder {
 
@@ -14,6 +16,7 @@ public class MatchDtoBuilder {
     private Integer scoreHome;
     private Integer scoreAway;
     private List<String> spectators = new ArrayList<>();
+    private List<BallotDto> ballotDtos = new ArrayList<>();
 
     public static MatchDtoBuilder aMatchDto(){
         return new MatchDtoBuilder();
@@ -45,6 +48,10 @@ public class MatchDtoBuilder {
         return this;
     }
 
+    public MatchDtoBuilder withBallot(List<BallotDto> ballotDtos) {
+        this.ballotDtos = ballotDtos;
+        return this;
+    }
 
     public MatchDtoBuilder inCompetiton(String competition_ref){
         this.competition_ref = competition_ref;
@@ -85,7 +92,7 @@ public class MatchDtoBuilder {
         }
 
         public MatchDto build(){
-            return MatchDto.matchDto(competition_ref, homeTeam,scoreHome, scoreAway, awayTeam, creatorUsername, spectators);
+            return MatchDto.matchDto(competition_ref, homeTeam,scoreHome, scoreAway, awayTeam, creatorUsername, spectators, ballotDtos);
         }
     }
 

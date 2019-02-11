@@ -31,7 +31,9 @@ public class MatchDto {
 
     private List<String> visitors;
 
-    private MatchDto(String competition_ref, String homeTeam, Integer homeScore, Integer awayScore, String awayTeam, String creatorUsername, List<String> visitors) {
+    private List<BallotDto> ballotDtos;
+
+    private MatchDto(String competition_ref, String homeTeam, Integer homeScore, Integer awayScore, String awayTeam, String creatorUsername, List<String> visitors, List<BallotDto> ballotDtos) {
         this.homeTeam = homeTeam;
         this.homeScore = homeScore;
         this.awayScore = awayScore;
@@ -39,20 +41,21 @@ public class MatchDto {
         this.competition_ref = competition_ref;
         this.creatorUsername = creatorUsername;
         this.visitors = visitors;
+        this.ballotDtos = ballotDtos;
     }
 
     private MatchDto() {
     }
 
-    public static MatchDto matchDto(String competition_ref, String homeTeam, Integer homeScore, Integer awayScore, String awayTeam, String creatorUsername, List<String> visitors){
-        return new MatchDto(competition_ref, homeTeam,homeScore, awayScore,awayTeam, creatorUsername, visitors);
+    public static MatchDto matchDto(String competition_ref, String homeTeam, Integer homeScore, Integer awayScore, String awayTeam, String creatorUsername, List<String> visitors, List<BallotDto> ballotDtos) {
+        return new MatchDto(competition_ref, homeTeam, homeScore, awayScore, awayTeam, creatorUsername, visitors, ballotDtos);
     }
 
-    public static MatchDto matchDto(){
+    public static MatchDto matchDto() {
         return new MatchDto();
     }
 
-    public void addVisitor(String visitor){
+    public void addVisitor(String visitor) {
         this.visitors.add(visitor);
     }
 

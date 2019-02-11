@@ -57,7 +57,7 @@ import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.PASSWORD;
 import static lhc.com.otherRessources.ApplicationConstants.RULES;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_ADD_USER;
-import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_GET;
+import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_GET_LIST;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_TOP;
@@ -281,7 +281,7 @@ public class ListCompetitions extends BaseActivity {
     private void GetCompetitionsListLinkedToUsername() {
 
         Parameter parameter = new Parameter(USERNAME, getUsername());
-        final String url = createURL(URL_COMPETITION_GET, parameter);
+        final String url = createURL(URL_COMPETITION_GET_LIST, parameter);
         Context mContext = this.getApplicationContext();
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
 

@@ -22,15 +22,11 @@ import java.util.Map;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.volley.MySingletonRequestQueue;
 
-import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.NEW_CONFIRMED_PASSWORD;
 import static lhc.com.otherRessources.ApplicationConstants.NEW_PASSWORD;
 import static lhc.com.otherRessources.ApplicationConstants.PASSWORD;
-import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
 import static lhc.com.otherRessources.ApplicationConstants.URL_CHANGE_PASSWORD;
-import static lhc.com.otherRessources.ApplicationConstants.URL_LOGIN;
-import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 import static lhc.com.volley.StringRequestPost.stringRequestPost;

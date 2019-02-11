@@ -43,7 +43,6 @@ public class ImageCompetitionActivity extends BaseActivity {
         setContentView(R.layout.activity_image_competition);
 
 
-
         Button buttonLoadImage = findViewById(R.id.loadimage);
         targetImage = findViewById(R.id.targetimage);
 
@@ -59,7 +58,7 @@ public class ImageCompetitionActivity extends BaseActivity {
 
         Button skipButton = findViewById(R.id.btn_skip_image_competition);
         Button submitButton = findViewById(R.id.btn_submit_image_competition);
-        
+
         skipButton.setOnClickListener(skipImage());
         submitButton.setOnClickListener(submitImage());
 
@@ -76,9 +75,9 @@ public class ImageCompetitionActivity extends BaseActivity {
     }
 
     private void goToListCompetitions() {
-            Intent listCompetitionIntent = new Intent(ImageCompetitionActivity.this, ListCompetitions.class);
-            finish();
-            startActivity(listCompetitionIntent);
+        Intent listCompetitionIntent = new Intent(ImageCompetitionActivity.this, ListCompetitions.class);
+        finish();
+        startActivity(listCompetitionIntent);
     }
 
 
@@ -133,8 +132,8 @@ public class ImageCompetitionActivity extends BaseActivity {
                 targetImage.setImageBitmap(bitmap);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream .toByteArray();
-                imageAsBase64= Base64.encodeToString(byteArray, Base64.NO_WRAP);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                imageAsBase64 = Base64.encodeToString(byteArray, Base64.NO_WRAP);
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -142,6 +141,18 @@ public class ImageCompetitionActivity extends BaseActivity {
         }
     }
 
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxWidth) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+
+        width = maxWidth;
+        height = (int) (width / bitmapRatio);
+
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
 
 
 }

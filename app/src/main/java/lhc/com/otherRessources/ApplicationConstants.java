@@ -22,6 +22,7 @@ public class ApplicationConstants {
     public static final String RULES =  "rules";
     public static final String JSON_LIST_VOTES_BUNDLE =  "json_list_votes_bundle";
     public static final String JSON_LIST_VOTES_INTENT =  "json_list_votes_intent";
+    public static final String JSON_MATCH_INTENT =  "json_match_intent";
 
 
 
@@ -29,16 +30,18 @@ public class ApplicationConstants {
     public final static String URL_LOGIN = "login";
     public final static String URL_SIGN_UP = "signUp";
     public final static String URL_CHANGE_PASSWORD = "change/password";
-    public final static String URL_COMPETITION_GET = "competition/get";
+    public final static String URL_COMPETITION_GET_LIST = "competition/getList";
     public final static String URL_COMPETITION_POST = "competition/save";
     public final static String URL_COMPETITION_ADD_USER = "competition/addUser";
     public final static String URL_COMPETITION_ADD_IMAGE = "competition/image";
     public final static String URL_MATCH_GET = "match/get";
+    public final static String URL_MATCH_GET_LIST = "match/getList";
     public final static String URL_MATCH_POST = "match/save";
+    public final static String URL_MATCH_ADD_SPECTATOR = "match/addSpectator";
     public final static String URL_MATCH_CLOSE = "match/close";
     public final static String URL_MATCH_OPEN = "match/open";
     public final static String URL_BALLOT_POST = "ballot/save";
-    public final static String URL_BALLOT_GET = "ballot/get";
+    public final static String URL_BALLOT_GET_LIST = "ballot/getList";
     public final static String URL_USER_GET = "user/get";
     public final static String URL_RANKING_TOP = "ranking/top";
     public final static String URL_RANKING_FLOP = "ranking/flop";

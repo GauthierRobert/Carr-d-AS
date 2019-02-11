@@ -101,7 +101,8 @@ public class VoteFragment extends Fragment {
     boolean withCommentTop;
     boolean withCommentFlop;
 
-    String[] users;
+    String[] players;
+    String[] spectators;
     String[] topVoteString;
     String[] flopVoteString;
 
@@ -125,8 +126,8 @@ public class VoteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        users = new String[1];
-        users[0] = GOD;
+        players = new String[1];
+        players[0] = GOD;
         View view = inflater.inflate(R.layout.fragment_vote, container, false);
         sharedPreferencesCredentials = this.getActivity().getSharedPreferences(MyPREFERENCES_CREDENTIALS, MODE_PRIVATE);
         sharedPreferencesCompetition = this.getActivity().getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
@@ -275,19 +276,23 @@ public class VoteFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Context context = getActivity();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Vote for TOP players");
 
-                LinearLayout layout = new LinearLayout(context);
-                layout.setOrientation(LinearLayout.VERTICAL);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_custom, null);
+                LinearLayout dialog_layout = dialogView.findViewById(R.id.dialog_layout);
+                ((TextView) dialogView.findViewById(R.id.title_dialog)).setText("Vote for TOP players");
+
                 final ListView topVote = new ListView(context);
 
                 final VoteAdapter_VoteFragment adapter_top = new VoteAdapter_VoteFragment(context,
-                        topVotes, users);
+                        topVotes, players);
                 topVote.setAdapter(adapter_top);
-                layout.addView(topVote);
-                layout.setPadding(50, 30, 50, 0);
-                builder.setView(layout);
+                dialog_layout.addView(topVote);
+                dialog_layout.setPadding(50, 30, 50, 0);
+
+
+                builder.setView(dialogView);
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
@@ -315,20 +320,21 @@ public class VoteFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Context context = getActivity();
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Vote for FLOP players");
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_custom, null);
+                LinearLayout dialog_layout = dialogView.findViewById(R.id.dialog_layout);
+                ((TextView) dialogView.findViewById(R.id.title_dialog)).setText("Vote for FLOP players");
 
-
-                LinearLayout layout = new LinearLayout(context);
-                layout.setOrientation(LinearLayout.VERTICAL);
                 final ListView flopVote = new ListView(context);
 
                 final VoteAdapter_VoteFragment adapter_flop = new VoteAdapter_VoteFragment(context,
-                        flopVotes, users);
+                        flopVotes, players);
                 flopVote.setAdapter(adapter_flop);
-                layout.addView(flopVote);
-                layout.setPadding(50, 30, 50, 0);
-                builder.setView(layout);
+                dialog_layout.addView(flopVote);
+                dialog_layout.setPadding(50, 30, 50, 0);
+                builder.setView(dialogView);
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
@@ -382,6 +388,45 @@ public class VoteFragment extends Fragment {
                 dialog.show();
 
 
+            }
+        };
+    }
+
+
+    private View.OnClickListener addSpectator() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getActivity();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_custom, null);
+                LinearLayout dialog_layout = dialogView.findViewById(R.id.dialog_layout);
+                ((TextView) dialogView.findViewById(R.id.title_dialog)).setText("Add Spectator");
+
+                final EditText editText = new EditText(context);
+                editText.setHint("Spectator");
+                dialog_layout.addView(editText);
+
+                builder.setView(dialogView);
+                // Set up the buttons
+                builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             }
         };
     }
@@ -510,10 +555,10 @@ public class VoteFragment extends Fragment {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        users = new String[response.length()];
+                        players = new String[response.length()];
                         for (int i = 0; i < response.length(); i++) {
                             try {
-                                users[i] = response.get(i).toString();
+                                players[i] = response.get(i).toString();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
