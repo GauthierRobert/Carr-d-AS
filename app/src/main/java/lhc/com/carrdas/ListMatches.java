@@ -282,14 +282,13 @@ public class ListMatches extends BaseActivity {
     }
 
     private MatchDto getMatchDto(String homeTeam, String awayTeam, Integer scoreHome, Integer scoreAway, List<String> spectators) {
-        return aMatchDto()
-                .inCompetiton(getCompetition_ref())
-                .createBy(getCurrentUser())
+        return aMatchDto().createBy(getCurrentUser())
                 .withSpectators(spectators)
+                .inCompetiton(getCompetition_ref())
                 .withHomeTeam(homeTeam)
-                .withScore(scoreHome)
-                .againstTeam(awayTeam)
-                .withScore(scoreAway)
+                .finallyScore(scoreHome)
+                .withAwayTeam(awayTeam)
+                .finallyScore(scoreAway)
                 .build();
     }
 

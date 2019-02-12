@@ -61,9 +61,9 @@ public class CompetitionAdapter_ListCompetitions extends ArrayAdapter<Competitio
 
 
         //adding values to the list item
-        name.setText(competitionDto.getName());
-        division.setText(competitionDto.getDivision());
-        season.setText(competitionDto.getSeason());
+        name.setText(competitionDto.getDetails().getName());
+        division.setText(competitionDto.getDetails().getDivision());
+        season.setText(competitionDto.getDetails().getSeason());
         toggleImage.setOnClickListener(getMenuForToggle());
 
 

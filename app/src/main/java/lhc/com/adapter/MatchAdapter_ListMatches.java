@@ -105,8 +105,8 @@ public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
     private String createInfo(MatchDto matchDto) {
 
 
-        return matchDto.getHomeTeam() + " " + matchDto.getHomeScore() + " - " +
-                matchDto.getAwayScore() + " " + matchDto.getAwayTeam();
+        return matchDto.getDetails().getHomeTeam() + " " + matchDto.getDetails().getHomeScore() + " - " +
+                matchDto.getDetails().getAwayScore() + " " + matchDto.getDetails().getAwayTeam();
 
     }
 

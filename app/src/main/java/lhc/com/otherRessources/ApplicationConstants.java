@@ -1,5 +1,7 @@
 package lhc.com.otherRessources;
 
+import lhc.com.dtos.enumeration.Label;
+
 public class ApplicationConstants {
 
 
@@ -17,8 +19,8 @@ public class ApplicationConstants {
     public static final String MATCH_REF = "match_ref";
     public static final String MATCH_STATUS = "match_status";
     public static final String MATCH_CREATOR = "match_creator";
-    public static final String NUMBER_VOTE_TOP = LabelType.NUMBER_VOTE_TOP.toString();
-    public static final String NUMBER_VOTE_FLOP = LabelType.NUMBER_VOTE_FLOP.toString();
+    public static final String NUMBER_VOTE_TOP = Label.NUMBER_VOTE_TOP.toString();
+    public static final String NUMBER_VOTE_FLOP = Label.NUMBER_VOTE_FLOP.toString();
     public static final String RULES =  "rules";
     public static final String JSON_LIST_VOTES_BUNDLE =  "json_list_votes_bundle";
     public static final String JSON_LIST_VOTES_INTENT =  "json_list_votes_intent";

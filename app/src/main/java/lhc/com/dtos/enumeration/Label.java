@@ -1,6 +1,6 @@
-package lhc.com.otherRessources;
+package lhc.com.dtos.enumeration;
 
-public enum LabelType {
+public enum Label {
 
     NUMBER_VOTE_TOP(1),
     NUMBER_VOTE_FLOP(2),
@@ -8,7 +8,7 @@ public enum LabelType {
 
     private int value;
 
-    LabelType(int value) {
+    Label(int value) {
         this.value = value;
 
     }

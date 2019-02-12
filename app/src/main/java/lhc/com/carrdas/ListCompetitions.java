@@ -256,10 +256,10 @@ public class ListCompetitions extends BaseActivity {
                 editor.putString(RULES, gson.toJson(ruleDtos));
                 editor.putInt(NUMBER_VOTE_TOP, getRules(NUMBER_VOTE_TOP, competitionDto.getRuleDtos()));
                 editor.putInt(NUMBER_VOTE_FLOP, getRules(NUMBER_VOTE_FLOP, competitionDto.getRuleDtos()));
-                editor.putBoolean(WITH_COMMENTS_TOP, competitionDto.isWithCommentTop());
-                editor.putBoolean(WITH_COMMENTS_FLOP, competitionDto.isWithCommentFlop());
-                editor.putString(NAME_TOP, competitionDto.getTopName());
-                editor.putString(NAME_FLOP, competitionDto.getFlopName());
+                editor.putBoolean(WITH_COMMENTS_TOP, competitionDto.getTopFlopDetails().isWithCommentTop());
+                editor.putBoolean(WITH_COMMENTS_FLOP, competitionDto.getTopFlopDetails().isWithCommentFlop());
+                editor.putString(NAME_TOP, competitionDto.getTopFlopDetails().getTopName());
+                editor.putString(NAME_FLOP, competitionDto.getTopFlopDetails().getFlopName());
                 editor.apply();
 
                 Intent intent = new Intent();

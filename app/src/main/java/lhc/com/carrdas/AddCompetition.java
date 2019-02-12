@@ -30,13 +30,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import lhc.com.volley.JsonObjectRequestPost;
 import lhc.com.adapter.VoteAdapter_newCompetition;
 import lhc.com.dtos.CompetitionDto;
+import lhc.com.dtos.enumeration.Sport;
 import lhc.com.otherRessources.BaseActivity;
+import lhc.com.volley.JsonObjectRequestPost;
 import lhc.com.volley.MySingletonRequestQueue;
 
-import static lhc.com.dtos.builder.CompetitionDtoBuilder.aCompetitionDto;
+import static lhc.com.dtos.builder.CompetitionDtoBuilder.aCompetitionDtoCreatedBy;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
@@ -312,16 +313,17 @@ public class AddCompetition extends BaseActivity {
         int numberTopVotes = Integer.parseInt(((EditText) findViewById(R.id.numberOfTopVoteAllowed_competition)).getText().toString());
         int numberFlopVotes = Integer.parseInt(((EditText) findViewById(R.id.numberOfFlopVoteAllowed_competition)).getText().toString());
 
-        CompetitionDto competitionDto = aCompetitionDto()
+        CompetitionDto competitionDto = aCompetitionDtoCreatedBy(username)
+                .withPassword(password)
+                .withConfirmedPassword(confirmedPassword)
+                .finallySport(Sport.HOCKEY)
                 .withName(name)
                 .withDivision(division)
                 .withSeason(season)
-                .withCreatorUsername(username)
-                .withPassword(password)
-                .withConfirmedPassword(confirmedPassword)
+                .finallyStatisticsName("Goals", null, null, null, null)
                 .withComments(isCheckedTop, isCheckedFlop)
                 .withTopFlopName(nameTop, nameFlop)
-                .withRuleDtos(numberTopVotes, numberFlopVotes)
+                .finallyRules(numberTopVotes, numberFlopVotes)
                 .withTopRuleDtos(topVoteInt)
                 .withFlopRuleDtos(flopVoteInt)
                 .build();
