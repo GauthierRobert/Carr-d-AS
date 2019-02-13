@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lhc.com.dtos.MatchDto;
 import lhc.com.volley.JsonArrayRequestGet;
 import lhc.com.volley.JsonObjectRequestPost;
 import lhc.com.adapter.VoteAdapter_VoteFragment;
@@ -47,8 +48,11 @@ import lhc.com.volley.MySingletonRequestQueue;
 import lombok.Data;
 
 import static android.content.Context.MODE_PRIVATE;
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_SPECTATORS_BUNDLE;
 import static lhc.com.otherRessources.ApplicationConstants.NAME_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.NAME_TOP;
+import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
+import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_ADD_SPECTATOR;
 import static lhc.com.volley.JsonArrayRequestGet.jsonArrayRequestGet;
 import static lhc.com.dtos.builder.BallotDtoBuilder.aBallotDtoWithRules;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
@@ -64,7 +68,7 @@ import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.RULES;
 import static lhc.com.otherRessources.ApplicationConstants.TOP;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_POST;
-import static lhc.com.otherRessources.ApplicationConstants.URL_USER_GET;
+import static lhc.com.otherRessources.ApplicationConstants.URL_USER_GET_LIST;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_TOP;
@@ -137,6 +141,8 @@ public class VoteFragment extends Fragment {
         }
 
         GetUsernamesLinkedToCompetition();
+        ArrayList<String> stringArrayList = getArguments().getStringArrayList(JSON_LIST_SPECTATORS_BUNDLE);
+        spectators = stringArrayList.toArray(new String[stringArrayList.size()]);
 
         overviewTop = view.findViewById(R.id.overviewOfTopVotes);
         overviewFlop = view.findViewById(R.id.overviewOfFlopVotes);
@@ -159,7 +165,7 @@ public class VoteFragment extends Fragment {
         withCommentFlop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_FLOP, false);
 
 
-        if ((numberTop == 0) && (!withCommentTop)){
+        if ((numberTop == 0) && (!withCommentTop)) {
             LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
             layout.setVisibility(View.GONE);
         } else {
@@ -171,7 +177,7 @@ public class VoteFragment extends Fragment {
                 commentsEditTextTop.setVisibility(View.GONE);
             }
         }
-        if ((numberFlop == 0) && (!withCommentFlop)){
+        if ((numberFlop == 0) && (!withCommentFlop)) {
             LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
             layout.setVisibility(View.GONE);
         } else {
@@ -190,6 +196,7 @@ public class VoteFragment extends Fragment {
 
         voteTopButton.setOnClickListener(editTopVotes());
         voteFlopButton.setOnClickListener(editFlopVotes());
+        addSpectator.setOnClickListener(addSpectator());
         submit.setOnClickListener(submit());
 
 
@@ -286,11 +293,10 @@ public class VoteFragment extends Fragment {
                 final ListView topVote = new ListView(context);
 
                 final VoteAdapter_VoteFragment adapter_top = new VoteAdapter_VoteFragment(context,
-                        topVotes, players);
+                        topVotes, players, spectators);
                 topVote.setAdapter(adapter_top);
                 dialog_layout.addView(topVote);
                 dialog_layout.setPadding(50, 30, 50, 0);
-
 
                 builder.setView(dialogView);
                 // Set up the buttons
@@ -330,10 +336,11 @@ public class VoteFragment extends Fragment {
                 final ListView flopVote = new ListView(context);
 
                 final VoteAdapter_VoteFragment adapter_flop = new VoteAdapter_VoteFragment(context,
-                        flopVotes, players);
+                        flopVotes, players, spectators);
                 flopVote.setAdapter(adapter_flop);
                 dialog_layout.addView(flopVote);
                 dialog_layout.setPadding(50, 30, 50, 0);
+
                 builder.setView(dialogView);
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
@@ -397,7 +404,7 @@ public class VoteFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getActivity();
+                final Context context = getActivity();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -408,13 +415,49 @@ public class VoteFragment extends Fragment {
                 final EditText editText = new EditText(context);
                 editText.setHint("Spectator");
                 dialog_layout.addView(editText);
+                dialog_layout.setPadding(50, 30, 50, 0);
 
                 builder.setView(dialogView);
                 // Set up the buttons
+
+
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        final String url = URL_BASE + URL_MATCH_ADD_SPECTATOR;
 
+                        List<String> specList = new ArrayList<>();
+                        if(editText.getText()==null){
+                            return;
+                        }
+                        specList.add(editText.getText().toString());
+                        MatchDto matchDto = MatchDto.matchDto(getMatch_ref(),specList);
+                        Gson gson = new Gson();
+                        final String mRequestBody = gson.toJson(matchDto);
+
+                        Context mContext = context;
+                        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
+                        JsonObjectRequestPost jsonObjectRequest = JsonObjectRequestPost.jsonObjectRequestPost(
+                                url,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.d("onResponse", "Create Ballot : " + response.toString());
+                                        ObjectMapper mapper = new ObjectMapper();
+                                        MatchDto matchDto = null;
+                                        try {
+                                            matchDto = mapper.readValue(response.toString(), MatchDto.class);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        spectators = matchDto.getVisitors().toArray(new String[matchDto.getVisitors().size()]);
+                                    }
+                                },
+                                mRequestBody,
+                                mContext
+                        );
+
+                        requestQueue.add(jsonObjectRequest);
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -430,6 +473,7 @@ public class VoteFragment extends Fragment {
             }
         };
     }
+
 
     private void saveComments() {
         commentTop = commentsEditTextTop.getText().toString();
@@ -546,7 +590,7 @@ public class VoteFragment extends Fragment {
 
     private void GetUsernamesLinkedToCompetition() {
         ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(COMPETITION_REF, getCompetition_ref());
-        final String url = createURL(URL_USER_GET, parameter);
+        final String url = createURL(URL_USER_GET_LIST, parameter);
         Context mContext = getActivity().getApplicationContext();
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext).getRequestQueue();
 

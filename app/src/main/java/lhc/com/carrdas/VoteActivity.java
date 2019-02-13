@@ -19,6 +19,8 @@ import lhc.com.otherRessources.BaseActivity;
 
 import static lhc.com.otherRessources.ApplicationConstants.CLOSED;
 import static lhc.com.otherRessources.ApplicationConstants.GOD;
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_SPECTATORS_BUNDLE;
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_SPECTATORS_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_BUNDLE;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
@@ -129,9 +131,11 @@ public class VoteActivity extends BaseActivity implements
         //switching fragment
         if (fragment != null) {
             Bundle bundle =  new Bundle();
-            if(getIntent().getStringExtra(JSON_LIST_VOTES_INTENT)!=null) {
+            if(getIntent().getStringExtra(JSON_LIST_VOTES_INTENT)!=null)
                 bundle.putString(JSON_LIST_VOTES_BUNDLE, getIntent().getStringExtra(JSON_LIST_VOTES_INTENT));
-            }
+            if(getIntent().getStringArrayListExtra(JSON_LIST_SPECTATORS_INTENT)!=null)
+                bundle.putStringArrayList(JSON_LIST_SPECTATORS_BUNDLE, getIntent().getStringArrayListExtra(JSON_LIST_SPECTATORS_INTENT));
+
             fragment.setArguments(bundle);
 
             getSupportFragmentManager()

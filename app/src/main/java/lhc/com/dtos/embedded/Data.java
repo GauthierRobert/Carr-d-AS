@@ -15,6 +15,9 @@ public class Data implements Serializable {
 
     private Integer data_5;
 
+    public Data() {
+    }
+
     public Data(Integer data_1, Integer data_2, Integer data_3, Integer data_4, Integer data_5) {
         this.data_1 = data_1;
         this.data_2 = data_2;

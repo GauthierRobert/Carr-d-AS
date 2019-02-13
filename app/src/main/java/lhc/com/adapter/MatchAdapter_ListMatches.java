@@ -18,12 +18,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.List;
 
 import lhc.com.carrdas.InfoMatchActivity;
-import lhc.com.carrdas.ListMatches;
 import lhc.com.carrdas.R;
 import lhc.com.dtos.MatchDto;
 import lhc.com.otherRessources.ApplicationConstants;
@@ -31,16 +29,13 @@ import lhc.com.volley.JsonArrayRequestGet;
 import lhc.com.volley.MySingletonRequestQueue;
 
 import static lhc.com.otherRessources.ApplicationConstants.CLOSED;
-import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_MATCH_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.ON_HOLD;
 import static lhc.com.otherRessources.ApplicationConstants.ON_HOLD_TEXT;
 import static lhc.com.otherRessources.ApplicationConstants.OPEN;
 import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET;
-import static lhc.com.otherRessources.ApplicationConstants.URL_USER_GET;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
-import static lhc.com.volley.JsonArrayRequestGet.jsonArrayRequestGet;
 
 public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
 

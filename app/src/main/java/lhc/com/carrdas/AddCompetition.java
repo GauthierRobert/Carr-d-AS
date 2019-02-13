@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -148,15 +149,17 @@ public class AddCompetition extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Context context = AddCompetition.this;
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Create your own rules");
 
-                LinearLayout layout = new LinearLayout(context);
-                layout.setOrientation(LinearLayout.VERTICAL);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater =  AddCompetition.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_custom, null);
+                LinearLayout dialog_layout = dialogView.findViewById(R.id.dialog_layout);
+                ((TextView) dialogView.findViewById(R.id.title_dialog)).setText("Create your own rules");
+
 
                 TextView explication = new TextView(context);
                 explication.setText("Enter the number of points you choose to allocate to the player at the choosen position : ");
-                layout.addView(explication);
+                dialog_layout.addView(explication);
 
                 final ListView topVote = new ListView(context);
                 final EditText numberTopET = findViewById(R.id.numberOfTopVoteAllowed_competition);
@@ -167,9 +170,9 @@ public class AddCompetition extends BaseActivity {
                 final VoteAdapter_newCompetition adapter_top = new VoteAdapter_newCompetition(AddCompetition.this,
                         pointTopList);
                 topVote.setAdapter(adapter_top);
-                layout.addView(topVote);
-                layout.setPadding(50, 30, 50, 0);
-                builder.setView(layout);
+                dialog_layout.addView(topVote);
+                dialog_layout.setPadding(50, 30, 50, 0);
+                builder.setView(dialogView);
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
@@ -197,15 +200,15 @@ public class AddCompetition extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Context context = AddCompetition.this;
-                AlertDialog.Builder builder = new AlertDialog.Builder(AddCompetition.this);
-                builder.setTitle("Create your own rules");
-
-                LinearLayout layout = new LinearLayout(context);
-                layout.setOrientation(LinearLayout.VERTICAL);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater =  AddCompetition.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_custom, null);
+                LinearLayout dialog_layout = dialogView.findViewById(R.id.dialog_layout);
+                ((TextView) dialogView.findViewById(R.id.title_dialog)).setText("Create your own rules");
 
                 TextView explication = new TextView(context);
                 explication.setText("Enter the number of points you choose to allocate to the player at the choosen position : ");
-                layout.addView(explication);
+                dialog_layout.addView(explication);
 
                 final ListView flopVote = new ListView(context);
                 final EditText numberFlopET = findViewById(R.id.numberOfFlopVoteAllowed_competition);
@@ -216,9 +219,9 @@ public class AddCompetition extends BaseActivity {
                 final VoteAdapter_newCompetition adapter_flop = new VoteAdapter_newCompetition(AddCompetition.this,
                         pointFlopList);
                 flopVote.setAdapter(adapter_flop);
-                layout.addView(flopVote);
-                layout.setPadding(50, 30, 50, 0);
-                builder.setView(layout);
+                dialog_layout.addView(flopVote);
+                dialog_layout.setPadding(50, 30, 50, 0);
+                builder.setView(dialogView);
                 // Set up the buttons
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
@@ -316,7 +319,7 @@ public class AddCompetition extends BaseActivity {
         CompetitionDto competitionDto = aCompetitionDtoCreatedBy(username)
                 .withPassword(password)
                 .withConfirmedPassword(confirmedPassword)
-                .finallySport(Sport.HOCKEY)
+                .finallySport(null)
                 .withName(name)
                 .withDivision(division)
                 .withSeason(season)

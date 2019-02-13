@@ -16,6 +16,9 @@ public class TopFlopDetails implements Serializable {
 
     private String flopName;
 
+    public TopFlopDetails() {
+    }
+
     public TopFlopDetails(boolean withCommentTop, boolean withCommentFlop, String topName, String flopName) {
         this.withCommentTop = withCommentTop;
         this.withCommentFlop = withCommentFlop;

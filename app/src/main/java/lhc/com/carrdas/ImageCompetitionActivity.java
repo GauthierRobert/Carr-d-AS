@@ -131,7 +131,7 @@ public class ImageCompetitionActivity extends BaseActivity {
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
                 targetImage.setImageBitmap(bitmap);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 25, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 imageAsBase64 = Base64.encodeToString(byteArray, Base64.NO_WRAP);
             } catch (FileNotFoundException e) {

@@ -15,6 +15,9 @@ public class CompetitionDetails {
 
     private Sport sport;
 
+    public CompetitionDetails() {
+    }
+
     public CompetitionDetails(String name, String season, String division, Sport sport) {
         this.name = name;
         this.season = season;

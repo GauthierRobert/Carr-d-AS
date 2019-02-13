@@ -48,8 +48,8 @@ import lhc.com.volley.MySingletonRequestQueue;
 import static lhc.com.dtos.builder.MatchDtoBuilder.aMatchDto;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.HAS_VOTED;
+import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_SPECTATORS_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_INTENT;
-import static lhc.com.otherRessources.ApplicationConstants.JSON_MATCH_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_STATUS;
@@ -57,7 +57,6 @@ import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETI
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_GET_LIST;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
-import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET;
 import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET_LIST;
 import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_POST;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
@@ -72,6 +71,7 @@ public class ListMatches extends BaseActivity {
     ListView listOfMatchesListView;
     List<MatchDto> listMatches;
     SwipeRefreshLayout mySwipeRefreshLayout;
+    ArrayList<String> spectators;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +132,8 @@ public class ListMatches extends BaseActivity {
                 editor.putString(MATCH_STATUS, matchDto.getStatus());
                 editor.putString(MATCH_CREATOR, matchDto.getCreatorUsername());
                 editor.apply();
+
+                spectators = (ArrayList<String>) matchDto.getVisitors();
 
                 getBallotListLinkedToMatch_and_GoToVoteActivity(matchDto.getReference());
             }
@@ -331,6 +333,7 @@ public class ListMatches extends BaseActivity {
 
     private void goToVoteActivity(JSONArray response) {
         Intent intent = getIntentWithJsonBallotList(response, JSON_LIST_VOTES_INTENT);
+        intent.putStringArrayListExtra(JSON_LIST_SPECTATORS_INTENT, spectators);
         intent.setClass(ListMatches.this, VoteActivity.class);
         startActivity(intent);
     }

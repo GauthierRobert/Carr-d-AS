@@ -7,25 +7,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.List;
 
 import lhc.com.carrdas.R;
+import lhc.com.otherRessources.ApplicationConstants;
 
 public class VoteAdapter_VoteFragment extends ArrayAdapter<String> {
 
     private List<String> userVoteList;
     private Context mContext;
-    private String[] users;
+    private String[] players;
+    private String[] spectators;
 
-    public VoteAdapter_VoteFragment(Context context, List<String> userVoteList, String[] users) {
+    public VoteAdapter_VoteFragment(Context context, List<String> userVoteList, String[] players, String[] spectators) {
         super(context, R.layout.cell_vote_user, userVoteList);
         this.userVoteList = userVoteList;
-        this.mContext=context;
-        this.users = users;
+        this.mContext = context;
+        this.players = players;
+        this.spectators = spectators;
     }
 
 
@@ -42,11 +45,18 @@ public class VoteAdapter_VoteFragment extends ArrayAdapter<String> {
         TextView numero_de_vote = view.findViewById(R.id.numero_de_vote);
         Spinner spinner = view.findViewById(R.id.user_vote_cell_auto_complete);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.cell_vote_fragment_spinner, R.id.auto_complete_text,  users);
+        String[] users = players;
+        if (spectators != null) {
+            if (spectators.length != 0) {
+                users = ApplicationConstants.concat(players, spectators);
+            }
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.cell_vote_fragment_spinner, R.id.auto_complete_text, users);
         spinner.setAdapter(adapter);
 
         //adding values to the list item
-        numero_de_vote.setText(String.format("#%s", position+1));
+        numero_de_vote.setText(String.format("#%s", position + 1));
 
         //finally returning the view
         return view;

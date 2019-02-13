@@ -38,8 +38,23 @@ public class MatchDto {
     private MatchDto() {
     }
 
+    private MatchDto(String reference, MatchDetails details, String competition_ref, String creatorUsername, String date, String status, List<String> visitors, List<BallotDto> ballotDtos) {
+        this.reference = reference;
+        this.details = details;
+        this.competition_ref = competition_ref;
+        this.creatorUsername = creatorUsername;
+        this.date = date;
+        this.status = status;
+        this.visitors = visitors;
+        this.ballotDtos = ballotDtos;
+    }
+
     public static MatchDto matchDto(String competition_ref, MatchDetails details, String creatorUsername, List<String> visitors){
         return new MatchDto(competition_ref, details, creatorUsername, visitors);
+    }
+
+    public static MatchDto matchDto(String reference, List<String> visitors){
+        return new MatchDto(reference, null, null, null, null, null, visitors, null);
     }
 
     public static MatchDto matchDto() {

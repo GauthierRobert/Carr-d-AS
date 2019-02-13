@@ -1,12 +1,14 @@
 package lhc.com.otherRessources;
 
+import java.util.Arrays;
+
 import lhc.com.dtos.enumeration.Label;
 
 public class ApplicationConstants {
 
 
-    public static final String MyPREFERENCES_CREDENTIALS = "MyPreferencesCredentials" ;
-    public static final String MyPREFERENCES_COMPETITION = "MyPreferencesCompetition" ;
+    public static final String MyPREFERENCES_CREDENTIALS = "MyPreferencesCredentials";
+    public static final String MyPREFERENCES_COMPETITION = "MyPreferencesCompetition";
 
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
@@ -21,11 +23,12 @@ public class ApplicationConstants {
     public static final String MATCH_CREATOR = "match_creator";
     public static final String NUMBER_VOTE_TOP = Label.NUMBER_VOTE_TOP.toString();
     public static final String NUMBER_VOTE_FLOP = Label.NUMBER_VOTE_FLOP.toString();
-    public static final String RULES =  "rules";
-    public static final String JSON_LIST_VOTES_BUNDLE =  "json_list_votes_bundle";
-    public static final String JSON_LIST_VOTES_INTENT =  "json_list_votes_intent";
-    public static final String JSON_MATCH_INTENT =  "json_match_intent";
-
+    public static final String RULES = "rules";
+    public static final String JSON_LIST_VOTES_BUNDLE = "json_list_votes_bundle";
+    public static final String JSON_LIST_VOTES_INTENT = "json_list_votes_intent";
+    public static final String JSON_MATCH_INTENT = "json_match_intent";
+    public static final String JSON_LIST_SPECTATORS_INTENT = "json_list_spectators_intent";
+    public static final String JSON_LIST_SPECTATORS_BUNDLE = "json_list_spectators_bundle";
 
 
     public final static String URL_BASE = "http://ec2-52-47-206-114.eu-west-3.compute.amazonaws.com:8080/RestServices/";
@@ -44,7 +47,7 @@ public class ApplicationConstants {
     public final static String URL_MATCH_OPEN = "match/open";
     public final static String URL_BALLOT_POST = "ballot/save";
     public final static String URL_BALLOT_GET_LIST = "ballot/getList";
-    public final static String URL_USER_GET = "user/get";
+    public final static String URL_USER_GET_LIST = "user/getList";
     public final static String URL_RANKING_TOP = "ranking/top";
     public final static String URL_RANKING_FLOP = "ranking/flop";
 
@@ -67,18 +70,18 @@ public class ApplicationConstants {
     public final static String GOD = "Almighty God";
 
 
-    public static String createURL(String URL_SPEC, Parameter... parameters){
+    public static String createURL(String URL_SPEC, Parameter... parameters) {
         String url = URL_BASE + URL_SPEC + "?";
-        for (int i = 0; i < parameters.length - 1 ; i++) {
+        for (int i = 0; i < parameters.length - 1; i++) {
             Parameter parameter = parameters[i];
-            url += parameter.getKey() + "=" + parameter.getValue()+ "&";
+            url += parameter.getKey() + "=" + parameter.getValue() + "&";
         }
-        url += parameters[parameters.length-1].getKey() + "=" + parameters[parameters.length-1].getValue();
+        url += parameters[parameters.length - 1].getKey() + "=" + parameters[parameters.length - 1].getValue();
         return url;
     }
 
 
-    public static class Parameter{
+    public static class Parameter {
         String key;
         String value;
 
@@ -102,6 +105,13 @@ public class ApplicationConstants {
         public void setValue(String value) {
             this.value = value;
         }
+    }
+
+
+    public static <T> T[] concat(T[] first, T[] second) {
+        T[] result = Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, result, first.length, second.length);
+        return result;
     }
 
 }

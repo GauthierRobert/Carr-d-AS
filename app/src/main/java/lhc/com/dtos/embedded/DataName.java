@@ -18,6 +18,9 @@ public class DataName implements Serializable {
 
     private String dataName_5;
 
+    public DataName() {
+    }
+
     public DataName(String dataName_1, String dataName_2, String dataName_3, String dataName_4, String dataName_5) {
         this.dataName_1 = dataName_1;
         this.dataName_2 = dataName_2;

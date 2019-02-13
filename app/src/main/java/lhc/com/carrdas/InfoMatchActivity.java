@@ -28,7 +28,7 @@ import lhc.com.volley.MySingletonRequestQueue;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_MATCH_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
-import static lhc.com.otherRessources.ApplicationConstants.URL_USER_GET;
+import static lhc.com.otherRessources.ApplicationConstants.URL_USER_GET_LIST;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 import static lhc.com.volley.JsonArrayRequestGet.jsonArrayRequestGet;
 
@@ -74,7 +74,7 @@ public class InfoMatchActivity extends AppCompatActivity {
 
     private void GetUsernamesLinkedToCompetition() {
         ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(COMPETITION_REF, getCompetition_ref());
-        final String url = createURL(URL_USER_GET, parameter);
+        final String url = createURL(URL_USER_GET_LIST, parameter);
 
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
 
