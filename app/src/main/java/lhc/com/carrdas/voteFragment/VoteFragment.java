@@ -166,7 +166,7 @@ public class VoteFragment extends Fragment {
 
 
         if ((numberTop == 0) && (!withCommentTop)) {
-            LinearLayout layout = view.findViewById(R.id.layout_flop_vote_user_is_voting);
+            LinearLayout layout = view.findViewById(R.id.layout_top_vote_user_is_voting);
             layout.setVisibility(View.GONE);
         } else {
             if (numberTop == 0) {

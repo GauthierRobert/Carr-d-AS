@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -67,6 +68,7 @@ public class ListCompetitions extends BaseActivity {
 
     SharedPreferences sharedpreferencesCompetition;
     private ListView listView;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,7 @@ public class ListCompetitions extends BaseActivity {
         GetCompetitionsListLinkedToUsername();
         listView.setOnItemClickListener(competitionClickListener());
 
+        progressBar = findViewById(R.id.loadingAnimation);
     }
 
     @NonNull
@@ -290,8 +293,11 @@ public class ListCompetitions extends BaseActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        progressBar.setVisibility(View.GONE);
                         List<CompetitionDto> listCompetitions = new ArrayList<>();
                         JSONObject json_competition = null;
+                        long startTime = System.currentTimeMillis();
+                        System.out.println("Execution of method mapper.readValue();");
                         for (int i = 0; i < response.length(); i++) {
                             try {
 
@@ -305,17 +311,20 @@ public class ListCompetitions extends BaseActivity {
                                 e.printStackTrace();
                             }
 
-                            final CompetitionAdapter_ListCompetitions adapter = new CompetitionAdapter_ListCompetitions(ListCompetitions.this, listCompetitions);
-                            listView.setAdapter(adapter);
-
 
                             if (json_competition != null) {
                                 Log.d(json_competition.toString(), "Output");
                             }
                         }
+
+                        long endTime = System.currentTimeMillis();
+                        System.out.println("Total elapsed time in execution of method mapper.readValue() is :" + (endTime - startTime));
+                        final CompetitionAdapter_ListCompetitions adapter = new CompetitionAdapter_ListCompetitions(ListCompetitions.this, listCompetitions);
+                        listView.setAdapter(adapter);
                     }
                 },
                 mContext);
+
         requestQueue.add(jsonObjectRequest);
     }
 

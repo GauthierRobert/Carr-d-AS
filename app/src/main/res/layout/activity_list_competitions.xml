@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ListCompetitions">
 
+    <ProgressBar
+        android:id="@+id/loadingAnimation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+
+        app:layout_constraintBottom_toBottomOf="@+id/listViewCompetition"
+        app:layout_constraintEnd_toEndOf="@+id/listViewCompetition"
+        app:layout_constraintStart_toStartOf="@+id/listViewCompetition"
+        app:layout_constraintTop_toTopOf="@+id/listViewCompetition" />
 
     <ListView
         android:id="@+id/listViewCompetition"
@@ -13,7 +25,7 @@
         android:layout_height="match_parent"
         android:animationCache="false"
         android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"
+        android:dividerHeight="8.0sp"
         android:scrollingCache="false"
         android:smoothScrollbar="true"
         android:paddingBottom="70dp"

@@ -68,10 +68,14 @@ public class CompetitionAdapter_ListCompetitions extends ArrayAdapter<Competitio
 
 
         String encodedImage = competitionDto.getImageAsBase64();
+
         if(encodedImage !=null) {
+            long startTime = System.currentTimeMillis();
             byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             image.setImageBitmap(decodedByte);
+            long endTime = System.currentTimeMillis();
+            System.out.println("Total elapsed time in execution of method decodeByteArray() is :"+ (endTime-startTime));
         } else {
             image.setVisibility(View.GONE);
         }

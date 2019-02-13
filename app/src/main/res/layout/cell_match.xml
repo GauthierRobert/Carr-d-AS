@@ -1,70 +1,80 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="5dp">
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp">
 
-    <ImageView
-        android:id="@+id/toggle_match"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="4dp"
-        android:background="@drawable/round"
-        android:padding="10dp"
-        android:src="@drawable/ic_more_vert_black_24dp" />
-
-    <TextView
-        android:id="@+id/info_match_cell"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/point_vote_cell"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/toggle_match"
-        android:text="Info match"
-        android:textColor="@android:color/black"
-        android:textSize="16dp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:background="@drawable/cardview">
 
-    <TextView
-        android:id="@+id/date_match_cell"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/arrow_image"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/toggle_match"
-        android:text="Date"
-        android:textColor="@android:color/black" />
+        <ImageView
+            android:id="@+id/toggle_match"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/round"
+            android:padding="10dp"
+            android:src="@drawable/ic_more_vert_black_24dp" />
 
-    <TextView
-        android:id="@+id/status_match_cell"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/arrow_image"
+        <TextView
+            android:id="@+id/info_match_cell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/point_vote_cell"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_toEndOf="@+id/toggle_match"
+            android:text="Info match"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
-        android:layout_alignBottom="@+id/arrow_image"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="-1dp"
-        android:layout_marginBottom="14dp"
-        android:layout_toStartOf="@+id/arrow_image"
-        android:text="STATUS"
-        android:textColor="@android:color/black"
-        android:textSize="16dp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/date_match_cell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/arrow_image"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@+id/toggle_match"
+            android:text="Date"
+            android:textColor="@android:color/black" />
 
-    <ImageView
-        android:id="@+id/arrow_image"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="7dp"
-        android:layout_marginRight="7dp"
-        android:src="@drawable/arrow" />
+        <TextView
+            android:id="@+id/status_match_cell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/arrow_image"
+
+            android:layout_alignBottom="@+id/arrow_image"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="-1dp"
+            android:layout_marginBottom="14dp"
+            android:layout_toStartOf="@+id/arrow_image"
+            android:text="STATUS"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/arrow_image"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/arrow" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

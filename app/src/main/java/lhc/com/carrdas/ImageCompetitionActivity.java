@@ -129,7 +129,20 @@ public class ImageCompetitionActivity extends BaseActivity {
             Bitmap bitmap;
             try {
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
-                targetImage.setImageBitmap(bitmap);
+                Bitmap croppedBmp = bitmap;
+
+                /*final double ratio = targetImage.getWidth() / targetImage.getHeight();
+                final double ratio_bitmap = bitmap.getWidth() / bitmap.getHeight();
+
+                if(ratio>ratio_bitmap) {
+                    croppedBmp = Bitmap.createBitmap(bitmap,
+                            0, 0, bitmap.getWidth()
+                            , (int) (bitmap.getWidth()/ratio));
+                } else {
+                    croppedBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth()
+                            , (int) (bitmap.getWidth()/ratio));
+                }¨*/
+                targetImage.setImageBitmap(croppedBmp);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 25, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
