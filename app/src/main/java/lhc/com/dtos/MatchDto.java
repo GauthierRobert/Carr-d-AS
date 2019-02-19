@@ -1,24 +1,22 @@
 package lhc.com.dtos;
 
 
+import java.util.List;
+
 import lhc.com.dtos.embedded.MatchDetails;
+import lhc.com.dtos.embedded.SystemDataDto;
 import lombok.Data;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import static lhc.com.dtos.embedded.SystemDataDto.systemDataDto;
 
 @Data
 public class MatchDto {
 
-    private String reference;
+    private SystemDataDto systemDataDto;
 
     private MatchDetails details;
 
     private String competition_ref;
-
-    private String creatorUsername;
 
     private String date;
 
@@ -28,42 +26,48 @@ public class MatchDto {
 
     private List<BallotDto> ballotDtos;
 
-    private MatchDto(String competition_ref, MatchDetails details, String creatorUsername, List<String> visitors) {
+    private MatchDto(String competition_ref, MatchDetails details, String createdBy, List<String> visitors) {
+        this.systemDataDto = systemDataDto(null, createdBy);
         this.competition_ref = competition_ref;
         this.details = details;
-        this.creatorUsername = creatorUsername;
         this.visitors = visitors;
     }
 
     private MatchDto() {
     }
 
-    private MatchDto(String reference, MatchDetails details, String competition_ref, String creatorUsername, String date, String status, List<String> visitors, List<BallotDto> ballotDtos) {
-        this.reference = reference;
+    public static MatchDto matchDto(String competition_ref, MatchDetails details, String createdBy, List<String> visitors){
+        return new MatchDto(competition_ref, details, createdBy, visitors);
+    }
+
+    private MatchDto(SystemDataDto systemDataDto, MatchDetails details, String competition_ref, String date, String status, List<String> visitors, List<BallotDto> ballotDtos) {
+        this.systemDataDto = systemDataDto;
         this.details = details;
         this.competition_ref = competition_ref;
-        this.creatorUsername = creatorUsername;
         this.date = date;
         this.status = status;
         this.visitors = visitors;
         this.ballotDtos = ballotDtos;
     }
 
-    public static MatchDto matchDto(String competition_ref, MatchDetails details, String creatorUsername, List<String> visitors){
-        return new MatchDto(competition_ref, details, creatorUsername, visitors);
+    public static MatchDto matchDto(){
+        return new MatchDto();
     }
 
     public static MatchDto matchDto(String reference, List<String> visitors){
-        return new MatchDto(reference, null, null, null, null, null, visitors, null);
-    }
-
-    public static MatchDto matchDto() {
-        return new MatchDto();
+        return new MatchDto(systemDataDto(reference, null), null, null, null, null, visitors, null);
     }
 
     public void addVisitor(String visitor) {
         this.visitors.add(visitor);
     }
+
+    public static String createInfo(MatchDto matchDto) {
+
+        return matchDto.getDetails().getHomeTeam() + " " + matchDto.getDetails().getHomeScore() + " - " +
+                matchDto.getDetails().getAwayScore() + " " + matchDto.getDetails().getAwayTeam();
+    }
+
 
 
 }

@@ -6,19 +6,20 @@ import java.util.List;
 
 import lhc.com.dtos.embedded.CompetitionDetails;
 import lhc.com.dtos.embedded.DataName;
+import lhc.com.dtos.embedded.SystemDataDto;
 import lhc.com.dtos.embedded.TopFlopDetails;
 import lombok.Data;
+
+import static lhc.com.dtos.embedded.SystemDataDto.systemDataDto;
 
 @Data
 public class CompetitionDto {
 
-    private String reference;
+    private SystemDataDto systemDataDto;
 
     private String password;
 
     private String confirmedPassword;
-
-    private String creatorUsername;
 
     private String imageAsBase64;
 
@@ -37,11 +38,14 @@ public class CompetitionDto {
         this.matchDtos = new ArrayList<>();
     }
 
-    public CompetitionDto(String reference, String password, String confirmedPassword, String creatorUsername, String imageAsBase64, CompetitionDetails details, TopFlopDetails topFlopDetails, DataName dataName, List<MatchDto> matchDtos, List<RuleDto> ruleDtos) {
-        this.reference = reference;
+    public CompetitionDto(String reference, String createdBy) {
+        this.systemDataDto = systemDataDto(reference, createdBy);
+    }
+
+    public CompetitionDto(String reference, String password, String confirmedPassword, String createdBy, String imageAsBase64, CompetitionDetails details, TopFlopDetails topFlopDetails, DataName dataName, List<MatchDto> matchDtos, List<RuleDto> ruleDtos) {
+        this.systemDataDto = systemDataDto(reference, createdBy);
         this.password = password;
         this.confirmedPassword = confirmedPassword;
-        this.creatorUsername = creatorUsername;
         this.imageAsBase64 = imageAsBase64;
         this.details = details;
         this.topFlopDetails = topFlopDetails;
@@ -62,6 +66,11 @@ public class CompetitionDto {
                 dataName,
                 new ArrayList<MatchDto>(),
                 ruleDtos);
+
+    }
+
+    public static CompetitionDto competitionDto(String reference) {
+        return new CompetitionDto(reference, "DELETED");
 
     }
 }

@@ -128,14 +128,14 @@ public class ListMatches extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferences.Editor editor = sharedPreferencesCompetition.edit();
                 MatchDto matchDto = (MatchDto) listOfMatchesListView.getAdapter().getItem(position);
-                editor.putString(MATCH_REF, matchDto.getReference());
+                editor.putString(MATCH_REF, matchDto.getSystemDataDto().getReference());
                 editor.putString(MATCH_STATUS, matchDto.getStatus());
-                editor.putString(MATCH_CREATOR, matchDto.getCreatorUsername());
+                editor.putString(MATCH_CREATOR, matchDto.getSystemDataDto().getCreatedBy());
                 editor.apply();
 
                 spectators = (ArrayList<String>) matchDto.getVisitors();
 
-                getBallotListLinkedToMatch_and_GoToVoteActivity(matchDto.getReference());
+                getBallotListLinkedToMatch_and_GoToVoteActivity(matchDto.getSystemDataDto().getReference());
             }
         };
     }

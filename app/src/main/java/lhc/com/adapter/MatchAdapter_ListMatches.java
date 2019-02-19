@@ -18,6 +18,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -26,8 +27,10 @@ import lhc.com.carrdas.R;
 import lhc.com.dtos.MatchDto;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.volley.JsonArrayRequestGet;
+import lhc.com.volley.JsonObjectRequestGet;
 import lhc.com.volley.MySingletonRequestQueue;
 
+import static lhc.com.dtos.MatchDto.createInfo;
 import static lhc.com.otherRessources.ApplicationConstants.CLOSED;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_MATCH_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
@@ -91,19 +94,12 @@ public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
 
         name.setText(createInfo(matchDto));
         date.setText(matchDto.getDate());
-        toggleMatch.setOnClickListener(getMenuForToggle(matchDto.getReference()));
+        toggleMatch.setOnClickListener(getMenuForToggle(matchDto.getSystemDataDto().getReference()));
 
         //finally returning the view
         return view;
     }
 
-    private String createInfo(MatchDto matchDto) {
-
-
-        return matchDto.getDetails().getHomeTeam() + " " + matchDto.getDetails().getHomeScore() + " - " +
-                matchDto.getDetails().getAwayScore() + " " + matchDto.getDetails().getAwayTeam();
-
-    }
 
 
     private View.OnClickListener getMenuForToggle(final String match_ref) {
@@ -148,11 +144,11 @@ public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
         ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(MATCH_REF, match_ref);
         final String url = createURL(URL_MATCH_GET, parameter);
         RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
-        JsonArrayRequestGet jsonObjectRequest = JsonArrayRequestGet.jsonArrayRequestGet(
+        JsonObjectRequestGet jsonObjectRequest = JsonObjectRequestGet.jsonObjectRequestGet(
                 url,
-                new Response.Listener<JSONArray>() {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         goToInfoActivity(response);
                     }
                 },
@@ -161,13 +157,13 @@ public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
     }
 
 
-    private void goToInfoActivity(JSONArray response) {
+    private void goToInfoActivity(JSONObject response) {
         Intent intent = getIntentWithJsonBallotList(response, JSON_MATCH_INTENT);
         intent.setClass(mContext, InfoMatchActivity.class);
         mContext.startActivity(intent);
     }
 
-    private Intent getIntentWithJsonBallotList(JSONArray response, String constant) {
+    private Intent getIntentWithJsonBallotList(JSONObject response, String constant) {
         Intent intent = new Intent();
         if (response != null)
             if (response.length() > 0) {

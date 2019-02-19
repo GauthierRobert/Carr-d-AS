@@ -44,7 +44,7 @@ import java.util.List;
 import lhc.com.carrdas.R;
 
 public class TakePictureFragment extends Fragment {
-
+    /*
     private OnFragmentInteractionListener mListener;
     private static final String TAG = "AndroidCameraApi";
     private Button takePictureButton;
@@ -353,5 +353,6 @@ public class TakePictureFragment extends Fragment {
         stopBackgroundThread();
         super.onPause();
     }
+    */
 }
 

@@ -33,7 +33,6 @@ import java.util.Objects;
 
 import lhc.com.adapter.VoteAdapter_newCompetition;
 import lhc.com.dtos.CompetitionDto;
-import lhc.com.dtos.enumeration.Sport;
 import lhc.com.otherRessources.BaseActivity;
 import lhc.com.volley.JsonObjectRequestPost;
 import lhc.com.volley.MySingletonRequestQueue;
@@ -290,7 +289,7 @@ public class AddCompetition extends BaseActivity {
                             e.printStackTrace();
                         }
                         if (competitionDto != null) {
-                            goToImageCompetition(competitionDto.getReference());
+                            goToImageCompetition(competitionDto.getSystemDataDto().getReference());
                         }
                     }
                 },

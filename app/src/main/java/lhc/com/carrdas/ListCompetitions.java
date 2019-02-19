@@ -255,7 +255,7 @@ public class ListCompetitions extends BaseActivity {
                 editor.clear();
 
                 Gson gson = new Gson();
-                editor.putString(COMPETITION_REF, competitionDto.getReference());
+                editor.putString(COMPETITION_REF, competitionDto.getSystemDataDto().getReference());
                 editor.putString(RULES, gson.toJson(ruleDtos));
                 editor.putInt(NUMBER_VOTE_TOP, getRules(NUMBER_VOTE_TOP, competitionDto.getRuleDtos()));
                 editor.putInt(NUMBER_VOTE_FLOP, getRules(NUMBER_VOTE_FLOP, competitionDto.getRuleDtos()));

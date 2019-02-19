@@ -80,7 +80,6 @@ public class ApplicationConstants {
         return url;
     }
 
-
     public static class Parameter {
         String key;
         String value;

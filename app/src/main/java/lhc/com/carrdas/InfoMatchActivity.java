@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,6 +26,7 @@ import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.volley.JsonArrayRequestGet;
 import lhc.com.volley.MySingletonRequestQueue;
 
+import static lhc.com.dtos.MatchDto.createInfo;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_MATCH_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
@@ -46,6 +48,9 @@ public class InfoMatchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info_match);
         sharedPreferencesCompetition = getSharedPreferences(MyPREFERENCES_COMPETITION, MODE_PRIVATE);
         hasVotedListView = findViewById(R.id.listViewHasVoted);
+        TextView matchInfo = findViewById(R.id.match_description_info);
+        TextView matchDate = findViewById(R.id.match_date_info);
+
         String jsonMatch = getIntent().getStringExtra(JSON_MATCH_INTENT);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -56,7 +61,9 @@ public class InfoMatchActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        matchInfo.setText(createInfo(matchDto));
+        matchDate.setText(matchDto.getDate());
+        
         GetUsernamesLinkedToCompetition();
 
     }

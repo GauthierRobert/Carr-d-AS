@@ -37,14 +37,14 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/match_description_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Title"
                         android:textSize="30sp" />
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/match_date_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Date"
@@ -64,7 +64,10 @@
                 <ListView
                     android:id="@+id/listViewHasVoted"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:listSelector="@android:color/transparent"/>
             </android.support.v7.widget.CardView>
 
 
