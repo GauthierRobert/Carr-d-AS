@@ -73,7 +73,7 @@ public class InfoMatchActivity extends AppCompatActivity {
         List<String> hasVotedUsers = new ArrayList<>();
 
         for (BallotDto ballotDto : ballotDtos) {
-            hasVotedUsers.add(ballotDto.getUsername());
+            hasVotedUsers.add(ballotDto.getUsername().toLowerCase());
         }
 
         return hasVotedUsers;
@@ -112,7 +112,7 @@ public class InfoMatchActivity extends AppCompatActivity {
     private List<HasVotedPlayerCell> compareList(List<String> playersList, List<String> hasVotedPlayers) {
         List<HasVotedPlayerCell> hasVotedPlayerCells = new ArrayList<>();
         for (String player : playersList) {
-            hasVotedPlayerCells.add(new HasVotedPlayerCell(player, hasVotedPlayers.contains(player)));
+            hasVotedPlayerCells.add(new HasVotedPlayerCell(player, hasVotedPlayers.contains(player.toLowerCase())));
         }
         return hasVotedPlayerCells;
     }
