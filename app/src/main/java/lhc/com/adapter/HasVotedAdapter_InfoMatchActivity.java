@@ -50,6 +50,8 @@ public class HasVotedAdapter_InfoMatchActivity extends ArrayAdapter<HasVotedPlay
         player.setText(hasVotedPlayerCellPlayer);
         if(!hasVotedPlayerCellHasVoted) {
             check.setVisibility(View.INVISIBLE);
+        } else {
+            check.setVisibility(View.VISIBLE);
         }
 
         return view;
