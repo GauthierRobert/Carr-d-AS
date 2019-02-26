@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CountingBallotActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="30dp"
+        android:scrollbarStyle="outsideOverlay">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layout_rankings_counting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/layout_ranking_top_counting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical"
+                    android:padding="4dp">
+                    <include
+                        layout="@layout/cell_ranking"
+                        android:id="@+id/included_top_1" />
+                    <include
+                        layout="@layout/cell_ranking"
+                        android:id="@+id/included_top_2" />
+                    <include
+                        layout="@layout/cell_ranking"
+                        android:id="@+id/included_top_3" />
+                    <include
+                        layout="@layout/cell_ranking"
+                        android:id="@+id/included_top_4" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_ranking_flop_counting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical"
+                    android:padding="4dp">
+                    <include
+                        layout="@layout/cell_ranking"
+                        android:id="@+id/included_flop_1" />
+                    <include
+                        layout="@layout/cell_ranking"
+                        android:id="@+id/included_flop_2" />
+                    <include
+                        layout="@layout/cell_ranking"
+                        android:id="@+id/included_flop_3" />
+                    <include
+                        layout="@layout/cell_ranking"
+                        android:id="@+id/included_flop_4" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_top_counting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name_top_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/top"
+                    android:textColor="@color/lhc_red_dark"
+
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/overviewOfTopVotes_counting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="You didn't vote yet" />
+
+                <TextView
+                    android:id="@+id/comments_counting_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bordershape"
+                    android:padding="8dp"
+                    android:scrollbars="vertical" />
+
+                <Spinner
+                    android:id="@+id/validation_top_spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="5dp"
+                    android:selectAllOnFocus="false"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_flop_vote_counting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name_flop_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/flop"
+                    android:textColor="@color/lhc_red_dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/overviewOfFlopVotes_counting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="You didn't vote yet" />
+
+                <TextView
+                    android:id="@+id/comments_counting_flop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bordershape"
+                    android:padding="8dp"
+                    android:scrollbars="vertical" />
+
+                <Spinner
+                    android:id="@+id/validation_flop_spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="5dp"
+                    android:selectAllOnFocus="false"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/next_ballot_counting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/lhc_red_dark"
+                android:text="Next"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
