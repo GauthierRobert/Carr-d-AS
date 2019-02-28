@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -22,98 +23,72 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <LinearLayout
+    <TableLayout
+        android:id="@+id/layout_button_list_competition"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <Button
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="3dp"
-        android:layout_gravity="center"
+        android:layout_height="match_parent"
         android:background="@color/transparent"
-        android:drawableLeft="@drawable/ic_menu_person"
-        android:drawablePadding="2dip"
-        android:gravity="center_vertical"
-        android:paddingLeft="15dip"
-        android:singleLine="true"
-        android:text="Hello"
-        android:textSize="13dip" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:layout_gravity="center"
-            android:background="@color/transparent"
-            android:drawableLeft="@drawable/ic_menu_person"
-            android:drawablePadding="2dip"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dip"
-            android:singleLine="true"
-            android:text="Hello"
-            android:textSize="13dip" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:layout_gravity="center"
-            android:background="@color/transparent"
-            android:drawableLeft="@drawable/ic_menu_person"
-            android:drawablePadding="2dip"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dip"
-            android:singleLine="true"
-            android:text="Hello"
-            android:textSize="13dip" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:layout_gravity="center"
-            android:background="@color/transparent"
-            android:drawableLeft="@drawable/ic_menu_person"
-            android:drawablePadding="2dip"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dip"
-            android:singleLine="true"
-            android:text="Hello"
-            android:textSize="13dip" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:layout_gravity="center"
-            android:background="@color/transparent"
-            android:drawableLeft="@drawable/ic_menu_person"
-            android:drawablePadding="2dip"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dip"
-            android:singleLine="true"
-            android:text="Hello"
-            android:textSize="13dip" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+        android:orientation="horizontal"
+        android:stretchColumns="*"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".33"
+        >
 
-    </LinearLayout>
+        <TableRow>
+
+            <Button
+                android:layout_height="100dp"
+                android:background="@color/transparent"
+                android:drawableTop="@drawable/ic_reply_black_24dp"
+                android:padding="20dp"
+                android:text="Button"
+                android:textColor="@color/lhc_red_dark" />
+
+
+            <Button
+                android:layout_height="100dp"
+                android:background="@color/transparent"
+                android:drawableTop="@drawable/ic_reply_black_24dp"
+                android:padding="20dp"
+                android:text="Button"
+                android:textColor="@color/lhc_red_dark" />
+
+            <Button
+                android:layout_height="100dp"
+                android:background="@color/transparent"
+                android:drawableTop="@drawable/ic_reply_black_24dp"
+                android:padding="20dp"
+                android:text="Button"
+                android:textColor="@color/lhc_red_dark" />
+        </TableRow>
+        <TableRow>
+
+            <Button
+                android:layout_height="100dp"
+                android:background="@color/transparent"
+                android:drawableTop="@drawable/ic_reply_black_24dp"
+                android:padding="20dp"
+                android:text="Button"
+                android:textColor="@color/lhc_red_dark" />
+
+
+            <Button
+                android:layout_height="100dp"
+                android:background="@color/transparent"
+                android:drawableTop="@drawable/ic_reply_black_24dp"
+                android:padding="20dp"
+                android:text="Button"
+                android:textColor="@color/lhc_red_dark" />
+
+            <Button
+                android:layout_height="100dp"
+                android:background="@color/transparent"
+                android:drawableTop="@drawable/ic_reply_black_24dp"
+                android:padding="20dp"
+                android:text="Button"
+                android:textColor="@color/lhc_red_dark" />
+        </TableRow>
+
+    </TableLayout>
 
 </LinearLayout>

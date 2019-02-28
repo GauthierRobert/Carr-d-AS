@@ -267,6 +267,22 @@ public class ListMatches extends BaseActivity {
 
                 builder.show();
 
+
+                /*Context context = ListMatches.this;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = ListMatches.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_custom_match_menu, null);
+                ((TextView) dialogView.findViewById(R.id.title_dialog)).setText("Create match");
+                builder.setView(dialogView);
+                // Set up the buttons
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();*/
             }
         };
     }
