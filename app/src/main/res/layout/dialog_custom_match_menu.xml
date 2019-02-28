@@ -43,24 +43,115 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/buttonId"
+            android:id="@+id/Info"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical"
             android:background="@color/transparent"
-            android:drawableLeft=""
+            android:drawableStart="@drawable/info"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:paddingLeft="40dip"
+            android:paddingStart="40dip"
             android:singleLine="true"
-            android:text="Hello"
-            android:textSize="13dip" />
+            android:text="Informations"
+            android:textSize="15sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+        <Button
+            android:id="@+id/votes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/transparent"
+            android:drawableStart="@drawable/vote"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:paddingStart="40dip"
+            android:singleLine="true"
+            android:text="Votes/Rankings"
+            android:textSize="15sp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"/>
 
+        <Button
+            android:id="@+id/counting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/transparent"
+            android:drawableStart="@drawable/polling"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:paddingStart="40dip"
+            android:singleLine="true"
+            android:text="Counting"
+            android:textSize="15sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+        <Button
+            android:id="@+id/live"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/transparent"
+            android:drawableStart="@drawable/live"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:paddingStart="40dip"
+            android:singleLine="true"
+            android:text="Score"
+            android:textSize="15sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/transparent"
+            android:drawableStart="@drawable/maintenance"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:paddingStart="40dip"
+            android:singleLine="true"
+            android:text="edit"
+            android:textSize="15sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/transparent"
+            android:drawableStart="@drawable/delete"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:paddingStart="40dip"
+            android:singleLine="true"
+            android:text="Delete"
+            android:textSize="15sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
     </LinearLayout>
 
 
