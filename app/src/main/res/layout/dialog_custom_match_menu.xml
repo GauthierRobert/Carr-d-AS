@@ -36,6 +36,7 @@
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,100 +47,89 @@
             android:id="@+id/Info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="3dp"
             android:background="@color/transparent"
-            android:drawableStart="@drawable/info"
+            android:drawableStart="@drawable/ic_info"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:paddingStart="40dip"
             android:singleLine="true"
             android:text="Informations"
             android:textSize="15sp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+
         <Button
             android:id="@+id/votes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="3dp"
             android:background="@color/transparent"
-            android:drawableStart="@drawable/vote"
+            android:drawableStart="@drawable/ic_ballot"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:paddingStart="40dip"
             android:singleLine="true"
             android:text="Votes/Rankings"
             android:textSize="15sp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+
 
         <Button
             android:id="@+id/counting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="3dp"
             android:background="@color/transparent"
-            android:drawableStart="@drawable/polling"
+            android:drawableStart="@drawable/ic_polling"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:paddingStart="40dip"
             android:singleLine="true"
             android:text="Counting"
             android:textSize="15sp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
 
         <Button
             android:id="@+id/live"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="3dp"
             android:background="@color/transparent"
-            android:drawableStart="@drawable/live"
+            android:drawableStart="@drawable/ic_live"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:paddingStart="40dip"
             android:singleLine="true"
             android:text="Score"
             android:textSize="15sp" />
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_height="5dp"
+            android:background="@android:color/darker_gray" />
+
         <Button
             android:id="@+id/edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="3dp"
             android:background="@color/transparent"
-            android:drawableStart="@drawable/maintenance"
+            android:drawableStart="@drawable/ic_edit"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:paddingStart="40dip"
             android:singleLine="true"
             android:text="edit"
             android:textSize="15sp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+
         <Button
             android:id="@+id/delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="3dp"
             android:background="@color/transparent"
             android:drawableStart="@drawable/delete"
             android:drawablePadding="8dp"
@@ -148,10 +138,7 @@
             android:singleLine="true"
             android:text="Delete"
             android:textSize="15sp" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+
     </LinearLayout>
 
 
