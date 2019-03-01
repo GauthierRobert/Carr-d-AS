@@ -62,11 +62,6 @@ public class MatchDto {
         this.visitors.add(visitor);
     }
 
-    public static String createInfo(MatchDto matchDto) {
-
-        return matchDto.getDetails().getHomeTeam() + " " + matchDto.getDetails().getHomeScore() + " - " +
-                matchDto.getDetails().getAwayScore() + " " + matchDto.getDetails().getAwayTeam();
-    }
 
 
 

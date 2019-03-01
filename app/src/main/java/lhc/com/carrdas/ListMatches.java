@@ -42,6 +42,7 @@ import lhc.com.dtos.MatchDto;
 import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.otherRessources.BaseActivity;
 import lhc.com.volley.JsonArrayRequestGet;
+import lhc.com.volley.JsonObjectRequestGet;
 import lhc.com.volley.JsonObjectRequestPost;
 import lhc.com.volley.MySingletonRequestQueue;
 
@@ -50,6 +51,7 @@ import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.HAS_VOTED;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_SPECTATORS_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_INTENT;
+import static lhc.com.otherRessources.ApplicationConstants.JSON_MATCH_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_STATUS;
@@ -57,6 +59,7 @@ import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETI
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_GET_LIST;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
+import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET;
 import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET_LIST;
 import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_POST;
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
@@ -126,8 +129,59 @@ public class ListMatches extends BaseActivity {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SharedPreferences.Editor editor = sharedPreferencesCompetition.edit();
                 MatchDto matchDto = (MatchDto) listOfMatchesListView.getAdapter().getItem(position);
+
+                Context context = ListMatches.this;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = ListMatches.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_custom_match_menu, null);
+                ((TextView) dialogView.findViewById(R.id.match_description_info_dialog)).setText(matchDto.getDetails().createInfo());
+                ((TextView) dialogView.findViewById(R.id.match_date_info_dialog)).setText(matchDto.getDate());
+                dialogView.findViewById(R.id.info_button_dialog).setOnClickListener(onInfoClick(matchDto.getSystemDataDto().getReference()));
+                dialogView.findViewById(R.id.vote_button_dialog).setOnClickListener(OnClickVote((matchDto)));
+                builder.setView(dialogView);
+                // Set up the buttons
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+
+                OnClickVote(matchDto);
+            }
+        };
+    }
+
+    private View.OnClickListener onInfoClick(final String match_ref) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(MATCH_REF, match_ref);
+                final String url = createURL(URL_MATCH_GET, parameter);
+                RequestQueue requestQueue = MySingletonRequestQueue.getInstance(ListMatches.this.getApplicationContext()).getRequestQueue();
+                JsonObjectRequestGet jsonObjectRequest = JsonObjectRequestGet.jsonObjectRequestGet(
+                        url,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                goToInfoActivity(response);
+                            }
+                        },
+                        ListMatches.this);
+                requestQueue.add(jsonObjectRequest);
+            }
+        };
+    }
+
+    private View.OnClickListener OnClickVote(final MatchDto matchDto) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sharedPreferencesCompetition.edit();
+
                 editor.putString(MATCH_REF, matchDto.getSystemDataDto().getReference());
                 editor.putString(MATCH_STATUS, matchDto.getStatus());
                 editor.putString(MATCH_CREATOR, matchDto.getSystemDataDto().getCreatedBy());
@@ -139,6 +193,23 @@ public class ListMatches extends BaseActivity {
             }
         };
     }
+
+
+    private void goToInfoActivity(JSONObject response) {
+        Intent intent = getIntentWithJsonBallotList(response, JSON_MATCH_INTENT);
+        intent.setClass(ListMatches.this, InfoMatchActivity.class);
+        ListMatches.this.startActivity(intent);
+    }
+
+    private Intent getIntentWithJsonBallotList(JSONObject response, String constant) {
+        Intent intent = new Intent();
+        if (response != null)
+            if (response.length() > 0) {
+                intent.putExtra(constant, response.toString());
+            }
+        return intent;
+    }
+
 
     private void GetMatchesListLinkedToCompetition() {
         ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(COMPETITION_REF, getCompetition_ref());
@@ -268,21 +339,6 @@ public class ListMatches extends BaseActivity {
                 builder.show();
 
 
-                /*Context context = ListMatches.this;
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                LayoutInflater inflater = ListMatches.this.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.dialog_custom_match_menu, null);
-                ((TextView) dialogView.findViewById(R.id.title_dialog)).setText("Create match");
-                builder.setView(dialogView);
-                // Set up the buttons
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();*/
             }
         };
     }

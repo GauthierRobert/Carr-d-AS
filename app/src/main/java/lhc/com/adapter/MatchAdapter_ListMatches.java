@@ -1,44 +1,24 @@
 package lhc.com.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.List;
 
-import lhc.com.carrdas.InfoMatchActivity;
 import lhc.com.carrdas.R;
 import lhc.com.dtos.MatchDto;
-import lhc.com.otherRessources.ApplicationConstants;
-import lhc.com.volley.JsonArrayRequestGet;
-import lhc.com.volley.JsonObjectRequestGet;
-import lhc.com.volley.MySingletonRequestQueue;
 
-import static lhc.com.dtos.MatchDto.createInfo;
 import static lhc.com.otherRessources.ApplicationConstants.CLOSED;
-import static lhc.com.otherRessources.ApplicationConstants.JSON_MATCH_INTENT;
-import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
 import static lhc.com.otherRessources.ApplicationConstants.ON_HOLD;
 import static lhc.com.otherRessources.ApplicationConstants.ON_HOLD_TEXT;
 import static lhc.com.otherRessources.ApplicationConstants.OPEN;
-import static lhc.com.otherRessources.ApplicationConstants.URL_MATCH_GET;
-import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
 public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
 
@@ -70,7 +50,6 @@ public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
         TextView name = view.findViewById(R.id.info_match_cell);
         TextView date = view.findViewById(R.id.date_match_cell);
         TextView status = view.findViewById(R.id.status_match_cell);
-        ImageView toggleMatch = view.findViewById(R.id.toggle_match);
         //getting the hero of the specified position
 
         MatchDto matchDto = matchDtos.get(position);
@@ -92,9 +71,8 @@ public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
             }
         }
 
-        name.setText(createInfo(matchDto));
+        name.setText(matchDto.getDetails().createInfo());
         date.setText(matchDto.getDate());
-        toggleMatch.setOnClickListener(getMenuForToggle(matchDto.getSystemDataDto().getReference()));
 
         //finally returning the view
         return view;
@@ -102,75 +80,6 @@ public class MatchAdapter_ListMatches extends ArrayAdapter<MatchDto> {
 
 
 
-    private View.OnClickListener getMenuForToggle(final String match_ref) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.toggle_match:
-                        PopupMenu popup = new PopupMenu(mContext.getApplicationContext(), view);
-                        popup.setOnMenuItemClickListener(getOnMenuItemClickListener(match_ref));
-                        popup.getMenuInflater().inflate(R.menu.clipboard_popup_match, popup.getMenu());
-                        popup.show();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
-    }
-
-    private PopupMenu.OnMenuItemClickListener getOnMenuItemClickListener(final String match_ref) {
-        return new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.info:
-                        getMatch_and_GoToInfoActivity(match_ref);
-                        break;
-                    case R.id.edit:
-                        break;
-                    case R.id.delete:
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        };
-    }
-
-    private void getMatch_and_GoToInfoActivity(String match_ref) {
-        ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(MATCH_REF, match_ref);
-        final String url = createURL(URL_MATCH_GET, parameter);
-        RequestQueue requestQueue = MySingletonRequestQueue.getInstance(mContext.getApplicationContext()).getRequestQueue();
-        JsonObjectRequestGet jsonObjectRequest = JsonObjectRequestGet.jsonObjectRequestGet(
-                url,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        goToInfoActivity(response);
-                    }
-                },
-                mContext);
-        requestQueue.add(jsonObjectRequest);
-    }
-
-
-    private void goToInfoActivity(JSONObject response) {
-        Intent intent = getIntentWithJsonBallotList(response, JSON_MATCH_INTENT);
-        intent.setClass(mContext, InfoMatchActivity.class);
-        mContext.startActivity(intent);
-    }
-
-    private Intent getIntentWithJsonBallotList(JSONObject response, String constant) {
-        Intent intent = new Intent();
-        if (response != null)
-            if (response.length() > 0) {
-                intent.putExtra(constant, response.toString());
-            }
-        return intent;
-    }
 
 
 

@@ -2,6 +2,7 @@ package lhc.com.dtos.embedded;
 
 import java.io.Serializable;
 
+import lhc.com.dtos.MatchDto;
 import lombok.Data;
 
 
@@ -30,4 +31,11 @@ public class MatchDetails implements Serializable {
     public static MatchDetails matchDetails(String homeTeam, Integer homeScore, String awayTeam, Integer awayScore){
         return new MatchDetails(homeTeam, homeScore, awayTeam, awayScore);
     }
+
+    public String createInfo() {
+
+        return getHomeTeam() + " " + getHomeScore() + " - " +
+               getAwayScore() + " " + getAwayTeam();
+    }
+
 }

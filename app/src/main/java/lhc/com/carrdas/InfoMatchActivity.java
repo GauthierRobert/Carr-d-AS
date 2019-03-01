@@ -26,7 +26,6 @@ import lhc.com.otherRessources.ApplicationConstants;
 import lhc.com.volley.JsonArrayRequestGet;
 import lhc.com.volley.MySingletonRequestQueue;
 
-import static lhc.com.dtos.MatchDto.createInfo;
 import static lhc.com.otherRessources.ApplicationConstants.COMPETITION_REF;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_MATCH_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
@@ -61,7 +60,7 @@ public class InfoMatchActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        matchInfo.setText(createInfo(matchDto));
+        matchInfo.setText(matchDto.getDetails().createInfo());
         matchDate.setText(matchDto.getDate());
         
         GetUsernamesLinkedToCompetition();

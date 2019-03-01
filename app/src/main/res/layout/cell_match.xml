@@ -14,24 +14,14 @@
         android:padding="5dp"
         android:background="@drawable/cardview">
 
-        <ImageView
-            android:id="@+id/toggle_match"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="4dp"
-            android:background="@drawable/round"
-            android:padding="10dp"
-            android:src="@drawable/ic_more_vert_black_24dp" />
-
         <TextView
             android:id="@+id/info_match_cell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/point_vote_cell"
+            android:layout_alignParentStart="true"
             android:layout_marginStart="5dp"
             android:layout_marginTop="0dp"
-            android:layout_toEndOf="@+id/toggle_match"
             android:text="Info match"
             android:textColor="@android:color/black"
             android:textSize="16dp"
@@ -41,10 +31,10 @@
             android:id="@+id/date_match_cell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/info_match_cell"
             android:layout_alignBottom="@+id/arrow_image"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="0dp"
             android:layout_marginBottom="0dp"
-            android:layout_toEndOf="@+id/toggle_match"
             android:text="Date"
             android:textColor="@android:color/black" />
 
@@ -52,16 +42,13 @@
             android:id="@+id/status_match_cell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/arrow_image"
-
-            android:layout_alignBottom="@+id/arrow_image"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="-1dp"
-            android:layout_marginBottom="14dp"
-            android:layout_toStartOf="@+id/arrow_image"
+            android:layout_alignBottom="@+id/date_match_cell"
+            android:layout_marginStart="100dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toEndOf="@+id/date_match_cell"
             android:text="STATUS"
             android:textColor="@android:color/black"
-            android:textSize="16dp"
+            android:textSize="12dp"
             android:textStyle="bold" />
 
         <ImageView
