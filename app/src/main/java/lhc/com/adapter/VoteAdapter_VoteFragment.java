@@ -56,7 +56,7 @@ public class VoteAdapter_VoteFragment extends ArrayAdapter<String> {
         spinner.setAdapter(adapter);
 
         //adding values to the list item
-        numero_de_vote.setText(String.format("#%s", position + 1));
+        numero_de_vote.setText(String.format("#%s", position));
 
         //finally returning the view
         return view;

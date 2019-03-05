@@ -131,26 +131,29 @@ public class ListMatches extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MatchDto matchDto = (MatchDto) listOfMatchesListView.getAdapter().getItem(position);
 
-                Context context = ListMatches.this;
+                if(getCurrentUser().equalsIgnoreCase(matchDto.getSystemDataDto().getCreatedBy())) {
+                    Context context = ListMatches.this;
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                LayoutInflater inflater = ListMatches.this.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.dialog_custom_match_menu, null);
-                ((TextView) dialogView.findViewById(R.id.match_description_info_dialog)).setText(matchDto.getDetails().createInfo());
-                ((TextView) dialogView.findViewById(R.id.match_date_info_dialog)).setText(matchDto.getDate());
-                dialogView.findViewById(R.id.info_button_dialog).setOnClickListener(onInfoClick(matchDto.getSystemDataDto().getReference()));
-                dialogView.findViewById(R.id.vote_button_dialog).setOnClickListener(OnClickVote((matchDto)));
-                builder.setView(dialogView);
-                // Set up the buttons
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
-
-                OnClickVote(matchDto);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = ListMatches.this.getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.dialog_custom_match_menu, null);
+                    ((TextView) dialogView.findViewById(R.id.match_description_info_dialog)).setText(matchDto.getDetails().createInfo());
+                    ((TextView) dialogView.findViewById(R.id.match_date_info_dialog)).setText(matchDto.getDate());
+                    dialogView.findViewById(R.id.info_button_dialog).setOnClickListener(onInfoClick(matchDto.getSystemDataDto().getReference()));
+                    dialogView.findViewById(R.id.vote_button_dialog).setOnClickListener(OnClickVote((matchDto)));
+                    builder.setView(dialogView);
+                    // Set up the buttons
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                }
+                else {
+                    goToVoteActivity(matchDto);
+                }
             }
         };
     }
@@ -180,18 +183,22 @@ public class ListMatches extends BaseActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = sharedPreferencesCompetition.edit();
-
-                editor.putString(MATCH_REF, matchDto.getSystemDataDto().getReference());
-                editor.putString(MATCH_STATUS, matchDto.getStatus());
-                editor.putString(MATCH_CREATOR, matchDto.getSystemDataDto().getCreatedBy());
-                editor.apply();
-
-                spectators = (ArrayList<String>) matchDto.getVisitors();
-
-                getBallotListLinkedToMatch_and_GoToVoteActivity(matchDto.getSystemDataDto().getReference());
+                goToVoteActivity(matchDto);
             }
         };
+    }
+
+    private void goToVoteActivity(MatchDto matchDto) {
+        SharedPreferences.Editor editor = sharedPreferencesCompetition.edit();
+
+        editor.putString(MATCH_REF, matchDto.getSystemDataDto().getReference());
+        editor.putString(MATCH_STATUS, matchDto.getStatus());
+        editor.putString(MATCH_CREATOR, matchDto.getSystemDataDto().getCreatedBy());
+        editor.apply();
+
+        spectators = (ArrayList<String>) matchDto.getVisitors();
+
+        getBallotListLinkedToMatch_and_GoToVoteActivity(matchDto.getSystemDataDto().getReference());
     }
 
 
@@ -282,6 +289,7 @@ public class ListMatches extends BaseActivity {
             public void onClick(View v) {
 
                 // Set up the layout
+
 
                 Context context = ListMatches.this;
 

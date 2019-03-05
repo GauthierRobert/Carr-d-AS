@@ -20,13 +20,19 @@
         android:roundIcon="@mipmap/ic_launcher_lhc_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".CountingBallotActivity"></activity>
-        <activity android:name=".InfoMatchActivity" />
+        <activity
+            android:name=".CountingBallotActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".InfoMatchActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.credentials">
+            android:theme="@style/AppTheme.credentials"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,28 +41,35 @@
         </activity>
         <activity
             android:name=".ChangePasswordActivity"
-            android:label="Change password" />
+            android:label="Change password"
+            android:screenOrientation="portrait"/>
         <activity android:name=".MatchActivity" />
         <activity
             android:name=".ImageCompetitionActivity"
-            android:label="@string/title_activity_image_competition" />
+            android:label="@string/title_activity_image_competition"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SignUpActivity"
-            android:theme="@style/AppTheme.credentials" />
+            android:theme="@style/AppTheme.credentials"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ListCompetitions"
-            android:label="List of your competitions" />
+            android:label="List of your competitions"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AddCompetition"
             android:label="Add new competition"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ListMatches"
-            android:label="List of matches" />
+            android:label="List of matches"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".VoteActivity"
             android:label="Votes and results"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
