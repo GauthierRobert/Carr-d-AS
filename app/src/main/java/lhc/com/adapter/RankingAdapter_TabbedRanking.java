@@ -51,7 +51,11 @@ public class RankingAdapter_TabbedRanking extends ArrayAdapter<RankingCell> {
         Integer rankingCellPoints = rankingCell.getPoints();
 
         TextView positionInRankingTextView = result.findViewById(R.id.positionInRanking);
-        positionInRankingTextView.setText(rankingCellPosition);
+        if (rankingCellPosition.contains("TEMP")) {
+            positionInRankingTextView.setText("-");
+        } else {
+            positionInRankingTextView.setText(rankingCellPosition);
+        }
         TextView nameInRankingTextView = result.findViewById(R.id.nameInRanking);
         nameInRankingTextView.setText(rankingCellName);
         TextView pointsInRankingTextView = result.findViewById(R.id.pointsInRanking);

@@ -1,5 +1,6 @@
 package lhc.com.carrdas;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedpreferences;
     EditText username;
     EditText password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +54,11 @@ public class LoginActivity extends AppCompatActivity {
         boolean isUserLoggedIn = sharedpreferences.getBoolean(IS_USER_LOGGED_IN, false);
         boolean isRememberMe = sharedpreferences.getBoolean(IS_REMEMBER_ME, false);
 
-        if (isUserLoggedIn){
+        if (isUserLoggedIn) {
             goToMainActivity();
         }
 
-        if(isRememberMe){
+        if (isRememberMe) {
             rememberMe();
         }
 
@@ -93,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         CheckBox rememberMeCheckBox = findViewById(R.id.remember_me_login);
         boolean rememberMe = rememberMeCheckBox.isChecked();
 
-        if (rememberMe){
+        if (rememberMe) {
             saveIsRememberMe(true);
             saveIsLoggedStatusUser();
         } else {
@@ -131,13 +133,20 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (Boolean.parseBoolean(response)){
-                            rememberMeCheckBox();
-                            saveCredentials();
-                            goToMainActivity();
+                        if (response != null) {
+                            if (Boolean.parseBoolean(response)) {
+                                rememberMeCheckBox();
+                                saveCredentials();
+                                goToMainActivity();
+                            } else {
+                                EditText password = findViewById(R.id.text_input_password_login);
+                                password.setError("The username or password is incorrect. Try again.");
+                            }
                         } else {
-                            EditText password = findViewById(R.id.text_input_password_login);
-                            password.setError("The username or password is incorrect. Try again.");
+                            AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+                            alertDialog.setTitle("Alert");
+                            alertDialog.setMessage("Volley error : response is null !");
+                            alertDialog.show();
                         }
                     }
                 },
@@ -178,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES_CREDENTIALS, Context.MODE_PRIVATE);
         boolean isUserLoggedIn = sharedpreferences.getBoolean(IS_USER_LOGGED_IN, false);
 
-        if (isUserLoggedIn){
+        if (isUserLoggedIn) {
             goToMainActivity();
         }
         super.onRestart();
@@ -190,7 +199,7 @@ public class LoginActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES_CREDENTIALS, Context.MODE_PRIVATE);
         boolean isUserLoggedIn = sharedpreferences.getBoolean(IS_USER_LOGGED_IN, false);
 
-        if (isUserLoggedIn){
+        if (isUserLoggedIn) {
             goToMainActivity();
         }
         super.onRestart();
