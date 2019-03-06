@@ -140,7 +140,8 @@ public class ListMatches extends BaseActivity {
                     ((TextView) dialogView.findViewById(R.id.match_description_info_dialog)).setText(matchDto.getDetails().createInfo());
                     ((TextView) dialogView.findViewById(R.id.match_date_info_dialog)).setText(matchDto.getDate());
                     dialogView.findViewById(R.id.info_button_dialog).setOnClickListener(onInfoClick(matchDto.getSystemDataDto().getReference()));
-                    dialogView.findViewById(R.id.vote_button_dialog).setOnClickListener(OnClickVote((matchDto)));
+                    dialogView.findViewById(R.id.vote_button_dialog).setOnClickListener(OnVoteClick((matchDto)));
+                    dialogView.findViewById(R.id.counting_button_dialog).setOnClickListener(OnCountingClick((matchDto)));
                     builder.setView(dialogView);
                     // Set up the buttons
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -157,6 +158,17 @@ public class ListMatches extends BaseActivity {
             }
         };
     }
+
+    private View.OnClickListener OnCountingClick(final MatchDto matchDto) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToCountingActivity(matchDto);
+            }
+        };
+    }
+
+
 
     private View.OnClickListener onInfoClick(final String match_ref) {
         return new View.OnClickListener() {
@@ -179,7 +191,7 @@ public class ListMatches extends BaseActivity {
         };
     }
 
-    private View.OnClickListener OnClickVote(final MatchDto matchDto) {
+    private View.OnClickListener OnVoteClick(final MatchDto matchDto) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,18 +201,27 @@ public class ListMatches extends BaseActivity {
     }
 
     private void goToVoteActivity(MatchDto matchDto) {
+        saveInSharePreferences(matchDto);
+        spectators = (ArrayList<String>) matchDto.getVisitors();
+        getBallotListLinkedToMatch_and_GoToVoteActivity(matchDto.getSystemDataDto().getReference());
+    }
+
+
+    private void goToCountingActivity(MatchDto matchDto) {
+        saveInSharePreferences(matchDto);
+        Intent intent = new Intent();
+        intent.setClass(ListMatches.this, CountingBallotActivity.class);
+        ListMatches.this.startActivity(intent);
+    }
+
+    private void saveInSharePreferences(MatchDto matchDto) {
         SharedPreferences.Editor editor = sharedPreferencesCompetition.edit();
 
         editor.putString(MATCH_REF, matchDto.getSystemDataDto().getReference());
         editor.putString(MATCH_STATUS, matchDto.getStatus());
         editor.putString(MATCH_CREATOR, matchDto.getSystemDataDto().getCreatedBy());
         editor.apply();
-
-        spectators = (ArrayList<String>) matchDto.getVisitors();
-
-        getBallotListLinkedToMatch_and_GoToVoteActivity(matchDto.getSystemDataDto().getReference());
     }
-
 
     private void goToInfoActivity(JSONObject response) {
         Intent intent = getIntentWithJsonBallotList(response, JSON_MATCH_INTENT);

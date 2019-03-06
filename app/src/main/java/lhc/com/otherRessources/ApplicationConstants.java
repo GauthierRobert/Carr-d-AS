@@ -50,6 +50,7 @@ public class ApplicationConstants {
     public final static String URL_USER_GET_LIST = "user/getList";
     public final static String URL_RANKING_TOP = "ranking/top";
     public final static String URL_RANKING_FLOP = "ranking/flop";
+    public final static String URL_RANKINGS_INT = "ranking/intermediate";
 
     public final static String OPEN = "OPEN";
     public final static String CLOSED = "CLOSED";

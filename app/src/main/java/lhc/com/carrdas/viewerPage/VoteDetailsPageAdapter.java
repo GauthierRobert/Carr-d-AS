@@ -54,12 +54,12 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
         boolean withCommentTop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_TOP, false);
         boolean withCommentFlop = sharedPreferencesCompetition.getBoolean(WITH_COMMENTS_FLOP, false);
 
-        TextView overviewOfTopVotes = layout.findViewById(R.id.overviewOfTopVotes_vote_details);
-        TextView overviewOfFlopVotes = layout.findViewById(R.id.overviewOfFlopVotes_vote_details);
-        TextView comments_vote_details_top = layout.findViewById(R.id.comments_vote_details_top);
-        TextView comments_vote_details_flop = layout.findViewById(R.id.comments_vote_details_flop);
-        LinearLayout layout_top = layout.findViewById(R.id.layout_top_vote_vote_details);
-        LinearLayout layout_flop = layout.findViewById(R.id.layout_flop_vote_vote_details);
+        TextView overviewOfTopVotes = layout.findViewById(R.id.overviewOfTopVotes_counting);
+        TextView overviewOfFlopVotes = layout.findViewById(R.id.overviewOfFlopVotes_counting);
+        TextView comments_counting_top = layout.findViewById(R.id.comments_counting_top);
+        TextView comments_counting_flop = layout.findViewById(R.id.comments_counting_flop);
+        LinearLayout layout_top = layout.findViewById(R.id.layout_top_vote_counting);
+        LinearLayout layout_flop = layout.findViewById(R.id.layout_flop_vote_counting);
         TextView nameTop = layout.findViewById(R.id.name_top_details);
         TextView nameFlop = layout.findViewById(R.id.name_flop_details);
         if ((numberTop == 0) && (!withCommentTop)){
@@ -69,7 +69,7 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
                 overviewOfTopVotes.setVisibility(View.GONE);
             }
             if (!withCommentTop) {
-                comments_vote_details_top.setVisibility(View.GONE);
+                comments_counting_top.setVisibility(View.GONE);
             }
         }
         if ((numberFlop == 0) && (!withCommentFlop)){
@@ -79,7 +79,7 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
                 overviewOfFlopVotes.setVisibility(View.GONE);
             }
             if (!withCommentFlop) {
-                comments_vote_details_flop.setVisibility(View.GONE);
+                comments_counting_flop.setVisibility(View.GONE);
             }
         }
 
@@ -99,8 +99,8 @@ public class VoteDetailsPageAdapter extends PagerAdapter {
         overviewOfFlopVotes.setText(generateOverView(ballotDto,FLOP));
         nameTop.setText(sharedPreferencesCompetition.getString(NAME_TOP, TOP));
         nameFlop.setText(sharedPreferencesCompetition.getString(NAME_FLOP, FLOP));
-        comments_vote_details_top.setText(ballotDto.getCommentTop());
-        comments_vote_details_flop.setText(ballotDto.getCommentFlop());
+        comments_counting_top.setText(ballotDto.getCommentTop());
+        comments_counting_flop.setText(ballotDto.getCommentFlop());
         collection.addView(layout);
         return layout;
 

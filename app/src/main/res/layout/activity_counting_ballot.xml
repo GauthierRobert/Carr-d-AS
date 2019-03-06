@@ -25,29 +25,23 @@
             <LinearLayout
                 android:id="@+id/layout_rankings_counting"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/layout_ranking_top_counting"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.5"
                     android:orientation="vertical"
                     android:padding="4dp">
-                    <include
-                        layout="@layout/cell_ranking"
-                        android:id="@+id/included_top_1" />
-                    <include
-                        layout="@layout/cell_ranking"
-                        android:id="@+id/included_top_2" />
-                    <include
-                        layout="@layout/cell_ranking"
-                        android:id="@+id/included_top_3" />
-                    <include
-                        layout="@layout/cell_ranking"
-                        android:id="@+id/included_top_4" />
 
+
+                    <ListView
+                        android:id="@+id/ranking_top_counting"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:ignore="NestedScrolling" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -56,25 +50,19 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:orientation="vertical"
-                    android:padding="4dp">
-                    <include
-                        layout="@layout/cell_ranking"
-                        android:id="@+id/included_flop_1" />
-                    <include
-                        layout="@layout/cell_ranking"
-                        android:id="@+id/included_flop_2" />
-                    <include
-                        layout="@layout/cell_ranking"
-                        android:id="@+id/included_flop_3" />
-                    <include
-                        layout="@layout/cell_ranking"
-                        android:id="@+id/included_flop_4" />
-
+                    android:padding="4dp" >
+                    <ListView
+                        android:id="@+id/ranking_flop_counting"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:ignore="NestedScrolling" />
                 </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_top_counting"
+                android:id="@+id/layout_top_vote_counting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
