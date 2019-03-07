@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:drawableStart="@drawable/ic_ballot"
+            android:drawableStart="@drawable/ic_vote"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
             android:paddingStart="16dp"
@@ -101,7 +101,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="5dp"
             android:background="@android:color/darker_gray" />
 
         <Button
