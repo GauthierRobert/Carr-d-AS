@@ -33,6 +33,7 @@ import lhc.com.adapter.ObjectForAdapter.RankingCell;
 import lhc.com.adapter.RankingAdapter_TabbedRanking;
 import lhc.com.carrdas.R;
 import lhc.com.otherRessources.ApplicationConstants;
+import lhc.com.volley.JsonArrayRequestGet;
 import lhc.com.volley.MySingletonRequestQueue;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -131,56 +132,42 @@ public class FragmentTopRanking extends Fragment {
         final String url = createURL(url_topflop, parameter);
         RequestQueue requestQueue = MySingletonRequestQueue
                 .getInstance(mContext).getRequestQueue();
-        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
-                Request.Method.GET, url,
-                null,
+        JsonArrayRequestGet jsonObjectRequest = JsonArrayRequestGet.jsonArrayRequestGet(
+                url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
-
-                        List<RankingCell> rankingCells = new ArrayList<>();
-                        JSONObject json_ranking_cell;
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-
-                                json_ranking_cell = response.getJSONObject(i);
-
-                                ObjectMapper mapper = new ObjectMapper();
-                                RankingCell rankingCell = mapper.readValue(json_ranking_cell.toString(), RankingCell.class);
-
-                                rankingCells.add(rankingCell);
-                            } catch (JSONException | IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            RankingAdapter_TabbedRanking rankingAdapter = new RankingAdapter_TabbedRanking(mContext, rankingCells, TOP);
-                            rankingListView.setAdapter(rankingAdapter);
-                        }
+                        List<RankingCell> rankingCells = getRankingCells(response);
+                        RankingAdapter_TabbedRanking rankingAdapter = new RankingAdapter_TabbedRanking(mContext, rankingCells, TOP);
+                        rankingListView.setAdapter(rankingAdapter);
                     }
-                }
-                ,
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error", error.toString());
-                        error.printStackTrace();
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                return headers;
-            }
-        };
+                }, mContext
+        );
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private List<RankingCell> getRankingCells(JSONArray response) {
+        List<RankingCell> rankingCells = new ArrayList<>();
+        JSONObject json_ranking_cell;
+        for (int i = 0; i < response.length(); i++) {
+            try {
+
+                json_ranking_cell = response.getJSONObject(i);
+
+                ObjectMapper mapper = new ObjectMapper();
+                RankingCell rankingCell = mapper.readValue(json_ranking_cell.toString(), RankingCell.class);
+
+                rankingCells.add(rankingCell);
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return rankingCells;
     }
 
 
     private String getMatch_ref() {
-        return  sharedPreferencesCompetition.getString(MATCH_REF, null);
+        return sharedPreferencesCompetition.getString(MATCH_REF, null);
     }
 
 }

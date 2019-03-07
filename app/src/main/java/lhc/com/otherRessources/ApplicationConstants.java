@@ -50,6 +50,7 @@ public class ApplicationConstants {
     public final static String URL_USER_GET_LIST = "user/getList";
     public final static String URL_RANKING_TOP = "ranking/top";
     public final static String URL_RANKING_FLOP = "ranking/flop";
+    public final static String URL_RANKINGS_INT = "ranking/intermediate";
 
     public final static String OPEN = "OPEN";
     public final static String CLOSED = "CLOSED";
@@ -61,6 +62,8 @@ public class ApplicationConstants {
 
     public final static String WITH_COMMENTS_TOP = "withCommentsTop";
     public final static String WITH_COMMENTS_FLOP = "withCommentsFlop";
+    public final static String WITH_VALIDATION_TOP = "withValidationTop";
+    public final static String WITH_VALIDATION_FLOP = "withValidationFlop";
     public final static String NAME_TOP = "nameTop";
     public final static String NAME_FLOP = "nameFlop";
     public final static String HAS_VOTED = "hasVoted";

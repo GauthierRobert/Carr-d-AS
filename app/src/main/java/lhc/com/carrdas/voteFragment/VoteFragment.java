@@ -112,6 +112,8 @@ public class VoteFragment extends Fragment {
 
     String jsonArrayOfListVotes;
 
+    public final static String CHOOSE_A_PLAYER = "-- Choose a player --";
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -379,9 +381,11 @@ public class VoteFragment extends Fragment {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        saveComments();
-                        saveBallot_JsonPostRequest();
-
+                        if (!overviewTop.getText().toString().contains(CHOOSE_A_PLAYER) &&
+                                !overviewFlop.getText().toString().contains(CHOOSE_A_PLAYER)) {
+                            saveComments();
+                            saveBallot_JsonPostRequest();
+                        }
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -427,11 +431,11 @@ public class VoteFragment extends Fragment {
                         final String url = URL_BASE + URL_MATCH_ADD_SPECTATOR;
 
                         List<String> specList = new ArrayList<>();
-                        if(editText.getText()==null){
+                        if (editText.getText() == null) {
                             return;
                         }
                         specList.add(editText.getText().toString());
-                        MatchDto matchDto = MatchDto.matchDto(getMatch_ref(),specList);
+                        MatchDto matchDto = MatchDto.matchDto(getMatch_ref(), specList);
                         Gson gson = new Gson();
                         final String mRequestBody = gson.toJson(matchDto);
 
@@ -599,10 +603,11 @@ public class VoteFragment extends Fragment {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        players = new String[response.length()];
+                        players = new String[response.length() + 1];
+                        players[0] = CHOOSE_A_PLAYER;
                         for (int i = 0; i < response.length(); i++) {
                             try {
-                                players[i] = response.get(i).toString();
+                                players[i+1] = response.get(i).toString();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
