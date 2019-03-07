@@ -148,11 +148,11 @@ public class BallotDtoBuilder {
         }
 
         public BallotDto build() {
-            return ballotDto(match_ref, competition_ref, username, commentTop, commentFlop, counted, voteDtos);
+            return ballotDto(reference, match_ref, competition_ref, username, commentTop, commentFlop, counted, voteDtos);
         }
 
         public BallotDto buildWithoutVotes() {
-            return ballotDto(match_ref, competition_ref, username, commentTop, commentFlop, new ArrayList<VoteDto>());
+            return ballotDto(reference, match_ref, competition_ref, username, commentTop, commentFlop, new ArrayList<VoteDto>());
         }
     }
 

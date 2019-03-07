@@ -52,7 +52,7 @@ public class BallotDto {
         return new BallotDto(null, match_ref, competition_ref, username, commentTop, commentFlop, false,voteDtos);
     }
 
-    public static BallotDto ballotDto(String match_ref, String competition_ref, String username, String commentTop, String commentFlop, boolean counted, List<VoteDto> voteDtos){
-        return new BallotDto(null, match_ref, competition_ref, username, commentTop, commentFlop, counted,voteDtos);
+    public static BallotDto ballotDto(String reference, String match_ref, String competition_ref, String username, String commentTop, String commentFlop, boolean counted, List<VoteDto> voteDtos){
+        return new BallotDto(reference, match_ref, competition_ref, username, commentTop, commentFlop, counted,voteDtos);
     }
 }

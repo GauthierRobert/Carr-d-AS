@@ -56,6 +56,7 @@ import static lhc.com.otherRessources.ApplicationConstants.NAME_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.NUMBER_VOTE_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.TOP;
+import static lhc.com.otherRessources.ApplicationConstants.URL_BALLOT_COUNT;
 import static lhc.com.otherRessources.ApplicationConstants.URL_BASE;
 import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_POST;
 import static lhc.com.otherRessources.ApplicationConstants.URL_RANKINGS_INT;
@@ -186,7 +187,7 @@ public class CountingBallotActivity extends AppCompatActivity {
     private BallotDto getUncountedFirstBallot(MatchDto matchDto) {
         List<BallotDto> ballotDtos = matchDto.getBallotDtos();
         for (BallotDto ballotDto : ballotDtos) {
-            if (ballotDto.isCounted())
+            if (!ballotDto.isCounted())
                 return ballotDto;
         }
         return null;
@@ -207,7 +208,7 @@ public class CountingBallotActivity extends AppCompatActivity {
         final String mRequestBody = getMRequest(reference);
 
         JsonObjectRequestPost jsonObjectRequest = JsonObjectRequestPost.jsonObjectRequestPost(
-                URL_BASE + URL_COMPETITION_POST,
+                URL_BASE + URL_BALLOT_COUNT,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -223,12 +224,13 @@ public class CountingBallotActivity extends AppCompatActivity {
 
     private String getMRequest(String reference) {
         VoteDtoBuilder dtoBuilder = aCountedBallotDto().withReference(reference).withVotesDtos();
-        if (validationTop.getSelectedItem() != null) {
+        if (validationTop.getSelectedItem() != null && !CHOOSE_A_PLAYER.equals(validationTop.getSelectedItem().toString())) {
             String playerValidation = validationTop.getSelectedItem().toString();
             dtoBuilder.addValidationTopVote(playerValidation);
-        } else if (validationFlop.getSelectedItem() != null) {
+        }
+        if (validationFlop.getSelectedItem() != null && !CHOOSE_A_PLAYER.equals(validationTop.getSelectedItem().toString())) {
             String playerValidation = validationFlop.getSelectedItem().toString();
-            dtoBuilder.addValidationTopVote(playerValidation);
+            dtoBuilder.addValidationFlopVote(playerValidation);
         }
 
         BallotDto ballotDto = dtoBuilder.build();
@@ -257,7 +259,7 @@ public class CountingBallotActivity extends AppCompatActivity {
                         List<RankingCell> rankingCellsTop = getRankingCellsTop(rankings);
                         List<RankingCell> rankingCellsFlop = getRankingCellsFlop(rankings);
                         RankingAdapter_TabbedRanking rankingAdapterTop = new RankingAdapter_TabbedRanking(mContext, rankingCellsTop, TOP);
-                        RankingAdapter_TabbedRanking rankingAdapterFlop = new RankingAdapter_TabbedRanking(mContext, rankingCellsFlop, TOP);
+                        RankingAdapter_TabbedRanking rankingAdapterFlop = new RankingAdapter_TabbedRanking(mContext, rankingCellsFlop, FLOP);
                         topRankingListView.setAdapter(rankingAdapterTop);
                         flopRankingListView.setAdapter(rankingAdapterFlop);
                     }
@@ -266,7 +268,7 @@ public class CountingBallotActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private List<RankingCell> getRankingCellsFlop(final Rankings rankings) {
+    private List<RankingCell> getRankingCellsTop(final Rankings rankings) {
         List<RankingCell> top = rankings.getTop();
         top.removeIf(new Predicate<RankingCell>() {
             @Override
@@ -277,12 +279,12 @@ public class CountingBallotActivity extends AppCompatActivity {
         return top;
     }
 
-    private List<RankingCell> getRankingCellsTop(final Rankings rankings) {
+    private List<RankingCell> getRankingCellsFlop(final Rankings rankings) {
         List<RankingCell> flop = rankings.getFlop();
         flop.removeIf(new Predicate<RankingCell>() {
             @Override
             public boolean test(RankingCell rankingCell) {
-                return rankings.getTop().indexOf(rankingCell) > 4;
+                return rankings.getFlop().indexOf(rankingCell) > 4;
             }
         });
         return flop;
@@ -341,13 +343,15 @@ public class CountingBallotActivity extends AppCompatActivity {
                 strings = new String[ballotDto.getVoteDtos().size()];
                 for (VoteDto voteDto : ballotDto.getVoteDtos()) {
                     int indication = voteDto.getIndication();
-                    if (TOP.equals(constantVote)) {
-                        if (indication > 0) {
-                            strings[indication - 1] = voteDto.getName();
-                        }
-                    } else if (FLOP.equals(constantVote)) {
-                        if (indication < 0) {
-                            strings[(-(1 + indication))] = voteDto.getName();
+                    if(indication != 99 && indication != -99) {
+                        if (TOP.equals(constantVote)) {
+                            if (indication > 0) {
+                                strings[indication - 1] = voteDto.getName();
+                            }
+                        } else if (FLOP.equals(constantVote)) {
+                            if (indication < 0) {
+                                strings[(-(1 + indication))] = voteDto.getName();
+                            }
                         }
                     }
                 }

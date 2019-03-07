@@ -171,7 +171,7 @@ public class ListMatches extends BaseActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                goToInfoActivity(response);
+                                goToCountingActivity(response);
                             }
                         },
                         ListMatches.this);
@@ -194,7 +194,7 @@ public class ListMatches extends BaseActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                goToCountingActivity(response);
+                                goToInfoActivity(response);
                             }
                         },
                         ListMatches.this);

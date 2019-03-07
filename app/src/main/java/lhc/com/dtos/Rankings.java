@@ -16,4 +16,7 @@ public class Rankings {
         this.top = top;
         this.flop = flop;
     }
+
+    public Rankings() {
+    }
 }
