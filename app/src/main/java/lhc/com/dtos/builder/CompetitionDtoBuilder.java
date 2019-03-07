@@ -180,7 +180,7 @@ public class CompetitionDtoBuilder {
         public CompetitionDto build() {
             return competitionDto(
                     competitionDetails(name, season, division,sport),
-                    topFlopDetails(withCommentTop, withCommentFlop,topName, flopName),
+                    topFlopDetails(withCommentTop, withCommentFlop,false, false, topName, flopName ),
                     dataName(dataName_1, dataName_2, dataName_3, dataName_4, dataName_5),
                     password, confirmedPassword, creatorUsername, imageAsBase64, ruleDtos);
         }
