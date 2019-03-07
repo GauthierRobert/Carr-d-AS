@@ -62,6 +62,8 @@ import static lhc.com.otherRessources.ApplicationConstants.URL_COMPETITION_GET_L
 import static lhc.com.otherRessources.ApplicationConstants.USERNAME;
 import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_FLOP;
 import static lhc.com.otherRessources.ApplicationConstants.WITH_COMMENTS_TOP;
+import static lhc.com.otherRessources.ApplicationConstants.WITH_VALIDATION_FLOP;
+import static lhc.com.otherRessources.ApplicationConstants.WITH_VALIDATION_TOP;
 import static lhc.com.otherRessources.ApplicationConstants.createURL;
 
 public class ListCompetitions extends BaseActivity {
@@ -261,6 +263,8 @@ public class ListCompetitions extends BaseActivity {
                 editor.putInt(NUMBER_VOTE_FLOP, getRules(NUMBER_VOTE_FLOP, competitionDto.getRuleDtos()));
                 editor.putBoolean(WITH_COMMENTS_TOP, competitionDto.getTopFlopDetails().isWithCommentTop());
                 editor.putBoolean(WITH_COMMENTS_FLOP, competitionDto.getTopFlopDetails().isWithCommentFlop());
+                editor.putBoolean(WITH_VALIDATION_TOP, competitionDto.getTopFlopDetails().isWithCommentTop());
+                editor.putBoolean(WITH_VALIDATION_FLOP, competitionDto.getTopFlopDetails().isWithValidationFlop());
                 editor.putString(NAME_TOP, competitionDto.getTopFlopDetails().getTopName());
                 editor.putString(NAME_FLOP, competitionDto.getTopFlopDetails().getFlopName());
                 editor.apply();

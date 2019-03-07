@@ -112,7 +112,7 @@ public class VoteFragment extends Fragment {
 
     String jsonArrayOfListVotes;
 
-    private final static String CHOOSE_A_PLAYER = "-- Choose a player --";
+    public final static String CHOOSE_A_PLAYER = "-- Choose a player --";
 
 
     private OnFragmentInteractionListener mListener;

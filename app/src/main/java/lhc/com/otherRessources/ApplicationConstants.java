@@ -62,6 +62,8 @@ public class ApplicationConstants {
 
     public final static String WITH_COMMENTS_TOP = "withCommentsTop";
     public final static String WITH_COMMENTS_FLOP = "withCommentsFlop";
+    public final static String WITH_VALIDATION_TOP = "withValidationTop";
+    public final static String WITH_VALIDATION_FLOP = "withValidationFlop";
     public final static String NAME_TOP = "nameTop";
     public final static String NAME_FLOP = "nameFlop";
     public final static String HAS_VOTED = "hasVoted";

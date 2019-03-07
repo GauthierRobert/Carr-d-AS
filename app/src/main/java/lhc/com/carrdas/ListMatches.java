@@ -141,7 +141,7 @@ public class ListMatches extends BaseActivity {
                     ((TextView) dialogView.findViewById(R.id.match_date_info_dialog)).setText(matchDto.getDate());
                     dialogView.findViewById(R.id.info_button_dialog).setOnClickListener(onInfoClick(matchDto.getSystemDataDto().getReference()));
                     dialogView.findViewById(R.id.vote_button_dialog).setOnClickListener(OnVoteClick((matchDto)));
-                    dialogView.findViewById(R.id.counting_button_dialog).setOnClickListener(OnCountingClick((matchDto)));
+                    dialogView.findViewById(R.id.counting_button_dialog).setOnClickListener(OnCountingClick(matchDto.getSystemDataDto().getReference()));
                     builder.setView(dialogView);
                     // Set up the buttons
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -159,11 +159,23 @@ public class ListMatches extends BaseActivity {
         };
     }
 
-    private View.OnClickListener OnCountingClick(final MatchDto matchDto) {
+    private View.OnClickListener OnCountingClick(final String match_ref) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToCountingActivity(matchDto);
+                ApplicationConstants.Parameter parameter = new ApplicationConstants.Parameter(MATCH_REF, match_ref);
+                final String url = createURL(URL_MATCH_GET, parameter);
+                RequestQueue requestQueue = MySingletonRequestQueue.getInstance(ListMatches.this.getApplicationContext()).getRequestQueue();
+                JsonObjectRequestGet jsonObjectRequest = JsonObjectRequestGet.jsonObjectRequestGet(
+                        url,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                goToInfoActivity(response);
+                            }
+                        },
+                        ListMatches.this);
+                requestQueue.add(jsonObjectRequest);
             }
         };
     }
@@ -182,7 +194,7 @@ public class ListMatches extends BaseActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                goToInfoActivity(response);
+                                goToCountingActivity(response);
                             }
                         },
                         ListMatches.this);
@@ -207,9 +219,8 @@ public class ListMatches extends BaseActivity {
     }
 
 
-    private void goToCountingActivity(MatchDto matchDto) {
-        saveInSharePreferences(matchDto);
-        Intent intent = new Intent();
+    private void goToCountingActivity(JSONObject response) {
+        Intent intent = getIntentWithJsonBallotList(response, JSON_MATCH_INTENT);
         intent.setClass(ListMatches.this, CountingBallotActivity.class);
         ListMatches.this.startActivity(intent);
     }
