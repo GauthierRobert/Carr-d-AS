@@ -14,9 +14,9 @@ public class BallotDtoBuilderTest {
     @Test
     public void withComment() {
 
-        BallotDto actual = aBallotDto().withComment(COMMENT).buildWithoutVotes();
+        BallotDto actual = aBallotDto().withComment(COMMENT, COMMENT).buildWithoutVotes();
 
-        Assert.assertEquals(actual.getComment(), COMMENT);
+        Assert.assertEquals(actual.getCommentFlop(), COMMENT);
 
     }
 }

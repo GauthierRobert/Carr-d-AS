@@ -123,7 +123,6 @@ public class BallotDtoBuilder {
 
             VoteDto voteDto = VoteDto.voteDto(reference, 99, name, 1);
             BallotDtoBuilder.this.voteDtos.add(voteDto);
-
             return this;
         }
 
@@ -131,7 +130,6 @@ public class BallotDtoBuilder {
 
             VoteDto voteDto = VoteDto.voteDto(reference, -99, name, 1);
             BallotDtoBuilder.this.voteDtos.add(voteDto);
-
             return this;
         }
 

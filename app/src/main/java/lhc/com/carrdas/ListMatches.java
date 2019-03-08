@@ -52,8 +52,12 @@ import static lhc.com.otherRessources.ApplicationConstants.HAS_VOTED;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_SPECTATORS_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_LIST_VOTES_INTENT;
 import static lhc.com.otherRessources.ApplicationConstants.JSON_MATCH_INTENT;
+import static lhc.com.otherRessources.ApplicationConstants.MATCH_AWAY;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_CREATOR;
+import static lhc.com.otherRessources.ApplicationConstants.MATCH_HOME;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_REF;
+import static lhc.com.otherRessources.ApplicationConstants.MATCH_SCORE_AWAY;
+import static lhc.com.otherRessources.ApplicationConstants.MATCH_SCORE_HOME;
 import static lhc.com.otherRessources.ApplicationConstants.MATCH_STATUS;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_COMPETITION;
 import static lhc.com.otherRessources.ApplicationConstants.MyPREFERENCES_CREDENTIALS;
@@ -142,6 +146,8 @@ public class ListMatches extends BaseActivity {
                     dialogView.findViewById(R.id.info_button_dialog).setOnClickListener(onInfoClick(matchDto.getSystemDataDto().getReference()));
                     dialogView.findViewById(R.id.vote_button_dialog).setOnClickListener(OnVoteClick((matchDto)));
                     dialogView.findViewById(R.id.counting_button_dialog).setOnClickListener(OnCountingClick(matchDto.getSystemDataDto().getReference()));
+                    dialogView.findViewById(R.id.edit_button_dialog).setOnClickListener(OnEditClick(matchDto));
+                    dialogView.findViewById(R.id.delete_button_dialog).setOnClickListener(OnDeleteClick(matchDto.getSystemDataDto().getReference()));
                     builder.setView(dialogView);
                     // Set up the buttons
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -212,6 +218,24 @@ public class ListMatches extends BaseActivity {
         };
     }
 
+    private View.OnClickListener OnEditClick(final MatchDto matchDto) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToMatchUpdate(matchDto);
+            }
+        };
+    }
+
+    private View.OnClickListener OnDeleteClick(final String match_ref) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        };
+    }
+
     private void goToVoteActivity(MatchDto matchDto) {
         saveInSharePreferences(matchDto);
         spectators = (ArrayList<String>) matchDto.getVisitors();
@@ -231,12 +255,23 @@ public class ListMatches extends BaseActivity {
         editor.putString(MATCH_REF, matchDto.getSystemDataDto().getReference());
         editor.putString(MATCH_STATUS, matchDto.getStatus());
         editor.putString(MATCH_CREATOR, matchDto.getSystemDataDto().getCreatedBy());
+        editor.putString(MATCH_HOME, matchDto.getDetails().getHomeTeam());
+        editor.putString(MATCH_AWAY, matchDto.getDetails().getAwayTeam());
+        editor.putInt(MATCH_SCORE_HOME, matchDto.getDetails().getHomeScore());
+        editor.putInt(MATCH_SCORE_AWAY, matchDto.getDetails().getAwayScore());
         editor.apply();
     }
 
     private void goToInfoActivity(JSONObject response) {
         Intent intent = getIntentWithJsonBallotList(response, JSON_MATCH_INTENT);
         intent.setClass(ListMatches.this, InfoMatchActivity.class);
+        ListMatches.this.startActivity(intent);
+    }
+
+    private void goToMatchUpdate(MatchDto matchDto) {
+        saveInSharePreferences(matchDto);
+        Intent intent = new Intent();
+        intent.setClass(ListMatches.this, MatchActivity.class);
         ListMatches.this.startActivity(intent);
     }
 

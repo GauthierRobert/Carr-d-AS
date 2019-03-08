@@ -21,6 +21,10 @@ public class ApplicationConstants {
     public static final String MATCH_REF = "match_ref";
     public static final String MATCH_STATUS = "match_status";
     public static final String MATCH_CREATOR = "match_creator";
+    public static final String MATCH_HOME = "match_home";
+    public static final String MATCH_AWAY = "match_away";
+    public static final String MATCH_SCORE_HOME = "match_score_home";
+    public static final String MATCH_SCORE_AWAY = "match_score_away";
     public static final String NUMBER_VOTE_TOP = Label.NUMBER_VOTE_TOP.toString();
     public static final String NUMBER_VOTE_FLOP = Label.NUMBER_VOTE_FLOP.toString();
     public static final String RULES = "rules";
